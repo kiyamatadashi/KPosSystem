@@ -7,3 +7,4 @@ obj/
 
 TestResults/
 publish/
+wpf/Config/ApiEndpoints.cs
