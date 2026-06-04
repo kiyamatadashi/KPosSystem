@@ -1,12 +1,54 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net;
 
-namespace azureDatabase.Functions.Masters
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
+
+using azureDatabase.Services.Masters;
+
+namespace azureDatabase.Functions.Masters;
+
+public class GetSeatMasterFunction
 {
-    internal class GetSeatMasterFunction
+    private readonly MasterService _masterService;
+
+    public GetSeatMasterFunction(MasterService masterService)
     {
+        _masterService = masterService;
+    }
+
+    [Function("GetSeatMaster")]
+    public async Task<HttpResponseData> Run(
+        [HttpTrigger(
+            AuthorizationLevel.Function,
+            "get",
+            Route = "masters/seat")]
+        HttpRequestData req,
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            // クエリパラメータからShopIDを取得
+            var query = System.Web.HttpUtility.ParseQueryString(req.Url.Query);
+            var shopId = query["shopId"];
+
+            if (string.IsNullOrEmpty(shopId))
+            {
+                var badRequest = req.CreateResponse(HttpStatusCode.BadRequest);
+                await badRequest.WriteStringAsync("shopId is required.");
+                return badRequest;
+            }
+
+            var seats = await _masterService.GetSeatMastersAsync(shopId, cancellationToken);
+
+            var response = req.CreateResponse(HttpStatusCode.OK);
+            await response.WriteAsJsonAsync(seats);
+            return response;
+        }
+        catch (Exception ex)
+        {
+            var errorResponse = req.CreateResponse(HttpStatusCode.InternalServerError);
+            await errorResponse.WriteAsJsonAsync(new { Message = ex.Message });
+            return errorResponse;
+        }
     }
 }

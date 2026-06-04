@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+namespace azureDatabase.Models.Entities.Groups;
 
-namespace azureDatabase.Models.Entities.Groups
+public class UserEntity
 {
-    internal class UserEntity
-    {
-    }
+    public string ShopID { get; set; } = string.Empty;
+    public string GroupID { get; set; } = string.Empty;
+    public int UserID { get; set; }
+    public string SetNumber { get; set; } = string.Empty;
+    public string ChargeType { get; set; } = string.Empty;
+    public string DrinkType { get; set; } = string.Empty;
+    public string SeatName { get; set; } = string.Empty;
+    public int ServiceCharge { get; set; }
+    public int SetUnitTime { get; set; }
 }

@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+namespace azureDatabase.Models.Entities.Masters;
 
-namespace azureDatabase.Models.Entities.Masters
+public class SeatMasterEntity
 {
-    internal class SeatMasterEntity
-    {
-    }
+    public string ShopID { get; set; } = string.Empty;
+    public string SeatName { get; set; } = string.Empty;
+    public int ServiceCharge { get; set; }
+    public int? SeatCharge { get; set; }
+    public bool? Deleted { get; set; }
 }

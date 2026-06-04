@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+namespace azureDatabase.Models.Entities.Groups;
 
-namespace azureDatabase.Models.Entities.Groups
+public class RequestEntity
 {
-    internal class RequestEntity
-    {
-    }
+    public string ShopID { get; set; } = string.Empty;
+    public string GroupID { get; set; } = string.Empty;
+    public string SetNumber { get; set; } = string.Empty;
+    public string CastName { get; set; } = string.Empty;
+    public int RequestCount { get; set; }
 }
