@@ -8,5 +8,7 @@ obj/
 TestResults/
 publish/
 orderWebSystem/Config/ApiEndpoints.cs
+drinkOrderSystem/Config/ApiEndpoints.cs
+registerSystem/Config/ApiEndpoints.cs
 wpf/Config/ApiEndpoints.cs
 docs/
