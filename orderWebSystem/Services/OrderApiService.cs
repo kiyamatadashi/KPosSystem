@@ -9,28 +9,25 @@ using orderWebSystem.Config;
 
 namespace orderWebSystem.Services;
 
-/// <summary>
-/// Azure Functions API呼び出しサービス。
-/// shared プロジェクトの DTO をそのまま使用。
-/// コールドスタート対策として最大3回リトライ・90秒タイムアウト。
-/// </summary>
 public class OrderApiService
 {
-    private readonly HttpClient _client;
+    private readonly HttpClient    _client;
+    private readonly ApiEndpoints  _endpoints;
 
-    private const int MaxRetryCount       = 3;
+    private const int MaxRetryCount        = 3;
     private const int RetryIntervalSeconds = 2;
 
-    public OrderApiService(HttpClient client)
+    public OrderApiService(HttpClient client, ApiEndpoints endpoints)
     {
-        _client = client;
-        _client.Timeout = TimeSpan.FromSeconds(90);
+        _client            = client;
+        _client.Timeout    = TimeSpan.FromSeconds(90);
+        _endpoints         = endpoints;
     }
 
     public async Task<List<OrderResponse>> GetOrdersAsync()
     {
         return await ExecuteWithRetryAsync(async () =>
-            await _client.GetFromJsonAsync<List<OrderResponse>>(ApiEndpoints.Orders)
+            await _client.GetFromJsonAsync<List<OrderResponse>>(_endpoints.Orders)
             ?? new List<OrderResponse>()
         );
     }
@@ -39,9 +36,9 @@ public class OrderApiService
     {
         await ExecuteWithRetryAsync(async () =>
         {
-            var json     = JsonSerializer.Serialize(orders);
-            var content  = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await _client.PostAsync(ApiEndpoints.Orders, content);
+            var content  = new StringContent(
+                JsonSerializer.Serialize(orders), Encoding.UTF8, "application/json");
+            var response = await _client.PostAsync(_endpoints.Orders, content);
             response.EnsureSuccessStatusCode();
             return response;
         });
@@ -51,15 +48,15 @@ public class OrderApiService
     {
         await ExecuteWithRetryAsync(async () =>
         {
-            var json     = JsonSerializer.Serialize(request);
-            var content  = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await _client.PutAsync(ApiEndpoints.UpdateOrderStatus, content);
+            var content  = new StringContent(
+                JsonSerializer.Serialize(request), Encoding.UTF8, "application/json");
+            var response = await _client.PutAsync(_endpoints.UpdateOrderStatus, content);
             response.EnsureSuccessStatusCode();
             return response;
         });
     }
 
-    // ─── リトライ共通処理 ──────────────────────────────────
+    // ─── リトライ共通処理 ─────────────────────────────────────
 
     private async Task<T> ExecuteWithRetryAsync<T>(
         Func<Task<T>> action,
@@ -69,12 +66,9 @@ public class OrderApiService
 
         for (int attempt = 1; attempt <= MaxRetryCount; attempt++)
         {
-            try
-            {
-                return await action();
-            }
-            catch (TaskCanceledException ex)  { lastException = ex; }
-            catch (HttpRequestException ex)   { lastException = ex; }
+            try { return await action(); }
+            catch (TaskCanceledException ex) { lastException = ex; }
+            catch (HttpRequestException ex)  { lastException = ex; }
 
             if (attempt < MaxRetryCount)
                 await Task.Delay(TimeSpan.FromSeconds(RetryIntervalSeconds), cancellationToken);

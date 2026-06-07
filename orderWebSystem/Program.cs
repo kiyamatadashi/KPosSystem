@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
 using orderWebSystem;
+using orderWebSystem.Config;
 using orderWebSystem.Services;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
@@ -9,12 +10,15 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
-// HttpClient 登録（コールドスタート対策: タイムアウトはService側で90秒に設定）
+// HttpClient 登録
 builder.Services.AddScoped(sp =>
     new HttpClient
     {
         BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)
     });
+
+// ApiEndpoints（wwwroot/appsettings.json から読み込み）
+builder.Services.AddScoped<ApiEndpoints>();
 
 // OrderApiService 登録
 builder.Services.AddScoped<OrderApiService>();

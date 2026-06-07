@@ -1,10 +1,25 @@
 namespace orderWebSystem.Config;
 
-public static class ApiEndpoints
+/// <summary>
+/// APIエンドポイント。
+/// キーは wwwroot/appsettings.json から読み込む（.gitignore対象）。
+/// GitHub Actions Secret で CI/CD 時に自動生成される。
+/// </summary>
+public class ApiEndpoints
 {
-    public const string BaseUrl = "https://k-pos-system-api-func-abcydpc4b9g5a7hh.japanwest-01.azurewebsites.net/api";
-    public const string Orders           = $"{BaseUrl}/orders?code=C6GJNDi4_TD0AtuK8bvITIOu5JXrupHFCiAZeri2nvw2AzFuGvcB5Q==";
-    public const string UpdateOrderStatus = $"{BaseUrl}/orders/status?code=xxx";
-    public const string Groups           = $"{BaseUrl}/groups?code=xxx";
-    public const string Masters          = $"{BaseUrl}/masters/product?code=xxx";
+    private readonly string _base;
+    private readonly string _code;
+
+    public ApiEndpoints(IConfiguration configuration)
+    {
+        _base = configuration["ApiBaseUrl"] ?? string.Empty;
+        _code = $"code={configuration["ApiKey"] ?? string.Empty}";
+    }
+
+    public string Orders             => $"{_base}/orders?{_code}";
+    public string UpdateOrderStatus  => $"{_base}/orders/status?{_code}";
+    public string Groups             => $"{_base}/groups?{_code}";
+    public string CastMaster         => $"{_base}/masters/cast?{_code}";
+    public string ProductMaster      => $"{_base}/masters/product?{_code}";
+    public string SeatMaster         => $"{_base}/masters/seat?{_code}";
 }

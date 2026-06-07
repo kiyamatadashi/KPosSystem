@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration;
 
 namespace drinkOrderSystem.Config;
 
@@ -15,4 +15,7 @@ public static class AppSettings
 
     public static string ApiBaseUrl =>
         Configuration["ApiBaseUrl"] ?? string.Empty;
+
+    public static string ApiKey =>
+        Configuration["ApiKey"] ?? string.Empty;
 }

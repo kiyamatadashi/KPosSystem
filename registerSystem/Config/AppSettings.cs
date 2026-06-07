@@ -15,4 +15,7 @@ public static class AppSettings
 
     public static string ApiBaseUrl =>
         Configuration["ApiBaseUrl"] ?? string.Empty;
+
+    public static string ApiKey =>
+        Configuration["ApiKey"] ?? string.Empty;
 }

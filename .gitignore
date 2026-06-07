@@ -7,8 +7,18 @@ obj/
 
 TestResults/
 publish/
-orderWebSystem/Config/ApiEndpoints.cs
-drinkOrderSystem/Config/ApiEndpoints.cs
-registerSystem/Config/ApiEndpoints.cs
-wpf/Config/ApiEndpoints.cs
+
+# ========================================
+# APIキーを含む設定ファイル（gitに上げない）
+# appsettings.template.json を代わりに使用
+# ========================================
+
+# WPF（registerSystem・drinkOrderSystem）
+registerSystem/appsettings.json
+drinkOrderSystem/appsettings.json
+
+# Blazor WASM（orderWebSystem）
+orderWebSystem/wwwroot/appsettings.json
+
+# ドキュメント（設計書等）
 docs/
