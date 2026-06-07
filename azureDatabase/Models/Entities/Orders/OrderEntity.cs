@@ -16,6 +16,13 @@ public class OrderEntity
     public string BackUnit { get; set; } = string.Empty;
     public bool MixerSelectable { get; set; }
     public bool CastSelectable { get; set; }
+
+    /// <summary>
+    /// キャスト名JSON文字列。例: ["さくら","あおい"]
+    /// DB定義: CastName NVARCHAR(128) NULL
+    /// </summary>
+    public string? CastName { get; set; }
+
     public bool? Status { get; set; }
     public DateTime CreatedAt { get; set; }
 }

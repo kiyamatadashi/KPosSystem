@@ -1,0 +1,56 @@
+﻿<UserControl x:Class="wpf.Views.Pages.TablePage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- テーブル画面：空席ボタン＋使用中テーブルボタンをWrapPanelで並べる -->
+    <Grid Background="{StaticResource ContentTextureBrush}">
+
+        <ScrollViewer Margin="16"
+                      VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Disabled">
+
+            <!-- テーブルボタン一覧（WrapPanel：ボタン制御実装時に動的生成） -->
+            <WrapPanel x:Name="TableButtonPanel"
+                       Orientation="Horizontal">
+
+                <!-- ─── 空席ボタン サンプル ─── -->
+                <Button Style="{StaticResource TableEmptyButtonStyle}"
+                        Margin="12">
+                    <TextBlock Text="空席"
+                               FontSize="18"
+                               FontWeight="Bold"
+                               Foreground="White"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+                </Button>
+
+                <!-- ─── 使用中テーブルボタン サンプル ─── -->
+                <Button Style="{StaticResource TableUsedButtonStyle}"
+                        Margin="12">
+                    <StackPanel HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
+                        <TextBlock x:Name="TableNameText"
+                                   Text="テーブル名"
+                                   FontSize="15"
+                                   FontWeight="Bold"
+                                   HorizontalAlignment="Center"/>
+                        <TextBlock x:Name="GuestCountText"
+                                   Text="客数"
+                                   FontSize="13"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,4,0,0"/>
+                        <TextBlock x:Name="RemainingTimeText"
+                                   Text="残り時間"
+                                   FontSize="13"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,4,0,0"/>
+                    </StackPanel>
+                </Button>
+
+            </WrapPanel>
+
+        </ScrollViewer>
+
+    </Grid>
+
+</UserControl>

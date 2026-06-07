@@ -1,4 +1,6 @@
-﻿namespace shared.Models.Responses.Orders;
+﻿using System.Text.Json;
+
+namespace shared.Models.Responses.Orders;
 
 public class OrderResponse
 {
@@ -16,5 +18,30 @@ public class OrderResponse
     public string BackUnit { get; set; } = string.Empty;
     public bool MixerSelectable { get; set; }
     public bool CastSelectable { get; set; }
+
+    /// <summary>
+    /// DBから取得したJSON文字列。例: ["さくら","あおい"]
+    /// </summary>
+    public string? CastName { get; set; }
+
+    /// <summary>
+    /// CastName（JSON文字列）をデシリアライズしたリスト。
+    /// UI表示・ロジック処理にはこちらを使う。
+    /// </summary>
+    public List<string> CastNames =>
+        string.IsNullOrWhiteSpace(CastName)
+            ? new List<string>()
+            : JsonSerializer.Deserialize<List<string>>(CastName)
+              ?? new List<string>();
+
+    /// <summary>
+    /// キャスト名をカンマ区切りで返す表示用プロパティ。
+    /// 例: "さくら, あおい"
+    /// </summary>
+    public string CastNamesDisplay =>
+        CastNames.Count > 0
+            ? string.Join(", ", CastNames)
+            : string.Empty;
+
     public bool? Status { get; set; }
 }

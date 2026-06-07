@@ -11,7 +11,7 @@ public class SignalRNegotiateFunction
     [Function("Negotiate")]
     public async Task<HttpResponseData> Run(
         [HttpTrigger(
-            AuthorizationLevel.Anonymous,
+            AuthorizationLevel.Function,
             "post",
             Route = "signalr/negotiate")]
         HttpRequestData req,

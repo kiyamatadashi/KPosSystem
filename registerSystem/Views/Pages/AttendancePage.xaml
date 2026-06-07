@@ -1,0 +1,151 @@
+﻿<UserControl x:Class="registerSystem.Views.Pages.AttendancePage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- 勤怠画面：キャスト行ごとに（名前・出退勤・前借・戻す）
+         設計書: 行はグレーの角丸ピル型・行間に余白あり
+                戻すボタンはピンク丸で行に収まるサイズ -->
+    <Grid Background="{StaticResource ContentTextureBrush}">
+
+        <ScrollViewer Margin="16,16,16,16"
+                      VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Disabled">
+
+            <StackPanel x:Name="AttendanceListPanel"
+                        Orientation="Vertical">
+
+                <!-- キャスト行テンプレート（ボタン制御実装時に動的生成） -->
+                <Border Style="{StaticResource AttendanceRowStyle}">
+                    <Grid VerticalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="110"/>  <!-- 名前 -->
+                            <ColumnDefinition Width="80"/>   <!-- 出勤時間 -->
+                            <ColumnDefinition Width="76"/>   <!-- 出勤ボタン -->
+                            <ColumnDefinition Width="80"/>   <!-- 退勤時間 -->
+                            <ColumnDefinition Width="76"/>   <!-- 退勤ボタン -->
+                            <ColumnDefinition Width="*"/>    <!-- スペーサー -->
+                            <ColumnDefinition Width="40"/>   <!-- 前借ラベル -->
+                            <ColumnDefinition Width="100"/>  <!-- 前借入力 -->
+                            <ColumnDefinition Width="56"/>   <!-- 戻すボタン -->
+                        </Grid.ColumnDefinitions>
+
+                        <!-- 名前 -->
+                        <TextBlock Grid.Column="0"
+                                   Text="名前１"
+                                   FontSize="16"
+                                   FontWeight="Bold"
+                                   VerticalAlignment="Center"/>
+
+                        <!-- 出勤時間 -->
+                        <TextBox Grid.Column="1"
+                                 Height="34"
+                                 FontSize="13"
+                                 VerticalContentAlignment="Center"
+                                 HorizontalContentAlignment="Center"
+                                 Margin="0,0,6,0"
+                                 IsReadOnly="True"
+                                 Background="#FFF0F0F0"
+                                 BorderBrush="#FFCCCCCC"/>
+
+                        <!-- 出勤ボタン -->
+                        <Button Grid.Column="2"
+                                Content="出勤"
+                                Style="{StaticResource AttendStartButtonStyle}"
+                                Margin="0,0,6,0"/>
+
+                        <!-- 退勤時間 -->
+                        <TextBox Grid.Column="3"
+                                 Height="34"
+                                 FontSize="13"
+                                 VerticalContentAlignment="Center"
+                                 HorizontalContentAlignment="Center"
+                                 Margin="0,0,6,0"
+                                 IsReadOnly="True"
+                                 Background="#FFF0F0F0"
+                                 BorderBrush="#FFCCCCCC"/>
+
+                        <!-- 退勤ボタン -->
+                        <Button Grid.Column="4"
+                                Content="退勤"
+                                Style="{StaticResource AttendEndButtonStyle}"
+                                Margin="0,0,0,0"/>
+
+                        <!-- 前借ラベル -->
+                        <TextBlock Grid.Column="6"
+                                   Text="前借"
+                                   FontSize="13"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Right"
+                                   Margin="0,0,6,0"/>
+
+                        <!-- 前借入力 -->
+                        <TextBox Grid.Column="7"
+                                 Height="34"
+                                 FontSize="13"
+                                 VerticalContentAlignment="Center"
+                                 HorizontalContentAlignment="Center"
+                                 Margin="0,0,8,0"
+                                 BorderBrush="#FF4FB3E8"
+                                 BorderThickness="2"/>
+
+                        <!-- 戻すボタン -->
+                        <Button Grid.Column="8"
+                                Content="戻す"
+                                Style="{StaticResource RevertButtonStyle}"/>
+
+                    </Grid>
+                </Border>
+
+                <!-- サンプル行2 -->
+                <Border Style="{StaticResource AttendanceRowStyle}">
+                    <Grid VerticalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="110"/>
+                            <ColumnDefinition Width="80"/>
+                            <ColumnDefinition Width="76"/>
+                            <ColumnDefinition Width="80"/>
+                            <ColumnDefinition Width="76"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="56"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0" Text="名前２"
+                                   FontSize="16" FontWeight="Bold"
+                                   VerticalAlignment="Center"/>
+                        <TextBox Grid.Column="1" Height="34" FontSize="13"
+                                 VerticalContentAlignment="Center"
+                                 HorizontalContentAlignment="Center"
+                                 Margin="0,0,6,0" IsReadOnly="True"
+                                 Background="#FFF0F0F0" BorderBrush="#FFCCCCCC"/>
+                        <Button Grid.Column="2" Content="出勤"
+                                Style="{StaticResource AttendStartButtonStyle}"
+                                Margin="0,0,6,0"/>
+                        <TextBox Grid.Column="3" Height="34" FontSize="13"
+                                 VerticalContentAlignment="Center"
+                                 HorizontalContentAlignment="Center"
+                                 Margin="0,0,6,0" IsReadOnly="True"
+                                 Background="#FFF0F0F0" BorderBrush="#FFCCCCCC"/>
+                        <Button Grid.Column="4" Content="退勤"
+                                Style="{StaticResource AttendEndButtonStyle}"/>
+                        <TextBlock Grid.Column="6" Text="前借"
+                                   FontSize="13" VerticalAlignment="Center"
+                                   HorizontalAlignment="Right" Margin="0,0,6,0"/>
+                        <TextBox Grid.Column="7" Height="34" FontSize="13"
+                                 VerticalContentAlignment="Center"
+                                 HorizontalContentAlignment="Center"
+                                 Margin="0,0,8,0"
+                                 BorderBrush="#FF4FB3E8" BorderThickness="2"/>
+                        <Button Grid.Column="8" Content="戻す"
+                                Style="{StaticResource RevertButtonStyle}"/>
+                    </Grid>
+                </Border>
+
+            </StackPanel>
+
+        </ScrollViewer>
+
+    </Grid>
+
+</UserControl>

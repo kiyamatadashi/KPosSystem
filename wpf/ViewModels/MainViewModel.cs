@@ -7,136 +7,91 @@ using System.Windows.Data;
 using shared.Models.Requests.Orders;
 using shared.Models.Responses.Orders;
 using shared.Models.SignalR;
-using wpf.Config;
 
+using wpf.Config;
 using wpf.Services;
 
 namespace wpf.ViewModels;
 
-public class MainViewModel
-    : INotifyPropertyChanged
+public class MainViewModel : INotifyPropertyChanged
 {
-    private readonly OrderApiService
-        _orderApiService = new();
+    private readonly OrderApiService _orderApiService = new();
+    private readonly SignalRService  _signalRService  = new();
 
-    private readonly SignalRService
-        _signalRService = new();
+    // ─── Orders ──────────────────────────────────────
 
-    public ObservableCollection<
-        OrderResponse> Orders
-    { get; }
-            = new();
+    public ObservableCollection<OrderResponse> Orders { get; } = new();
 
-    public ICollectionView
-        FilteredOrders
-    { get; }
+    public ICollectionView FilteredOrders { get; }
 
-    public ObservableCollection<string>
-        TableNames
-    { get; }
-            = new();
+    public ObservableCollection<string> TableNames { get; } = new();
 
-    public ObservableCollection<string>
-        StatusList
-    { get; }
-            = new()
-            {
-                "",
-                "済",
-                "キャンセル"
-            };
+    public ObservableCollection<string> StatusList { get; } = new()
+    {
+        "",
+        "済",
+        "キャンセル"
+    };
 
-    private string?
-        _selectedTableNameFilter;
-
-    public string?
-        SelectedTableNameFilter
+    private string? _selectedTableNameFilter;
+    public string? SelectedTableNameFilter
     {
         get => _selectedTableNameFilter;
-
         set
         {
-            _selectedTableNameFilter =
-                value;
-
+            _selectedTableNameFilter = value;
             OnPropertyChanged();
-
             FilteredOrders.Refresh();
         }
     }
 
-    private string?
-        _selectedStatusFilter;
-
-    public string?
-        SelectedStatusFilter
+    private string? _selectedStatusFilter;
+    public string? SelectedStatusFilter
     {
         get => _selectedStatusFilter;
-
         set
         {
-            _selectedStatusFilter =
-                value;
-
+            _selectedStatusFilter = value;
             OnPropertyChanged();
-
             FilteredOrders.Refresh();
         }
     }
 
-    public string ProductName
-    {
-        get;
-        set;
-    } = "";
+    // 注文作成用（暫定）
+    public string ProductName { get; set; } = "";
+    public string Quantity    { get; set; } = "1";
 
-    public string Quantity
-    {
-        get;
-        set;
-    } = "1";
+    // ─── コンストラクタ ───────────────────────────────
 
     public MainViewModel()
     {
-        FilteredOrders =
-            CollectionViewSource
-                .GetDefaultView(Orders);
-
-        FilteredOrders.Filter =
-            FilterOrders;
+        FilteredOrders = CollectionViewSource.GetDefaultView(Orders);
+        FilteredOrders.Filter = FilterOrders;
     }
+
+    // ─── 初期化 ───────────────────────────────────────
 
     public async Task InitializeAsync()
     {
-        _signalRService.OrderCreated +=
-            OnOrderCreated;
+        _signalRService.OrderCreated += OnOrderCreated;
 
-        await _signalRService
-            .StartAsync();
-
+        await _signalRService.StartAsync();
         await ReloadOrdersAsync();
     }
+
+    // ─── Orders操作 ──────────────────────────────────
 
     public async Task ReloadOrdersAsync()
     {
         Orders.Clear();
 
-        var orders =
-            await _orderApiService
-                .GetOrdersAsync();
-
-        if (orders is null)
-        {
-            return;
-        }
+        var orders = await _orderApiService.GetOrdersAsync();
+        if (orders is null) return;
 
         foreach (var order in orders)
-        {
             Orders.Add(order);
-        }
 
         RefreshTableNames();
-
         FilteredOrders.Refresh();
     }
 
@@ -144,140 +99,86 @@ public class MainViewModel
     {
         TableNames.Clear();
 
-        var tableNames =
-            Orders
-                .Select(x => x.SetNumber)
-                .Where(x =>
-                    !string.IsNullOrWhiteSpace(
-                        x))
-                .Distinct()
-                .OrderBy(x => x);
+        var names = Orders
+            .Select(x => x.SetNumber)
+            .Where(x => !string.IsNullOrWhiteSpace(x))
+            .Distinct()
+            .OrderBy(x => x);
 
-        foreach (var tableName in tableNames)
-        {
-            TableNames.Add(tableName);
-        }
+        foreach (var name in names)
+            TableNames.Add(name);
     }
 
     private bool FilterOrders(object obj)
     {
-        if (obj is not OrderResponse order)
-        {
-            return false;
-        }
+        if (obj is not OrderResponse order) return false;
 
         bool tableMatch =
-            string.IsNullOrWhiteSpace(
-                SelectedTableNameFilter)
-            || order.SetNumber
-                == SelectedTableNameFilter;
+            string.IsNullOrWhiteSpace(SelectedTableNameFilter)
+            || order.SetNumber == SelectedTableNameFilter;
 
-        string statusText =
-            order.Status switch
-            {
-                true => "済",
-                false => "キャンセル",
-                null => ""
-            };
+        string statusText = order.Status switch
+        {
+            true  => "済",
+            false => "キャンセル",
+            null  => ""
+        };
 
         bool statusMatch =
-            string.IsNullOrWhiteSpace(
-                SelectedStatusFilter)
-            || statusText
-                == SelectedStatusFilter;
+            string.IsNullOrWhiteSpace(SelectedStatusFilter)
+            || statusText == SelectedStatusFilter;
 
-        return
-            tableMatch
-            && statusMatch;
+        return tableMatch && statusMatch;
     }
 
     public async Task CreateOrderAsync()
     {
-        if (string.IsNullOrWhiteSpace(
-                ProductName))
-        {
-            throw new Exception(
-                "ProductName is required.");
-        }
+        if (string.IsNullOrWhiteSpace(ProductName))
+            throw new Exception("ProductName is required.");
 
-        if (!int.TryParse(
-                Quantity,
-                out var quantity))
-        {
-            throw new Exception(
-                "Quantity is invalid.");
-        }
+        if (!int.TryParse(Quantity, out var quantity))
+            throw new Exception("Quantity is invalid.");
 
         var now = DateTime.Now;
 
-        var order =
-            new CreateOrderRequest
-            {
-                ShopID = AppSettings.ShopId,
-                GroupID =
-                    now.ToString(
-                        "yyyyMMddHHmmss"),
+        var order = new CreateOrderRequest
+        {
+            ShopID          = AppSettings.ShopId,
+            GroupID         = now.ToString("yyyyMMddHHmmss"),
+            SetNumber       = "A01",
+            Category        = "Drink",
+            SideMenu        = "Whiskey",
+            ProductName     = ProductName,
+            Amount          = 1200,
+            Quantity        = quantity,
+            BackAmount      = 200,
+            BackUnit        = "杯",
+            MixerSelectable = false,
+            CastSelectable  = false
+        };
 
-                SetNumber = "A01",
-
-                Category = "Drink",
-
-                SideMenu = "Whiskey",
-
-                ProductName =
-                    ProductName,
-
-                Amount = 1200,
-
-                Quantity = quantity,
-
-                BackAmount = 200,
-
-                BackUnit = "杯",
-
-                MixerSelectable = false,
-
-                CastSelectable = false
-            };
-
-        await _orderApiService
-            .CreateOrderAsync(
-                new List<
-                    CreateOrderRequest>
-                {
-                    order
-                });
+        await _orderApiService.CreateOrderAsync(
+            new List<CreateOrderRequest> { order });
 
         ProductName = "";
-
-        Quantity = "1";
+        Quantity    = "1";
     }
 
-    private async void OnOrderCreated(
-        List<OrderCreatedMessage>
-            messages)
+    private async void OnOrderCreated(List<OrderCreatedMessage> messages)
     {
-        await Application
-            .Current
-            .Dispatcher
-            .InvokeAsync(
-                async () =>
-                {
-                    await ReloadOrdersAsync();
-                });
+        await Application.Current.Dispatcher.InvokeAsync(async () =>
+        {
+            await ReloadOrdersAsync();
+        });
     }
 
-    public event
-        PropertyChangedEventHandler?
-        PropertyChanged;
+    // ─── INotifyPropertyChanged ───────────────────────
+
+    public event PropertyChangedEventHandler? PropertyChanged;
 
     protected void OnPropertyChanged(
-        [CallerMemberName]
-        string? propertyName = null)
-    {
-        PropertyChanged?.Invoke(
+        [CallerMemberName] string? propertyName = null)
+        => PropertyChanged?.Invoke(
             this,
-            new PropertyChangedEventArgs(
-                propertyName));
-    }
+            new PropertyChangedEventArgs(propertyName));
 }

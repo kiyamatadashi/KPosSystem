@@ -33,6 +33,7 @@ INSERT INTO Orders
     BackUnit,
     MixerSelectable,
     CastSelectable,
+    CastName,
     Status
 )
 VALUES
@@ -50,23 +51,19 @@ VALUES
     @BackUnit,
     @MixerSelectable,
     @CastSelectable,
+    @CastName,
     @Status
 );
 
 SELECT CAST(SCOPE_IDENTITY() AS BIGINT);
 ";
-
         return await connection
-            .ExecuteScalarAsync<long>(
-                sql,
-                order,
-                transaction);
+            .ExecuteScalarAsync<long>(sql, order, transaction);
     }
 
-    public async Task<List<OrderEntity>>
-        GetOrdersAsync(
-            SqlConnection connection,
-            CancellationToken cancellationToken = default)
+    public async Task<List<OrderEntity>> GetOrdersAsync(
+        SqlConnection connection,
+        CancellationToken cancellationToken = default)
     {
         const string sql = @"
 SELECT
@@ -84,16 +81,13 @@ SELECT
     BackUnit,
     MixerSelectable,
     CastSelectable,
+    CastName,
     Status,
     CreatedAt
 FROM Orders
 ORDER BY CreatedAt DESC;
 ";
-
-        var result =
-            await connection
-                .QueryAsync<OrderEntity>(sql);
-
+        var result = await connection.QueryAsync<OrderEntity>(sql);
         return result.ToList();
     }
 
@@ -108,16 +102,11 @@ ORDER BY CreatedAt DESC;
         const string sql = @"
 UPDATE Orders
 SET Status = @Status
-WHERE ShopID = @ShopID and OrderID = @OrderID;
+WHERE ShopID = @ShopID AND OrderID = @OrderID;
 ";
         await connection.ExecuteAsync(
             sql,
-            new
-            {
-                ShopID = shopId,
-                OrderID = orderId,
-                Status = status
-            },
+            new { ShopID = shopId, OrderID = orderId, Status = status },
             transaction);
     }
 }

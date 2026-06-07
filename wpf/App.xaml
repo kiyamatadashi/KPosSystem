@@ -5,6 +5,385 @@
 
     <Application.Resources>
 
+        <!-- ========================================
+             カラー定義
+        ======================================== -->
+
+        <!-- ヘッダー背景（ダークグレー） -->
+        <Color x:Key="HeaderDarkColor">#FF3A3A3A</Color>
+        <Color x:Key="HeaderLightColor">#FF5A5A5A</Color>
+        <SolidColorBrush x:Key="HeaderBrush" Color="#FF404040"/>
+
+        <!-- 背景ベージュ -->
+        <SolidColorBrush x:Key="ContentBackgroundBrush" Color="#FFF5EDDC"/>
+
+        <!-- ナビゲーションボタン -->
+        <SolidColorBrush x:Key="NavButtonSettingBrush"   Color="#FF4FB3E8"/>
+        <SolidColorBrush x:Key="NavButtonTableBrush"     Color="#FFED9A2E"/>
+        <SolidColorBrush x:Key="NavButtonAttendanceBrush" Color="#FF5CB85C"/>
+
+        <!-- サイドメニューボタン（オレンジ系） -->
+        <SolidColorBrush x:Key="SideButtonBrush"     Color="#FFE8884A"/>
+        <SolidColorBrush x:Key="SideButtonHoverBrush" Color="#FFFF9A5A"/>
+
+        <!-- テーブルボタン：空席（青） -->
+        <SolidColorBrush x:Key="TableEmptyBrush"     Color="#FF6FA8DC"/>
+        <SolidColorBrush x:Key="TableEmptyHoverBrush" Color="#FF85BFEC"/>
+
+        <!-- テーブルボタン：使用中（黄） -->
+        <SolidColorBrush x:Key="TableUsedBrush"     Color="#FFFFC000"/>
+        <SolidColorBrush x:Key="TableUsedHoverBrush" Color="#FFFFD040"/>
+
+        <!-- 出勤ボタン（緑） -->
+        <SolidColorBrush x:Key="AttendStartBrush"     Color="#FF5CB85C"/>
+        <SolidColorBrush x:Key="AttendStartHoverBrush" Color="#FF6FCF6F"/>
+
+        <!-- 退勤ボタン（オレンジ） -->
+        <SolidColorBrush x:Key="AttendEndBrush"     Color="#FFED9A2E"/>
+        <SolidColorBrush x:Key="AttendEndHoverBrush" Color="#FFFFB040"/>
+
+        <!-- 戻すボタン（ピンク） -->
+        <SolidColorBrush x:Key="RevertButtonBrush"     Color="#FFE88080"/>
+        <SolidColorBrush x:Key="RevertButtonHoverBrush" Color="#FFFF9090"/>
+
+        <!-- ========================================
+             ヘッダー背景ブラシ（菱形パターン）
+        ======================================== -->
+        <DrawingBrush x:Key="HeaderPatternBrush"
+                      TileMode="Tile"
+                      Viewport="0,0,12,12"
+                      ViewportUnits="Absolute">
+            <DrawingBrush.Drawing>
+                <DrawingGroup>
+                    <!-- ベース色 -->
+                    <GeometryDrawing Brush="#FF3A3A3A">
+                        <GeometryDrawing.Geometry>
+                            <RectangleGeometry Rect="0,0,12,12"/>
+                        </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+                    <!-- 菱形パターン -->
+                    <GeometryDrawing Brush="#FF4A4A4A">
+                        <GeometryDrawing.Geometry>
+                            <PathGeometry Figures="M6,0 L12,6 L6,12 L0,6 Z"/>
+                        </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+                </DrawingGroup>
+            </DrawingBrush.Drawing>
+        </DrawingBrush>
+
+        <!-- ========================================
+             背景テクスチャブラシ（ベージュ斑点）
+        ======================================== -->
+        <DrawingBrush x:Key="ContentTextureBrush"
+                      TileMode="Tile"
+                      Viewport="0,0,40,40"
+                      ViewportUnits="Absolute"
+                      Opacity="1">
+            <DrawingBrush.Drawing>
+                <DrawingGroup>
+                    <!-- ベージュ地 -->
+                    <GeometryDrawing Brush="#FFF5EDDC">
+                        <GeometryDrawing.Geometry>
+                            <RectangleGeometry Rect="0,0,40,40"/>
+                        </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+                    <!-- 薄い斑点1 -->
+                    <GeometryDrawing Brush="#10C8A060">
+                        <GeometryDrawing.Geometry>
+                            <EllipseGeometry Center="10,8" RadiusX="5" RadiusY="3"/>
+                        </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+                    <!-- 薄い斑点2 -->
+                    <GeometryDrawing Brush="#0EC8A060">
+                        <GeometryDrawing.Geometry>
+                            <EllipseGeometry Center="28,22" RadiusX="4" RadiusY="4"/>
+                        </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+                    <!-- 薄い斑点3 -->
+                    <GeometryDrawing Brush="#08C8A060">
+                        <GeometryDrawing.Geometry>
+                            <EllipseGeometry Center="18,32" RadiusX="6" RadiusY="2"/>
+                        </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+                </DrawingGroup>
+            </DrawingBrush.Drawing>
+        </DrawingBrush>
+
+        <!-- ========================================
+             ナビゲーションボタン スタイル（丸形）
+        ======================================== -->
+        <Style x:Key="NavButtonStyle" TargetType="Button">
+            <Setter Property="Width"          Value="72"/>
+            <Setter Property="Height"         Value="72"/>
+            <Setter Property="FontSize"       Value="15"/>
+            <Setter Property="FontWeight"     Value="Bold"/>
+            <Setter Property="Foreground"     Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor"         Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Ellipse Fill="{TemplateBinding Background}"
+                                     Width="{TemplateBinding Width}"
+                                     Height="{TemplateBinding Height}">
+                                <Ellipse.Effect>
+                                    <DropShadowEffect ShadowDepth="2"
+                                                      BlurRadius="4"
+                                                      Opacity="0.4"/>
+                                </Ellipse.Effect>
+                            </Ellipse>
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.85"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Opacity" Value="0.70"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- ========================================
+             サイドメニューボタン スタイル（角丸正方形）
+        ======================================== -->
+        <Style x:Key="SideButtonStyle" TargetType="Button">
+            <Setter Property="Width"          Value="90"/>
+            <Setter Property="Height"         Value="90"/>
+            <Setter Property="FontSize"       Value="16"/>
+            <Setter Property="FontWeight"     Value="Bold"/>
+            <Setter Property="Foreground"     Value="#FF3A2000"/>
+            <Setter Property="Background"     Value="{StaticResource SideButtonBrush}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor"         Value="Hand"/>
+            <Setter Property="Margin"         Value="0,0,0,16"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="16">
+                            <Border.Effect>
+                                <DropShadowEffect ShadowDepth="2"
+                                                  BlurRadius="4"
+                                                  Opacity="0.3"/>
+                            </Border.Effect>
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background"
+                                        Value="{StaticResource SideButtonHoverBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Opacity" Value="0.75"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- ========================================
+             テーブルボタン スタイル（空席：青）
+        ======================================== -->
+        <Style x:Key="TableEmptyButtonStyle" TargetType="Button">
+            <Setter Property="Width"          Value="120"/>
+            <Setter Property="Height"         Value="120"/>
+            <Setter Property="FontSize"       Value="18"/>
+            <Setter Property="FontWeight"     Value="Bold"/>
+            <Setter Property="Foreground"     Value="White"/>
+            <Setter Property="Background"     Value="{StaticResource TableEmptyBrush}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor"         Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="16">
+                            <Border.Effect>
+                                <DropShadowEffect ShadowDepth="2"
+                                                  BlurRadius="6"
+                                                  Opacity="0.3"/>
+                            </Border.Effect>
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background"
+                                        Value="{StaticResource TableEmptyHoverBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Opacity" Value="0.75"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- ========================================
+             テーブルボタン スタイル（使用中：黄）
+        ======================================== -->
+        <Style x:Key="TableUsedButtonStyle" TargetType="Button">
+            <Setter Property="MinWidth"       Value="120"/>
+            <Setter Property="MinHeight"      Value="120"/>
+            <Setter Property="FontSize"       Value="14"/>
+            <Setter Property="FontWeight"     Value="Bold"/>
+            <Setter Property="Foreground"     Value="#FF3A2000"/>
+            <Setter Property="Background"     Value="{StaticResource TableUsedBrush}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor"         Value="Hand"/>
+            <Setter Property="Padding"        Value="12,8"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="16"
+                                Padding="{TemplateBinding Padding}">
+                            <Border.Effect>
+                                <DropShadowEffect ShadowDepth="2"
+                                                  BlurRadius="6"
+                                                  Opacity="0.3"/>
+                            </Border.Effect>
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background"
+                                        Value="{StaticResource TableUsedHoverBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Opacity" Value="0.75"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- ========================================
+             出勤ボタン スタイル（緑・角丸）
+        ======================================== -->
+        <Style x:Key="AttendStartButtonStyle" TargetType="Button">
+            <Setter Property="Width"          Value="72"/>
+            <Setter Property="Height"         Value="36"/>
+            <Setter Property="FontSize"       Value="14"/>
+            <Setter Property="FontWeight"     Value="Bold"/>
+            <Setter Property="Foreground"     Value="White"/>
+            <Setter Property="Background"     Value="{StaticResource AttendStartBrush}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor"         Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="10">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background"
+                                        Value="{StaticResource AttendStartHoverBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Opacity" Value="0.75"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- ========================================
+             退勤ボタン スタイル（オレンジ・角丸）
+        ======================================== -->
+        <Style x:Key="AttendEndButtonStyle" TargetType="Button">
+            <Setter Property="Width"          Value="72"/>
+            <Setter Property="Height"         Value="36"/>
+            <Setter Property="FontSize"       Value="14"/>
+            <Setter Property="FontWeight"     Value="Bold"/>
+            <Setter Property="Foreground"     Value="White"/>
+            <Setter Property="Background"     Value="{StaticResource AttendEndBrush}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor"         Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="10">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background"
+                                        Value="{StaticResource AttendEndHoverBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Opacity" Value="0.75"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- ========================================
+             戻すボタン スタイル（ピンク・丸形）
+        ======================================== -->
+        <Style x:Key="RevertButtonStyle" TargetType="Button">
+            <Setter Property="Width"          Value="56"/>
+            <Setter Property="Height"         Value="56"/>
+            <Setter Property="FontSize"       Value="14"/>
+            <Setter Property="FontWeight"     Value="Bold"/>
+            <Setter Property="Foreground"     Value="White"/>
+            <Setter Property="Background"     Value="{StaticResource RevertButtonBrush}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor"         Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Ellipse Fill="{TemplateBinding Background}"
+                                     Width="{TemplateBinding Width}"
+                                     Height="{TemplateBinding Height}"/>
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background"
+                                        Value="{StaticResource RevertButtonHoverBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Opacity" Value="0.75"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- ========================================
+             勤怠行ボーダー スタイル
+        ======================================== -->
+        <Style x:Key="AttendanceRowStyle" TargetType="Border">
+            <Setter Property="Background"     Value="#FFFFFFFF"/>
+            <Setter Property="CornerRadius"   Value="20"/>
+            <Setter Property="Padding"        Value="16,10"/>
+            <Setter Property="Margin"         Value="0,0,0,12"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+
     </Application.Resources>
 
 </Application>

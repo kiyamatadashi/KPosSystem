@@ -1,0 +1,116 @@
+@page "/"
+@inject OrderApiService OrderApi
+
+<div class="order-page">
+
+    <!-- ヘッダー -->
+    <div class="order-header">
+        <span class="header-title">オーダー</span>
+        @if (!string.IsNullOrEmpty(_errorMessage))
+        {
+            <span class="error-badge">⚠ @_errorMessage</span>
+        }
+        @if (_isLoading)
+        {
+            <span class="loading-badge">読込中...</span>
+        }
+    </div>
+
+    <!-- オーダー一覧テーブル -->
+    <div class="order-table-wrapper">
+        <table class="order-table">
+            <thead>
+                <tr>
+                    <th>テーブル名</th>
+                    <th class="col-product">商品名</th>
+                    <th class="col-qty">数量</th>
+                    <th>キャスト名</th>
+                    <th>ステータス</th>
+                    <th class="col-action"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (_orders.Count == 0 && !_isLoading)
+                {
+                    <tr>
+                        <td colspan="6" class="empty-row">オーダーはありません</td>
+                    </tr>
+                }
+                @foreach (var order in _orders)
+                {
+                    <tr class="@(GetRowClass(order))">
+                        <td>@order.SetNumber</td>
+                        <td class="col-product">@order.ProductName</td>
+                        <td class="col-qty">@order.Quantity</td>
+                        <td>@order.CastNamesDisplay</td>
+                        <td>@GetStatusText(order)</td>
+                        <td class="col-action">
+                            <button class="btn-status" @onclick="() => OnStatusClick(order)">▼</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 反映ボタン -->
+    <div class="footer-area">
+        <button class="btn-reflect" @onclick="OnReflectClick" disabled="@_isLoading">
+            反映
+        </button>
+    </div>
+
+</div>
+
+@code {
+    private List<OrderResponse> _orders = new();
+    private bool _isLoading = false;
+    private string _errorMessage = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadOrdersAsync();
+    }
+
+    private async Task LoadOrdersAsync()
+    {
+        _isLoading = true;
+        _errorMessage = string.Empty;
+        try
+        {
+            _orders = await OrderApi.GetOrdersAsync();
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = "読込失敗: " + ex.Message;
+        }
+        finally
+        {
+            _isLoading = false;
+        }
+    }
+
+    private async Task OnReflectClick()
+    {
+        await LoadOrdersAsync();
+    }
+
+    private void OnStatusClick(OrderResponse order)
+    {
+        // ボタン制御は別途指示
+    }
+
+    private static string GetStatusText(OrderResponse order) => order.Status switch
+    {
+        true  => "済",
+        false => "キャンセル",
+        _     => "未対応"
+    };
+
+    private static string GetRowClass(OrderResponse order) => order.Status switch
+    {
+        true  => "row-done",
+        false => "row-cancel",
+        _     => ""
+    };
+}

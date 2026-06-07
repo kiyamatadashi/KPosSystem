@@ -1,70 +1,83 @@
 ﻿<Window x:Class="wpf.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="POS Screen"
+        xmlns:pages="clr-namespace:wpf.Views.Pages"
+        Title="KPosSystem"
         Height="720"
         Width="1280"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        ResizeMode="NoResize">
 
     <Grid>
+        <Grid.RowDefinitions>
+            <!-- ヘッダー -->
+            <RowDefinition Height="80"/>
+            <!-- コンテンツ -->
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-        <Grid Margin="16">
+        <!-- ═══════════════════════════════════════
+             ヘッダー（菱形パターン背景）
+        ═══════════════════════════════════════ -->
+        <Border Grid.Row="0"
+                Background="{StaticResource HeaderPatternBrush}">
 
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <!-- タイトル -->
+                    <ColumnDefinition Width="*"/>
+                    <!-- ナビゲーションボタン -->
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
 
-            <StackPanel Orientation="Horizontal"
-                        Margin="0,0,0,12">
+                <!-- タイトル -->
+                <TextBlock Grid.Column="0"
+                           Text="KPos System"
+                           Foreground="#AAFFFFFF"
+                           FontSize="20"
+                           FontWeight="Bold"
+                           VerticalAlignment="Center"
+                           Margin="20,0,0,0"/>
 
-                <TextBox x:Name="ProductNameTextBox"
-                         Width="220"
-                         Height="36"
-                         Margin="0,0,8,0"/>
+                <!-- ナビゲーションボタン（設定・テーブル・勤怠） -->
+                <StackPanel Grid.Column="1"
+                            Orientation="Horizontal"
+                            VerticalAlignment="Center"
+                            Margin="0,0,16,0">
 
-                <TextBox x:Name="QuantityTextBox"
-                         Width="80"
-                         Height="36"
-                         Margin="0,0,8,0"
-                         Text="1"/>
+                    <Button x:Name="NavSettingButton"
+                            Content="設定"
+                            Style="{StaticResource NavButtonStyle}"
+                            Background="{StaticResource NavButtonSettingBrush}"
+                            Margin="0,0,8,0"
+                            Click="NavSetting_Click"/>
 
-                <Button Content="注文作成"
-                        Width="120"
-                        Height="36"
-                        Margin="0,0,8,0"
-                        Click="CreateOrder_Click"/>
+                    <Button x:Name="NavTableButton"
+                            Content="テーブル"
+                            Style="{StaticResource NavButtonStyle}"
+                            Background="{StaticResource NavButtonTableBrush}"
+                            Margin="0,0,8,0"
+                            Click="NavTable_Click"/>
 
-                <Button Content="再読込"
-                        Width="120"
-                        Height="36"
-                        Click="ReloadOrders_Click"/>
+                    <Button x:Name="NavAttendanceButton"
+                            Content="勤怠"
+                            Style="{StaticResource NavButtonStyle}"
+                            Background="{StaticResource NavButtonAttendanceBrush}"
+                            Click="NavAttendance_Click"/>
 
-            </StackPanel>
+                </StackPanel>
 
-            <DataGrid Grid.Row="1"
-                      AutoGenerateColumns="False"
-                      ItemsSource="{Binding FilteredOrders}">
+            </Grid>
 
-                <DataGrid.Columns>
+        </Border>
 
-                    <DataGridTextColumn Header="テーブル"
-                                        Binding="{Binding SetNumber}"
-                                        Width="180"/>
-
-                    <DataGridTextColumn Header="商品名"
-                                        Binding="{Binding ProductName}"
-                                        Width="*"/>
-
-                    <DataGridTextColumn Header="数量"
-                                        Binding="{Binding Quantity}"
-                                        Width="100"/>
-
-                </DataGrid.Columns>
-
-            </DataGrid>
-
-        </Grid>
+        <!-- ═══════════════════════════════════════
+             コンテンツエリア（ページ切替）
+        ═══════════════════════════════════════ -->
+        <ContentControl Grid.Row="1"
+                        x:Name="MainContent"/>
 
     </Grid>
+
 </Window>

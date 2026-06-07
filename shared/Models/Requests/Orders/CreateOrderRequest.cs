@@ -14,4 +14,11 @@ public class CreateOrderRequest
     public string BackUnit { get; set; } = string.Empty;
     public bool MixerSelectable { get; set; }
     public bool CastSelectable { get; set; }
+
+    /// <summary>
+    /// キャスト名リスト（JSON文字列で保持）。
+    /// 例: ["さくら","あおい"] → DB保存時は JsonSerializer.Serialize で変換する。
+    /// 最大5名・1名あたり最大10文字（NVARCHAR(128)に収まる範囲）。
+    /// </summary>
+    public List<string> CastNames { get; set; } = new();
 }

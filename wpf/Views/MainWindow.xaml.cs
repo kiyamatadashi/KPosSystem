@@ -1,20 +1,26 @@
 ﻿using System.Windows;
 
 using wpf.ViewModels;
+using wpf.Views.Pages;
 
 namespace wpf.Views;
 
-public partial class MainWindow
-    : Window
+public partial class MainWindow : Window
 {
-    private readonly MainViewModel
-        _viewModel = new();
+    private readonly MainViewModel _viewModel = new();
+
+    private readonly SettingPage    _settingPage    = new();
+    private readonly TablePage      _tablePage      = new();
+    private readonly AttendancePage _attendancePage = new();
 
     public MainWindow()
     {
         InitializeComponent();
 
         DataContext = _viewModel;
+
+        // 起動時は設定画面を表示
+        NavigateTo(_settingPage);
 
         Loaded += MainWindow_Loaded;
     }
@@ -25,52 +31,29 @@ public partial class MainWindow
     {
         try
         {
-            await _viewModel
-                .InitializeAsync();
+            await _viewModel.InitializeAsync();
         }
         catch (Exception ex)
         {
-            MessageBox.Show(ex.Message);
+            MessageBox.Show(
+                $"初期化に失敗しました。\n{ex.Message}",
+                "エラー",
+                MessageBoxButton.OK,
+                MessageBoxImage.Error);
         }
     }
 
-    private async void ReloadOrders_Click(
-        object sender,
-        RoutedEventArgs e)
-    {
-        try
-        {
-            await _viewModel
-                .ReloadOrdersAsync();
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show(ex.Message);
-        }
-    }
+    // ─── ナビゲーション ──────────────────────────────
 
-    private async void CreateOrder_Click(
-        object sender,
-        RoutedEventArgs e)
-    {
-        try
-        {
-            _viewModel.ProductName =
-                ProductNameTextBox.Text;
+    private void NavSetting_Click(object sender, RoutedEventArgs e)
+        => NavigateTo(_settingPage);
 
-            _viewModel.Quantity =
-                QuantityTextBox.Text;
+    private void NavTable_Click(object sender, RoutedEventArgs e)
+        => NavigateTo(_tablePage);
 
-            await _viewModel
-                .CreateOrderAsync();
+    private void NavAttendance_Click(object sender, RoutedEventArgs e)
+        => NavigateTo(_attendancePage);
 
-            ProductNameTextBox.Text = "";
-
-            QuantityTextBox.Text = "1";
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show(ex.Message);
-        }
-    }
+    private void NavigateTo(object page)
+        => MainContent.Content = page;
 }
