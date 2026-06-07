@@ -7,5 +7,6 @@ obj/
 
 TestResults/
 publish/
+orderWebSystem/Config/ApiEndpoints.cs
 wpf/Config/ApiEndpoints.cs
 docs/
