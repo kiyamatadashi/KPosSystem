@@ -1,8 +1,9 @@
-using Microsoft.AspNetCore.SignalR.Client;
+﻿using Microsoft.AspNetCore.SignalR.Client;
 
 using shared.Models.SignalR;
 
 using registerSystem.Config;
+
 using System.Net.Http;
 using System.Net.Http.Json;
 
@@ -12,12 +13,9 @@ public class SignalRService
 {
     private HubConnection? _connection;
 
-    // コールドスタートは30〜60秒かかるため90秒に設定
     private const int NegotiateTimeoutSeconds = 90;
-
-    // ネゴシエーションのリトライ設定
-    private const int MaxRetryCount = 3;
-    private const int RetryIntervalSeconds = 2;
+    private const int MaxRetryCount           = 3;
+    private const int RetryIntervalSeconds    = 5; // コールドスタート後のウォームアップを考慮して5秒
 
     public event Action<List<OrderCreatedMessage>>? OrderCreated;
 
@@ -30,30 +28,20 @@ public class SignalRService
             try
             {
                 await ConnectAsync();
-                return;
-            }
-            catch (TaskCanceledException ex)
-            {
-                lastException = ex;
-            }
-            catch (HttpRequestException ex)
-            {
-                lastException = ex;
+                return; // 接続成功
             }
             catch (Exception ex)
             {
-                // ネゴシエーション以外の予期しないエラーはリトライしない
-                throw new Exception("SignalR接続中に予期しないエラーが発生しました。", ex);
+                // StartAsync・ConnectAsync どちらの例外も全てリトライ対象
+                lastException = ex;
             }
 
             if (attempt < MaxRetryCount)
-            {
                 await Task.Delay(TimeSpan.FromSeconds(RetryIntervalSeconds));
-            }
         }
 
         throw new Exception(
-            $"SignalR接続に失敗しました。{MaxRetryCount}回リトライしましたが応答がありませんでした。",
+            $"SignalR接続に失敗しました（{MaxRetryCount}回試行）。\n原因: {lastException?.Message}",
             lastException);
     }
 
@@ -71,28 +59,37 @@ public class SignalRService
             .ReadFromJsonAsync<SignalRConnectionResponse>();
 
         if (result is null)
-        {
             throw new Exception("SignalRネゴシエーションのレスポンスが空でした。");
+
+        // 前回の接続が残っている場合は破棄
+        if (_connection is not null)
+        {
+            await _connection.DisposeAsync();
+            _connection = null;
         }
 
         _connection = new HubConnectionBuilder()
-            .WithUrl(
-                result.Url,
-                options =>
-                {
-                    options.AccessTokenProvider =
-                        () => Task.FromResult(result.AccessToken)!;
-                })
-            .WithAutomaticReconnect()
+            .WithUrl(result.Url, options =>
+            {
+                options.AccessTokenProvider =
+                    () => Task.FromResult(result.AccessToken)!;
+            })
+            .WithAutomaticReconnect(new[]
+            {
+                TimeSpan.FromSeconds(2),
+                TimeSpan.FromSeconds(5),
+                TimeSpan.FromSeconds(10),
+                TimeSpan.FromSeconds(30),
+            })
             .Build();
 
         _connection.On<List<OrderCreatedMessage>>(
             "OrderCreated",
-            messages =>
-            {
-                OrderCreated?.Invoke(messages);
-            });
+            messages => OrderCreated?.Invoke(messages));
 
-        await _connection.StartAsync();
+        // StartAsync もタイムアウトが起きうるためキャンセルトークンで制御
+        using var cts = new CancellationTokenSource(
+            TimeSpan.FromSeconds(NegotiateTimeoutSeconds));
+        await _connection.StartAsync(cts.Token);
     }
 }

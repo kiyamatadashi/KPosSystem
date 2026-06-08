@@ -15,7 +15,7 @@ public class SignalRService
 
     private const int NegotiateTimeoutSeconds = 90;
     private const int MaxRetryCount           = 3;
-    private const int RetryIntervalSeconds    = 2;
+    private const int RetryIntervalSeconds    = 5; // コールドスタート後のウォームアップを考慮して5秒
 
     public event Action<List<OrderCreatedMessage>>? OrderCreated;
 
@@ -28,13 +28,12 @@ public class SignalRService
             try
             {
                 await ConnectAsync();
-                return;
+                return; // 接続成功
             }
-            catch (TaskCanceledException ex) { lastException = ex; }
-            catch (HttpRequestException ex)  { lastException = ex; }
             catch (Exception ex)
             {
-                throw new Exception("SignalR接続中に予期しないエラーが発生しました。", ex);
+                // StartAsync・ConnectAsync どちらの例外も全てリトライ対象
+                lastException = ex;
             }
 
             if (attempt < MaxRetryCount)
@@ -42,7 +41,7 @@ public class SignalRService
         }
 
         throw new Exception(
-            $"SignalR接続に失敗しました。{MaxRetryCount}回リトライしましたが応答がありませんでした。",
+            $"SignalR接続に失敗しました（{MaxRetryCount}回試行）。\n原因: {lastException?.Message}",
             lastException);
     }
 
@@ -62,19 +61,34 @@ public class SignalRService
         if (result is null)
             throw new Exception("SignalRネゴシエーションのレスポンスが空でした。");
 
+        // 前回の接続が残っている場合は破棄
+        if (_connection is not null)
+        {
+            await _connection.DisposeAsync();
+            _connection = null;
+        }
+
         _connection = new HubConnectionBuilder()
             .WithUrl(result.Url, options =>
             {
                 options.AccessTokenProvider =
                     () => Task.FromResult(result.AccessToken)!;
             })
-            .WithAutomaticReconnect()
+            .WithAutomaticReconnect(new[]
+            {
+                TimeSpan.FromSeconds(2),
+                TimeSpan.FromSeconds(5),
+                TimeSpan.FromSeconds(10),
+                TimeSpan.FromSeconds(30),
+            })
             .Build();
 
         _connection.On<List<OrderCreatedMessage>>(
             "OrderCreated",
             messages => OrderCreated?.Invoke(messages));
 
-        await _connection.StartAsync();
+        using var cts = new CancellationTokenSource(
+            TimeSpan.FromSeconds(NegotiateTimeoutSeconds));
+        await _connection.StartAsync(cts.Token);
     }
 }

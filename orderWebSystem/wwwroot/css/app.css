@@ -1,6 +1,8 @@
 /* ========================================
    orderWebSystem - グローバルスタイル
    スマホ・タブレット（Chrome）対応
+   フォントサイズは clamp() で自動スケール
+   基準: 14px @ 390px幅 〜 18px @ 1440px幅
 ======================================== */
 
 *, *::before, *::after {
@@ -9,12 +11,19 @@
     padding: 0;
 }
 
-html, body {
+html {
+    /* clamp(最小, 推奨, 最大) で画面幅に比例したフォントサイズ */
+    font-size: clamp(12px, 1.5vw, 18px);
+}
+
+body {
     height: 100%;
     font-family: 'Segoe UI', 'Hiragino Sans', 'Meiryo', sans-serif;
     background: #f5eddc;
     color: #333;
     -webkit-tap-highlight-color: transparent;
+    /* html の font-size を基準にした相対単位（em）を使う */
+    font-size: 1rem;
 }
 
 /* ========================================
@@ -32,8 +41,8 @@ html, body {
 .order-header {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 10px 14px;
+    gap: 0.85rem;
+    padding: 0.6rem 1rem;
     background: repeating-linear-gradient(
         45deg,
         #3a3a3a,
@@ -42,37 +51,36 @@ html, body {
         #4a4a4a 12px
     );
     color: white;
-    font-size: 17px;
     font-weight: bold;
-    min-height: 48px;
+    min-height: 3rem;
     flex-shrink: 0;
 }
 
 .header-title {
-    font-size: 18px;
+    font-size: 1.2rem;
 }
 
 .error-badge {
-    font-size: 13px;
+    font-size: 0.85rem;
     background: #e74c3c;
-    padding: 2px 8px;
+    padding: 0.15rem 0.5rem;
     border-radius: 12px;
 }
 
 .loading-badge {
-    font-size: 13px;
+    font-size: 0.85rem;
     background: #3498db;
-    padding: 2px 8px;
+    padding: 0.15rem 0.5rem;
     border-radius: 12px;
 }
 
-/* テーブルラッパー（スクロール対応） */
+/* テーブルラッパー */
 .order-table-wrapper {
     flex: 1;
     overflow-y: auto;
     overflow-x: hidden;
     background: white;
-    margin: 12px 12px 6px 12px;
+    margin: 0.75rem 0.75rem 0.4rem 0.75rem;
     border: 1px solid #ccc;
 }
 
@@ -80,7 +88,7 @@ html, body {
 .order-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 14px;
+    font-size: 1rem;
 }
 
 .order-table thead tr {
@@ -91,16 +99,17 @@ html, body {
 }
 
 .order-table th {
-    padding: 10px 8px;
+    padding: 0.6rem 0.5rem;
     text-align: left;
     font-weight: bold;
     color: #4b7bbe;
     border-bottom: 2px solid #ccc;
     white-space: nowrap;
+    font-size: 0.9rem;
 }
 
 .order-table td {
-    padding: 10px 8px;
+    padding: 0.6rem 0.5rem;
     border-bottom: 1px solid #eee;
     vertical-align: middle;
 }
@@ -115,11 +124,10 @@ html, body {
 }
 
 .col-action {
-    width: 44px;
+    width: 2.75rem;
     text-align: center;
 }
 
-/* 行の状態色 */
 .row-done td {
     color: #aaa;
     text-decoration: line-through;
@@ -131,20 +139,20 @@ html, body {
 
 .empty-row {
     text-align: center;
-    padding: 32px !important;
+    padding: 2rem !important;
     color: #aaa;
-    font-size: 16px;
+    font-size: 1rem;
 }
 
-/* ▼ボタン（ステータス変更） */
+/* ▼ボタン */
 .btn-status {
-    width: 30px;
-    height: 26px;
+    width: 1.9rem;
+    height: 1.6rem;
     background: #5cb85c;
     color: white;
     border: none;
     border-radius: 4px;
-    font-size: 12px;
+    font-size: 0.75rem;
     cursor: pointer;
     touch-action: manipulation;
 }
@@ -153,49 +161,29 @@ html, body {
     opacity: 0.7;
 }
 
-/* フッター（反映ボタン） */
+/* フッター */
 .footer-area {
     flex-shrink: 0;
     display: flex;
     justify-content: flex-end;
     align-items: flex-end;
-    padding: 8px 16px 16px 0;
+    padding: 0.5rem 1rem 1rem 0;
     background: #f5eddc;
 }
 
 .btn-reflect {
-    width: 88px;
-    height: 40px;
+    width: 5.5rem;
+    height: 2.5rem;
     background: #5cb85c;
     color: white;
     border: none;
     border-radius: 10px;
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: bold;
     cursor: pointer;
     box-shadow: 0 2px 4px rgba(0,0,0,0.25);
     touch-action: manipulation;
 }
 
-.btn-reflect:active {
-    opacity: 0.75;
-}
-
-.btn-reflect:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-/* ========================================
-   レスポンシブ（スマホ縦向き）
-======================================== */
-@media (max-width: 480px) {
-    .order-table {
-        font-size: 13px;
-    }
-
-    .order-table th,
-    .order-table td {
-        padding: 8px 6px;
-    }
-}
+.btn-reflect:active  { opacity: 0.75; }
+.btn-reflect:disabled { opacity: 0.5; cursor: not-allowed; }

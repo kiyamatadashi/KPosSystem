@@ -31,6 +31,9 @@ public partial class DrinkOrderWindow : Window
         }
     }
 
+    private void CloseButton_Click(object sender, RoutedEventArgs e)
+        => Application.Current.Shutdown();
+
     private async void ReflectButton_Click(object sender, RoutedEventArgs e)
     {
         // ボタン制御は別途指示

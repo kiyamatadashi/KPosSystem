@@ -25,6 +25,34 @@
         <SolidColorBrush x:Key="AttendEndHoverBrush"      Color="#FFFFB040"/>
         <SolidColorBrush x:Key="RevertButtonBrush"        Color="#FFE88080"/>
         <SolidColorBrush x:Key="RevertButtonHoverBrush"   Color="#FFFF9090"/>
+        <SolidColorBrush x:Key="CloseButtonBrush"         Color="#FFCC3333"/>
+        <SolidColorBrush x:Key="CloseButtonHoverBrush"    Color="#FFEE4444"/>
+
+        <!-- スケール未適用時のフォールバック値（App.xaml.csで上書きされる） -->
+        <sys:Double xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    x:Key="FontSizeSm">12</sys:Double>
+        <sys:Double xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    x:Key="FontSizeMd">14</sys:Double>
+        <sys:Double xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    x:Key="FontSizeLg">16</sys:Double>
+        <sys:Double xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    x:Key="FontSizeXl">18</sys:Double>
+        <sys:Double xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    x:Key="FontSizeHeader">18</sys:Double>
+        <sys:Double xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    x:Key="FontSizeNav">14</sys:Double>
+        <sys:Double xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    x:Key="FontSideBtn">15</sys:Double>
+        <sys:Double xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    x:Key="BtnSizeNav">60</sys:Double>
+        <sys:Double xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    x:Key="BtnSizeSide">80</sys:Double>
+        <sys:Double xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    x:Key="BtnSideMargin">20</sys:Double>
+        <sys:Double xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    x:Key="HeaderHeight">60</sys:Double>
+        <sys:Double xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    x:Key="RowHeight">34</sys:Double>
 
         <!-- ========================================
              ヘッダー背景ブラシ（菱形パターン）
@@ -83,13 +111,12 @@
         </DrawingBrush>
 
         <!-- ========================================
-             ナビゲーションボタン（丸形・60px）
-             設計書: ヘッダー高さ60pxに収まる径
+             ナビゲーションボタン（丸形・スケール対応）
         ======================================== -->
         <Style x:Key="NavButtonStyle" TargetType="Button">
-            <Setter Property="Width"           Value="60"/>
-            <Setter Property="Height"          Value="60"/>
-            <Setter Property="FontSize"        Value="14"/>
+            <Setter Property="Width"           Value="{DynamicResource BtnSizeNav}"/>
+            <Setter Property="Height"          Value="{DynamicResource BtnSizeNav}"/>
+            <Setter Property="FontSize"        Value="{DynamicResource FontSizeNav}"/>
             <Setter Property="FontWeight"      Value="Bold"/>
             <Setter Property="Foreground"      Value="White"/>
             <Setter Property="BorderThickness" Value="0"/>
@@ -122,13 +149,51 @@
         </Style>
 
         <!-- ========================================
-             サイドメニューボタン（角丸・80px）
-             設計書: ボタン間に適度な余白あり
+             ×閉じるボタン（丸形・ヘッダー右端）
+        ======================================== -->
+        <Style x:Key="CloseButtonStyle" TargetType="Button">
+            <Setter Property="Width"           Value="{DynamicResource BtnSizeNav}"/>
+            <Setter Property="Height"          Value="{DynamicResource BtnSizeNav}"/>
+            <Setter Property="FontSize"        Value="{DynamicResource FontSizeNav}"/>
+            <Setter Property="FontWeight"      Value="Bold"/>
+            <Setter Property="Foreground"      Value="White"/>
+            <Setter Property="Background"      Value="{StaticResource CloseButtonBrush}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor"          Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Ellipse Fill="{TemplateBinding Background}"
+                                     Width="{TemplateBinding Width}"
+                                     Height="{TemplateBinding Height}">
+                                <Ellipse.Effect>
+                                    <DropShadowEffect ShadowDepth="2" BlurRadius="4" Opacity="0.4"/>
+                                </Ellipse.Effect>
+                            </Ellipse>
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="{StaticResource CloseButtonHoverBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Opacity" Value="0.70"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- ========================================
+             サイドメニューボタン（角丸・スケール対応）
         ======================================== -->
         <Style x:Key="SideButtonStyle" TargetType="Button">
-            <Setter Property="Width"           Value="80"/>
-            <Setter Property="Height"          Value="80"/>
-            <Setter Property="FontSize"        Value="15"/>
+            <Setter Property="Width"           Value="{DynamicResource BtnSizeSide}"/>
+            <Setter Property="Height"          Value="{DynamicResource BtnSizeSide}"/>
+            <Setter Property="FontSize"        Value="{DynamicResource FontSideBtn}"/>
             <Setter Property="FontWeight"      Value="Bold"/>
             <Setter Property="Foreground"      Value="#FF3A2000"/>
             <Setter Property="Background"      Value="{StaticResource SideButtonBrush}"/>
@@ -138,8 +203,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}"
-                                CornerRadius="14">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="14">
                             <Border.Effect>
                                 <DropShadowEffect ShadowDepth="2" BlurRadius="4" Opacity="0.3"/>
                             </Border.Effect>
@@ -160,12 +224,12 @@
         </Style>
 
         <!-- ========================================
-             テーブルボタン（空席：青・120px）
+             テーブルボタン（空席：青）
         ======================================== -->
         <Style x:Key="TableEmptyButtonStyle" TargetType="Button">
             <Setter Property="Width"           Value="120"/>
             <Setter Property="Height"          Value="120"/>
-            <Setter Property="FontSize"        Value="18"/>
+            <Setter Property="FontSize"        Value="{DynamicResource FontSizeXl}"/>
             <Setter Property="FontWeight"      Value="Bold"/>
             <Setter Property="Foreground"      Value="White"/>
             <Setter Property="Background"      Value="{StaticResource TableEmptyBrush}"/>
@@ -200,7 +264,7 @@
         <Style x:Key="TableUsedButtonStyle" TargetType="Button">
             <Setter Property="MinWidth"        Value="120"/>
             <Setter Property="MinHeight"       Value="120"/>
-            <Setter Property="FontSize"        Value="14"/>
+            <Setter Property="FontSize"        Value="{DynamicResource FontSizeMd}"/>
             <Setter Property="FontWeight"      Value="Bold"/>
             <Setter Property="Foreground"      Value="#FF3A2000"/>
             <Setter Property="Background"      Value="{StaticResource TableUsedBrush}"/>
@@ -238,7 +302,7 @@
         <Style x:Key="AttendStartButtonStyle" TargetType="Button">
             <Setter Property="Width"           Value="68"/>
             <Setter Property="Height"          Value="34"/>
-            <Setter Property="FontSize"        Value="14"/>
+            <Setter Property="FontSize"        Value="{DynamicResource FontSizeMd}"/>
             <Setter Property="FontWeight"      Value="Bold"/>
             <Setter Property="Foreground"      Value="White"/>
             <Setter Property="Background"      Value="{StaticResource AttendStartBrush}"/>
@@ -270,7 +334,7 @@
         <Style x:Key="AttendEndButtonStyle" TargetType="Button">
             <Setter Property="Width"           Value="68"/>
             <Setter Property="Height"          Value="34"/>
-            <Setter Property="FontSize"        Value="14"/>
+            <Setter Property="FontSize"        Value="{DynamicResource FontSizeMd}"/>
             <Setter Property="FontWeight"      Value="Bold"/>
             <Setter Property="Foreground"      Value="White"/>
             <Setter Property="Background"      Value="{StaticResource AttendEndBrush}"/>
@@ -297,13 +361,12 @@
         </Style>
 
         <!-- ========================================
-             戻すボタン（ピンク・丸形・48px）
-             設計書: 行の高さに収まるコンパクトな円
+             戻すボタン（ピンク・丸形）
         ======================================== -->
         <Style x:Key="RevertButtonStyle" TargetType="Button">
             <Setter Property="Width"           Value="48"/>
             <Setter Property="Height"          Value="48"/>
-            <Setter Property="FontSize"        Value="13"/>
+            <Setter Property="FontSize"        Value="{DynamicResource FontSizeSm}"/>
             <Setter Property="FontWeight"      Value="Bold"/>
             <Setter Property="Foreground"      Value="White"/>
             <Setter Property="Background"      Value="{StaticResource RevertButtonBrush}"/>
@@ -334,7 +397,6 @@
 
         <!-- ========================================
              勤怠行ボーダー
-             設計書: 行間に適度な余白、行自体はコンパクト
         ======================================== -->
         <Style x:Key="AttendanceRowStyle" TargetType="Border">
             <Setter Property="Background"      Value="#FFFFFFFF"/>

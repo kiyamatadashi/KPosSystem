@@ -4,23 +4,53 @@
         Title="KPosSystem - ドリンカーシステム"
         WindowState="Maximized"
         WindowStyle="None"
-        ResizeMode="NoResize">
+        ResizeMode="NoResize"
+        AllowsTransparency="False">
 
-    <!-- 設計書image4: DataGridが上部大半・下部にベージュ余白＋右下に反映ボタン -->
     <Grid Background="{StaticResource ContentTextureBrush}">
 
         <Grid.RowDefinitions>
-            <!-- DataGrid（設計書の上部約65%） -->
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="3*"/>
-            <!-- 下部余白＋反映ボタンエリア（設計書の下部約35%） -->
             <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
 
-        <!-- ═══════════════════════════════════════
-             オーダーDataGrid
-             設計書: 上部に白枠DataGrid・外側にベージュ余白12px
-        ═══════════════════════════════════════ -->
+        <!-- ヘッダー：Paddingで上下余白確保 -->
         <Border Grid.Row="0"
+                MinHeight="{DynamicResource HeaderHeight}"
+                Padding="0,10,0,10"
+                Background="{StaticResource HeaderPatternBrush}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0"
+                           Text="ドリンカーシステム"
+                           Foreground="#AAFFFFFF"
+                           FontSize="{DynamicResource FontSizeHeader}"
+                           FontWeight="Bold"
+                           VerticalAlignment="Center"
+                           Margin="20,0,0,0"/>
+
+                <!-- とじるボタン -->
+                <Button Grid.Column="1"
+                        Style="{StaticResource CloseButtonStyle}"
+                        Margin="0,0,12,0"
+                        Click="CloseButton_Click">
+                    <TextBlock TextAlignment="Center"
+                               FontSize="{DynamicResource FontSizeSm}"
+                               FontWeight="Bold"
+                               LineHeight="16">
+                        <Run Text="とじる"/>
+                    </TextBlock>
+                </Button>
+            </Grid>
+        </Border>
+
+        <!-- DataGrid -->
+        <Border Grid.Row="1"
                 Margin="12,12,12,6"
                 BorderBrush="#FFCCCCCC"
                 BorderThickness="1"
@@ -36,8 +66,8 @@
                       GridLinesVisibility="All"
                       HorizontalGridLinesBrush="#FFDDDDDD"
                       VerticalGridLinesBrush="#FFDDDDDD"
-                      RowHeight="34"
-                      FontSize="14"
+                      RowHeight="{DynamicResource RowHeight}"
+                      FontSize="{DynamicResource FontSizeMd}"
                       SelectionMode="Single"
                       BorderThickness="0">
 
@@ -46,8 +76,8 @@
                         <Setter Property="Background"      Value="#FFFFFBE6"/>
                         <Setter Property="Foreground"      Value="#FF4B7BBE"/>
                         <Setter Property="FontWeight"      Value="Bold"/>
-                        <Setter Property="FontSize"        Value="13"/>
-                        <Setter Property="Height"          Value="34"/>
+                        <Setter Property="FontSize"        Value="{DynamicResource FontSizeSm}"/>
+                        <Setter Property="Height"          Value="{DynamicResource RowHeight}"/>
                         <Setter Property="BorderBrush"     Value="#FFCCCCCC"/>
                         <Setter Property="BorderThickness" Value="0,0,1,1"/>
                         <Setter Property="Padding"         Value="8,0,4,0"/>
@@ -56,7 +86,6 @@
 
                 <DataGrid.Columns>
 
-                    <!-- テーブル名（▼フィルタ） -->
                     <DataGridTemplateColumn Width="130">
                         <DataGridTemplateColumn.Header>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
@@ -78,10 +107,7 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
 
-                    <!-- 商品名 -->
-                    <DataGridTextColumn Header="商品名"
-                                        Binding="{Binding ProductName}"
-                                        Width="*">
+                    <DataGridTextColumn Header="商品名" Binding="{Binding ProductName}" Width="*">
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="TextBlock">
                                 <Setter Property="Padding"           Value="8,0"/>
@@ -90,10 +116,7 @@
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
 
-                    <!-- 数量 -->
-                    <DataGridTextColumn Header="数量"
-                                        Binding="{Binding Quantity}"
-                                        Width="70">
+                    <DataGridTextColumn Header="数量" Binding="{Binding Quantity}" Width="70">
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="TextBlock">
                                 <Setter Property="Padding"             Value="8,0"/>
@@ -103,10 +126,7 @@
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
 
-                    <!-- キャスト名 -->
-                    <DataGridTextColumn Header="キャスト名"
-                                        Binding="{Binding CastName}"
-                                        Width="120">
+                    <DataGridTextColumn Header="キャスト名" Binding="{Binding CastNamesDisplay}" Width="120">
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="TextBlock">
                                 <Setter Property="Padding"           Value="8,0"/>
@@ -115,7 +135,6 @@
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
 
-                    <!-- ステータス（▼フィルタ） -->
                     <DataGridTemplateColumn Width="130">
                         <DataGridTemplateColumn.Header>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
@@ -137,16 +156,12 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
 
-                    <!-- 行ごとの▼ボタン -->
                     <DataGridTemplateColumn Width="44" Header="">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Content="▼"
-                                        Width="30" Height="24"
-                                        FontSize="11"
-                                        Margin="4,0"
-                                        BorderThickness="0"
-                                        Cursor="Hand">
+                                <Button Content="▼" Width="30" Height="24"
+                                        FontSize="11" Margin="4,0"
+                                        BorderThickness="0" Cursor="Hand">
                                     <Button.Template>
                                         <ControlTemplate TargetType="Button">
                                             <Border Background="{StaticResource AttendStartBrush}"
@@ -156,8 +171,7 @@
                                             </Border>
                                             <ControlTemplate.Triggers>
                                                 <Trigger Property="IsMouseOver" Value="True">
-                                                    <Setter Property="Background"
-                                                            Value="{StaticResource AttendStartHoverBrush}"/>
+                                                    <Setter Property="Background" Value="{StaticResource AttendStartHoverBrush}"/>
                                                 </Trigger>
                                                 <Trigger Property="IsPressed" Value="True">
                                                     <Setter Property="Opacity" Value="0.75"/>
@@ -171,24 +185,18 @@
                     </DataGridTemplateColumn>
 
                 </DataGrid.Columns>
-
             </DataGrid>
-
         </Border>
 
-        <!-- ═══════════════════════════════════════
-             下部エリア（ベージュ余白）＋反映ボタン右下
-             設計書: 反映ボタンは右下に配置
-        ═══════════════════════════════════════ -->
-        <Grid Grid.Row="1">
+        <!-- 下部エリア＋反映ボタン -->
+        <Grid Grid.Row="2">
             <Button x:Name="ReflectButton"
                     Content="反映"
-                    Width="80"
-                    Height="36"
+                    Width="80" Height="36"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Bottom"
                     Margin="0,0,20,20"
-                    FontSize="14"
+                    FontSize="{DynamicResource FontSizeMd}"
                     FontWeight="Bold"
                     Foreground="White"
                     BorderThickness="0"
@@ -196,18 +204,15 @@
                     Click="ReflectButton_Click">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
-                        <Border Background="{StaticResource AttendStartBrush}"
-                                CornerRadius="10">
+                        <Border Background="{StaticResource AttendStartBrush}" CornerRadius="10">
                             <Border.Effect>
                                 <DropShadowEffect ShadowDepth="2" BlurRadius="4" Opacity="0.3"/>
                             </Border.Effect>
-                            <ContentPresenter HorizontalAlignment="Center"
-                                              VerticalAlignment="Center"/>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background"
-                                        Value="{StaticResource AttendStartHoverBrush}"/>
+                                <Setter Property="Background" Value="{StaticResource AttendStartHoverBrush}"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
                                 <Setter Property="Opacity" Value="0.75"/>

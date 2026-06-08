@@ -4,20 +4,19 @@
         Title="KPosSystem - レジシステム"
         WindowState="Maximized"
         WindowStyle="None"
-        ResizeMode="NoResize">
+        ResizeMode="NoResize"
+        AllowsTransparency="False">
 
     <Grid>
         <Grid.RowDefinitions>
-            <!-- ヘッダー：設計書に合わせて60px -->
-            <RowDefinition Height="60"/>
-            <!-- コンテンツ -->
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- ═══════════════════════════════════════
-             ヘッダー（菱形パターン）
-        ═══════════════════════════════════════ -->
+        <!-- ヘッダー：ボタンが上下に切れないよう Padding で余白確保 -->
         <Border Grid.Row="0"
+                MinHeight="{DynamicResource HeaderHeight}"
+                Padding="0,10,0,10"
                 Background="{StaticResource HeaderPatternBrush}">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -25,17 +24,14 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <!-- タイトル -->
                 <TextBlock Grid.Column="0"
                            Text="KPos System"
                            Foreground="#AAFFFFFF"
-                           FontSize="18"
+                           FontSize="{DynamicResource FontSizeHeader}"
                            FontWeight="Bold"
                            VerticalAlignment="Center"
                            Margin="20,0,0,0"/>
 
-                <!-- ナビゲーションボタン（設定・テーブル・勤怠）
-                     設計書: ヘッダー右端に3ボタン・適度な間隔 -->
                 <StackPanel Grid.Column="1"
                             Orientation="Horizontal"
                             VerticalAlignment="Center"
@@ -59,15 +55,25 @@
                             Content="勤怠"
                             Style="{StaticResource NavButtonStyle}"
                             Background="{StaticResource NavButtonAttendanceBrush}"
+                            Margin="0,0,16,0"
                             Click="NavAttendance_Click"/>
+
+                    <!-- とじるボタン -->
+                    <Button x:Name="CloseButton"
+                            Style="{StaticResource CloseButtonStyle}"
+                            Click="CloseButton_Click">
+                        <TextBlock TextAlignment="Center"
+                                   FontSize="{DynamicResource FontSizeSm}"
+                                   FontWeight="Bold"
+                                   LineHeight="16">
+                            <Run Text="とじる"/>
+                        </TextBlock>
+                    </Button>
 
                 </StackPanel>
             </Grid>
         </Border>
 
-        <!-- ═══════════════════════════════════════
-             コンテンツエリア（ページ切替）
-        ═══════════════════════════════════════ -->
         <ContentControl Grid.Row="1"
                         x:Name="MainContent"/>
 

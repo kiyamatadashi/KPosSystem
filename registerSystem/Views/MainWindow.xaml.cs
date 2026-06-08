@@ -1,4 +1,4 @@
-using System.Windows;
+﻿using System.Windows;
 
 using registerSystem.ViewModels;
 using registerSystem.Views.Pages;
@@ -7,8 +7,7 @@ namespace registerSystem.Views;
 
 public partial class MainWindow : Window
 {
-    private readonly MainViewModel _viewModel = new();
-
+    private readonly MainViewModel  _viewModel      = new();
     private readonly SettingPage    _settingPage    = new();
     private readonly TablePage      _tablePage      = new();
     private readonly AttendancePage _attendancePage = new();
@@ -16,18 +15,12 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
-
         DataContext = _viewModel;
-
-        // 起動時は設定画面を表示
         NavigateTo(_settingPage);
-
         Loaded += MainWindow_Loaded;
     }
 
-    private async void MainWindow_Loaded(
-        object sender,
-        RoutedEventArgs e)
+    private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
     {
         try
         {
@@ -43,8 +36,6 @@ public partial class MainWindow : Window
         }
     }
 
-    // ─── ナビゲーション ──────────────────────────────
-
     private void NavSetting_Click(object sender, RoutedEventArgs e)
         => NavigateTo(_settingPage);
 
@@ -53,6 +44,9 @@ public partial class MainWindow : Window
 
     private void NavAttendance_Click(object sender, RoutedEventArgs e)
         => NavigateTo(_attendancePage);
+
+    private void CloseButton_Click(object sender, RoutedEventArgs e)
+        => Application.Current.Shutdown();
 
     private void NavigateTo(object page)
         => MainContent.Content = page;

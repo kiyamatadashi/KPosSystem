@@ -1,0 +1,1531 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
+     xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
+
+  <Package Name="KPosSystem ドリンカーシステム"
+           Manufacturer="KPosSystem"
+           Version="1.0.0.0"
+           UpgradeCode="A1B2C3D4-E5F6-7890-ABCD-EF1234560002"
+           Language="1041"
+           Codepage="932">
+
+    <MajorUpgrade DowngradeErrorMessage="新しいバージョンがインストール済みです。"/>
+    <MediaTemplate EmbedCab="yes"/>
+
+    <Icon Id="drinkorder.ico" SourceFile="drinkorder.ico"/>
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLDIR"/>
+
+    <ui:WixUI Id="WixUI_InstallDir"/>
+
+    <StandardDirectory Id="ProgramFiles6432Folder">
+      <Directory Id="KPOSSYSTEMDIR" Name="KPosSystem">
+        <Directory Id="INSTALLDIR" Name="drinkOrderSystem"/>
+      </Directory>
+    </StandardDirectory>
+
+    <StandardDirectory Id="DesktopFolder">
+      <Component Id="DesktopShortcutComp" Guid="C2D3E4F5-A6B7-8901-CDEF-123456780002">
+        <Shortcut Id="DesktopShortcut"
+                  Name="ドリンカーシステム"
+                  Description="KPosSystem ドリンカーシステム"
+                  Target="[INSTALLDIR]drinkOrderSystem.exe"
+                  WorkingDirectory="INSTALLDIR"
+                  Icon="drinkorder.ico"/>
+        <RegistryValue Root="HKCU"
+                       Key="Software\KPosSystem\drinkOrderSystem"
+                       Name="installed"
+                       Type="integer"
+                       Value="1"
+                       KeyPath="yes"/>
+      </Component>
+    </StandardDirectory>
+
+    <Feature Id="ProductFeature" Title="ドリンカーシステム" Level="1">
+      <ComponentGroupRef Id="AppFiles"/>
+      <ComponentRef Id="DesktopShortcutComp"/>
+    </Feature>
+
+    <ComponentGroup Id="AppFiles" Directory="INSTALLDIR">
+      <Component Id="Comp_0" Guid="ec72a339-7088-b937-dc11-ebc6c3fb7e27">
+        <File Id="File_0" Source="publish\Accessibility.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_1" Guid="e4db7229-355d-d028-b6f2-4a0b3bcd2897">
+        <File Id="File_1" Source="publish\D3DCompiler_47_cor3.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_2" Guid="5964a313-d8f6-c5ad-fd3a-227d7d6d75bf">
+        <File Id="File_2" Source="publish\DirectWriteForwarder.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_3" Guid="d30aee63-bbf3-81d8-cef8-6c733e4799d6">
+        <File Id="File_3" Source="publish\Microsoft.AspNetCore.Connections.Abstractions.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_4" Guid="9f2e457c-1ecf-859a-8106-cf2c617f9adf">
+        <File Id="File_4" Source="publish\Microsoft.AspNetCore.Http.Connections.Client.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_5" Guid="553c0608-28c5-c73c-93e1-99afeb215115">
+        <File Id="File_5" Source="publish\Microsoft.AspNetCore.Http.Connections.Common.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_6" Guid="64e35914-0feb-56f9-5375-bd00718fb991">
+        <File Id="File_6" Source="publish\Microsoft.AspNetCore.SignalR.Client.Core.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_7" Guid="a7189c3f-76ed-2cdc-6d39-b2d7e957d9e0">
+        <File Id="File_7" Source="publish\Microsoft.AspNetCore.SignalR.Client.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_8" Guid="785ac118-bf4e-9111-5bfc-271d64880e76">
+        <File Id="File_8" Source="publish\Microsoft.AspNetCore.SignalR.Common.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_9" Guid="be85b243-c582-790e-1a3d-8186f3f428bb">
+        <File Id="File_9" Source="publish\Microsoft.AspNetCore.SignalR.Protocols.Json.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_10" Guid="7fc9b893-fd66-3276-60a6-894174adff38">
+        <File Id="File_10" Source="publish\Microsoft.Bcl.AsyncInterfaces.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_11" Guid="fc1d1ccc-2785-195f-14c1-ceee60df1a4e">
+        <File Id="File_11" Source="publish\Microsoft.Bcl.TimeProvider.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_12" Guid="a04f819e-1c5c-125a-dd6f-2587e4e24faf">
+        <File Id="File_12" Source="publish\Microsoft.CSharp.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_13" Guid="eb2c5360-3ca2-f86a-f795-649ed7a4b338">
+        <File Id="File_13" Source="publish\Microsoft.DiaSymReader.Native.amd64.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_14" Guid="4a09d293-07fa-2c6e-5227-65b417f4c80c">
+        <File Id="File_14" Source="publish\Microsoft.Extensions.Configuration.Abstractions.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_15" Guid="7157af8d-3f92-dbc7-98c5-4e5a88feaec8">
+        <File Id="File_15" Source="publish\Microsoft.Extensions.Configuration.Binder.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_16" Guid="f6066965-a31a-0345-c086-36e0a8dbb601">
+        <File Id="File_16" Source="publish\Microsoft.Extensions.Configuration.FileExtensions.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_17" Guid="68536e1c-5f54-981b-8c94-1224b125973e">
+        <File Id="File_17" Source="publish\Microsoft.Extensions.Configuration.Json.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_18" Guid="11dcb218-a693-16e6-0e6a-71dc69abc05e">
+        <File Id="File_18" Source="publish\Microsoft.Extensions.Configuration.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_19" Guid="fa2bcdb8-76e0-1682-ec99-a2f2e6948b43">
+        <File Id="File_19" Source="publish\Microsoft.Extensions.DependencyInjection.Abstractions.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_20" Guid="0ecc1d1c-7c98-08ab-edf0-f69a4b0bd838">
+        <File Id="File_20" Source="publish\Microsoft.Extensions.DependencyInjection.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_21" Guid="0dfc1222-cce2-a1a8-6223-6fcc685dea6d">
+        <File Id="File_21" Source="publish\Microsoft.Extensions.Features.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_22" Guid="470df65e-bcd0-60cb-2e42-10378b123641">
+        <File Id="File_22" Source="publish\Microsoft.Extensions.FileProviders.Abstractions.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_23" Guid="63000e8c-9b09-825b-1df8-95aafaede076">
+        <File Id="File_23" Source="publish\Microsoft.Extensions.FileProviders.Physical.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_24" Guid="0a2b07b6-7e1f-8f8e-8399-1f5e23f090b0">
+        <File Id="File_24" Source="publish\Microsoft.Extensions.FileSystemGlobbing.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_25" Guid="0eca1d0b-6e03-6ffe-caac-92be32aecd11">
+        <File Id="File_25" Source="publish\Microsoft.Extensions.Logging.Abstractions.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_26" Guid="fdcd0c51-92d8-5866-3059-e293a74228b9">
+        <File Id="File_26" Source="publish\Microsoft.Extensions.Logging.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_27" Guid="7c6a74f7-541c-480d-20a1-ca46c4230e57">
+        <File Id="File_27" Source="publish\Microsoft.Extensions.Options.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_28" Guid="89303690-4349-5d2e-8525-b6fc6194d3ff">
+        <File Id="File_28" Source="publish\Microsoft.Extensions.Primitives.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_29" Guid="625d0848-97b0-8e9a-f2a4-ee09a2d1caa5">
+        <File Id="File_29" Source="publish\Microsoft.VisualBasic.Core.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_30" Guid="0352d227-857d-928e-2dbc-42405a85807c">
+        <File Id="File_30" Source="publish\Microsoft.VisualBasic.Forms.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_31" Guid="6fdda9df-5a72-e6d7-1ed4-0ea09b5af0b0">
+        <File Id="File_31" Source="publish\Microsoft.VisualBasic.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_32" Guid="6844b938-55ae-d405-a3d1-d5544774bf15">
+        <File Id="File_32" Source="publish\Microsoft.Win32.Primitives.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_33" Guid="51fa7168-070b-9556-5b28-7fc7b9a5143e">
+        <File Id="File_33" Source="publish\Microsoft.Win32.Registry.AccessControl.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_34" Guid="96f8a0e2-4f21-5e46-edfe-0a458e5a88d3">
+        <File Id="File_34" Source="publish\Microsoft.Win32.Registry.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_35" Guid="41c9854f-381b-cfd4-e2fa-711f236d234c">
+        <File Id="File_35" Source="publish\Microsoft.Win32.SystemEvents.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_36" Guid="0167d54d-8484-708f-4f8b-cbe051ab67d8">
+        <File Id="File_36" Source="publish\PenImc_cor3.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_37" Guid="38b879a1-ae1d-a91d-eee8-1cfdaca9deea">
+        <File Id="File_37" Source="publish\PresentationCore.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_38" Guid="28a87250-9f5f-e85b-85e5-d909ae93f39f">
+        <File Id="File_38" Source="publish\PresentationFramework-SystemCore.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_39" Guid="8d33d994-c665-f05b-e8f4-381afd7352dc">
+        <File Id="File_39" Source="publish\PresentationFramework-SystemData.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_40" Guid="9dfe0b59-9aa6-b627-bf55-e4defca4cab7">
+        <File Id="File_40" Source="publish\PresentationFramework-SystemDrawing.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_41" Guid="ff9186bf-dab7-051a-d870-293f733eedb9">
+        <File Id="File_41" Source="publish\PresentationFramework-SystemXml.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_42" Guid="b4f80050-1bc5-d050-173d-3b302e96fc45">
+        <File Id="File_42" Source="publish\PresentationFramework-SystemXmlLinq.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_43" Guid="ee1dc82a-243e-b7b9-b434-0b401a7082d2">
+        <File Id="File_43" Source="publish\PresentationFramework.Aero.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_44" Guid="e79687ab-666c-16c1-4738-75e1fafd433f">
+        <File Id="File_44" Source="publish\PresentationFramework.Aero2.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_45" Guid="9be80834-b329-0c7c-b070-7b8742452f72">
+        <File Id="File_45" Source="publish\PresentationFramework.AeroLite.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_46" Guid="77fcc58f-80c9-0353-bb96-3a54d8a7f145">
+        <File Id="File_46" Source="publish\PresentationFramework.Classic.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_47" Guid="2ae7540e-2ad7-d8e3-2fe6-555ef17e8278">
+        <File Id="File_47" Source="publish\PresentationFramework.Luna.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_48" Guid="2dbc7caa-6ff6-465f-e7fd-c7be6b85e315">
+        <File Id="File_48" Source="publish\PresentationFramework.Royale.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_49" Guid="1fa8ab3a-0eab-097b-2f0a-8505b7675531">
+        <File Id="File_49" Source="publish\PresentationFramework.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_50" Guid="216d6a68-436d-959f-96a1-e9d0944679c6">
+        <File Id="File_50" Source="publish\PresentationNative_cor3.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_51" Guid="bc2e48eb-4d2c-2a32-13d5-b4b4257afb21">
+        <File Id="File_51" Source="publish\PresentationUI.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_52" Guid="14680089-1751-ce78-b555-c35cc4fdb591">
+        <File Id="File_52" Source="publish\ReachFramework.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_53" Guid="825d35cf-18f9-f3fa-8a0f-ec62287bc7b5">
+        <File Id="File_53" Source="publish\System.AppContext.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_54" Guid="fef37070-77e0-2139-dd30-2d150b586f4c">
+        <File Id="File_54" Source="publish\System.Buffers.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_55" Guid="c3029354-38cb-e456-ee52-5e0711ac087f">
+        <File Id="File_55" Source="publish\System.CodeDom.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_56" Guid="16a06efb-7026-5c1d-e5d0-f45cbeb8f2f4">
+        <File Id="File_56" Source="publish\System.Collections.Concurrent.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_57" Guid="933ea1ef-803d-afc5-cec7-0f7d00b253e7">
+        <File Id="File_57" Source="publish\System.Collections.Immutable.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_58" Guid="b4f083e3-04ee-642b-e752-4b4327392792">
+        <File Id="File_58" Source="publish\System.Collections.NonGeneric.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_59" Guid="cb23773a-2fc3-fc31-1d2e-f60fd49c1f2f">
+        <File Id="File_59" Source="publish\System.Collections.Specialized.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_60" Guid="84a1c539-d23b-9225-f9bf-a7c7c1ecb804">
+        <File Id="File_60" Source="publish\System.Collections.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_61" Guid="cab0f1d6-642e-d141-c785-38e54d13ab3b">
+        <File Id="File_61" Source="publish\System.ComponentModel.Annotations.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_62" Guid="1e7ea632-1be8-dc7f-0d67-9904687c44e7">
+        <File Id="File_62" Source="publish\System.ComponentModel.DataAnnotations.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_63" Guid="9498ae93-8622-5ebb-f3f9-767426cc4dde">
+        <File Id="File_63" Source="publish\System.ComponentModel.EventBasedAsync.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_64" Guid="7a1d8267-2737-7d5e-11e4-8370400cdfad">
+        <File Id="File_64" Source="publish\System.ComponentModel.Primitives.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_65" Guid="bbd0f76d-3f17-f16a-4bf3-84484f85f769">
+        <File Id="File_65" Source="publish\System.ComponentModel.TypeConverter.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_66" Guid="bfa77e7a-550b-925d-9f17-6ea1687f586e">
+        <File Id="File_66" Source="publish\System.ComponentModel.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_67" Guid="48d0165f-83c8-2a2e-a7de-61f7d1f33e66">
+        <File Id="File_67" Source="publish\System.Configuration.ConfigurationManager.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_68" Guid="d131f39b-1016-cc81-0348-250c34526250">
+        <File Id="File_68" Source="publish\System.Configuration.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_69" Guid="355c1293-4635-dfd5-b437-5e0963b86d48">
+        <File Id="File_69" Source="publish\System.Console.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_70" Guid="e77f633c-5fb5-bfa4-4fe5-fcaf2675a071">
+        <File Id="File_70" Source="publish\System.Core.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_71" Guid="78afb26d-9761-9bcc-d2d9-e2f5caaafd5b">
+        <File Id="File_71" Source="publish\System.Data.Common.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_72" Guid="7ea2eb3d-c288-de24-79f1-625ea5d2c9ff">
+        <File Id="File_72" Source="publish\System.Data.DataSetExtensions.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_73" Guid="58154e13-819c-98ca-b4a4-e39a25cb6e7e">
+        <File Id="File_73" Source="publish\System.Data.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_74" Guid="6f53e5d4-2987-5e60-1676-f570beac9557">
+        <File Id="File_74" Source="publish\System.Design.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_75" Guid="684b6c0f-d5a9-aade-32a3-4938459c87ed">
+        <File Id="File_75" Source="publish\System.Diagnostics.Contracts.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_76" Guid="d501e00b-8936-0898-836f-e146f4a27a2d">
+        <File Id="File_76" Source="publish\System.Diagnostics.Debug.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_77" Guid="947e770a-4ed9-b1ad-54a2-cbfcad73da85">
+        <File Id="File_77" Source="publish\System.Diagnostics.DiagnosticSource.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_78" Guid="f2889d17-82bf-e823-d23c-158402bd6175">
+        <File Id="File_78" Source="publish\System.Diagnostics.EventLog.Messages.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_79" Guid="6c627046-2382-2a19-6b15-11a4b3594233">
+        <File Id="File_79" Source="publish\System.Diagnostics.EventLog.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_80" Guid="34077d53-3d82-1090-0738-c7840621b101">
+        <File Id="File_80" Source="publish\System.Diagnostics.FileVersionInfo.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_81" Guid="c3746f35-c1ca-c4cf-e3fa-6adf407cbdbd">
+        <File Id="File_81" Source="publish\System.Diagnostics.PerformanceCounter.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_82" Guid="cf820ed7-4e75-1f74-7a13-623b8c769670">
+        <File Id="File_82" Source="publish\System.Diagnostics.Process.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_83" Guid="45fab6bb-dac9-05ab-e399-0d6a54a398c5">
+        <File Id="File_83" Source="publish\System.Diagnostics.StackTrace.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_84" Guid="a32a6479-9c12-23ca-e74d-3fe02a2e09f7">
+        <File Id="File_84" Source="publish\System.Diagnostics.TextWriterTraceListener.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_85" Guid="2d5c3c1a-4b06-0a19-4fbd-36a2aec8fab1">
+        <File Id="File_85" Source="publish\System.Diagnostics.Tools.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_86" Guid="5793abe6-1f1c-c651-9bbe-412aae722d49">
+        <File Id="File_86" Source="publish\System.Diagnostics.TraceSource.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_87" Guid="03617a49-14b8-5c2d-d545-d14a8aec65bc">
+        <File Id="File_87" Source="publish\System.Diagnostics.Tracing.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_88" Guid="c7d1e511-686c-2488-fce8-2c4b9c107b85">
+        <File Id="File_88" Source="publish\System.DirectoryServices.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_89" Guid="27812442-e048-f661-4a83-02124fa6af82">
+        <File Id="File_89" Source="publish\System.Drawing.Common.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_90" Guid="2fd9b8ec-20da-3997-ac3d-810e4cd957e0">
+        <File Id="File_90" Source="publish\System.Drawing.Design.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_91" Guid="6de2aaf7-7eef-89b1-80d7-b98ee115dc4e">
+        <File Id="File_91" Source="publish\System.Drawing.Primitives.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_92" Guid="1f6c6c9a-22ce-e969-ec09-bf7da1c9a386">
+        <File Id="File_92" Source="publish\System.Drawing.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_93" Guid="d0546209-48f1-999f-bfca-2ce1773b3903">
+        <File Id="File_93" Source="publish\System.Dynamic.Runtime.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_94" Guid="e64e9b18-b91c-eabd-0e2c-cb9a7f654782">
+        <File Id="File_94" Source="publish\System.Formats.Asn1.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_95" Guid="42700b7c-8190-47ca-ce3e-d5a3042abdc3">
+        <File Id="File_95" Source="publish\System.Formats.Tar.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_96" Guid="f85d9ed6-6829-2453-67bc-6fb917e4e44e">
+        <File Id="File_96" Source="publish\System.Globalization.Calendars.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_97" Guid="11a8d004-944c-3e8d-1e99-56786e8e1ae3">
+        <File Id="File_97" Source="publish\System.Globalization.Extensions.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_98" Guid="d1b2c6b6-b9e6-773d-1147-7585ccc03560">
+        <File Id="File_98" Source="publish\System.Globalization.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_99" Guid="fe86a889-87db-8382-2c35-d28f65bcbfad">
+        <File Id="File_99" Source="publish\System.IO.Compression.Brotli.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_100" Guid="faf3d44c-3629-965c-9f6f-fb694c44a7be">
+        <File Id="File_100" Source="publish\System.IO.Compression.FileSystem.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_101" Guid="fc11e194-f91c-30bd-64e4-074867b48229">
+        <File Id="File_101" Source="publish\System.IO.Compression.Native.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_102" Guid="f4b9534c-1e4c-7f65-48a5-f8d8eafdb304">
+        <File Id="File_102" Source="publish\System.IO.Compression.ZipFile.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_103" Guid="2e9012e7-4f58-88d8-85a9-cec704421703">
+        <File Id="File_103" Source="publish\System.IO.Compression.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_104" Guid="f1c33bb1-0da9-d1d7-1475-904acd2abb89">
+        <File Id="File_104" Source="publish\System.IO.FileSystem.AccessControl.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_105" Guid="4066d14e-aa34-90ce-73c3-ec18c9ddeeb5">
+        <File Id="File_105" Source="publish\System.IO.FileSystem.DriveInfo.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_106" Guid="5f895b5d-17df-9f95-a898-141960e63afa">
+        <File Id="File_106" Source="publish\System.IO.FileSystem.Primitives.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_107" Guid="92462581-971c-a093-5ba4-0a737a0e2117">
+        <File Id="File_107" Source="publish\System.IO.FileSystem.Watcher.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_108" Guid="c9953d4d-337a-e4aa-5025-ffed7404ddac">
+        <File Id="File_108" Source="publish\System.IO.FileSystem.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_109" Guid="80789b9d-da6f-5b62-00fa-85d4da977d44">
+        <File Id="File_109" Source="publish\System.IO.IsolatedStorage.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_110" Guid="42937536-42b5-45d7-8ffa-010b54d562ca">
+        <File Id="File_110" Source="publish\System.IO.MemoryMappedFiles.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_111" Guid="47df02ec-b510-d44c-56a0-8acf53c250fc">
+        <File Id="File_111" Source="publish\System.IO.Packaging.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_112" Guid="20998dc2-18bd-1f7c-6264-11ea9373f9f4">
+        <File Id="File_112" Source="publish\System.IO.Pipelines.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_113" Guid="b6de5536-037f-8b9e-af10-7cf317a75feb">
+        <File Id="File_113" Source="publish\System.IO.Pipes.AccessControl.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_114" Guid="f4d0a904-1b1f-42d1-14cc-f630f248b60b">
+        <File Id="File_114" Source="publish\System.IO.Pipes.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_115" Guid="41fd69a0-6eec-37f7-bd25-a8547e5df9c1">
+        <File Id="File_115" Source="publish\System.IO.UnmanagedMemoryStream.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_116" Guid="06db5174-0047-18cf-1d19-c64d491d7f3e">
+        <File Id="File_116" Source="publish\System.IO.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_117" Guid="a7a636e8-6000-711e-8a0c-b891e8c8624e">
+        <File Id="File_117" Source="publish\System.Linq.Expressions.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_118" Guid="b209aaed-b51d-8b6f-f1fa-24e4d2f38eab">
+        <File Id="File_118" Source="publish\System.Linq.Parallel.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_119" Guid="06fe5fb1-4a2b-5a93-aa19-1e96345df185">
+        <File Id="File_119" Source="publish\System.Linq.Queryable.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_120" Guid="513b78b8-7557-eb2d-49c0-2ebfb6a58eea">
+        <File Id="File_120" Source="publish\System.Linq.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_121" Guid="413b04cc-e334-6b1a-96bf-7f2471d900bf">
+        <File Id="File_121" Source="publish\System.Memory.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_122" Guid="084c98e1-9350-e5fc-f025-3e6009236158">
+        <File Id="File_122" Source="publish\System.Net.Http.Json.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_123" Guid="6674532b-a85e-8703-ab93-16a171e7fb9a">
+        <File Id="File_123" Source="publish\System.Net.Http.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_124" Guid="9a0138d1-fd4e-d2e4-d596-7f18f5bb12ec">
+        <File Id="File_124" Source="publish\System.Net.HttpListener.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_125" Guid="654e0050-988d-5fea-dc3c-8efb7e33db38">
+        <File Id="File_125" Source="publish\System.Net.Mail.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_126" Guid="e676bf22-fee7-e530-ffd8-da52667d05d5">
+        <File Id="File_126" Source="publish\System.Net.NameResolution.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_127" Guid="ed547c15-3996-998d-9ebe-582194f7a694">
+        <File Id="File_127" Source="publish\System.Net.NetworkInformation.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_128" Guid="c33d3b15-3088-9568-eed5-f77c438e415c">
+        <File Id="File_128" Source="publish\System.Net.Ping.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_129" Guid="2bc8e06d-418b-188a-4f06-1260fcdfcfe7">
+        <File Id="File_129" Source="publish\System.Net.Primitives.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_130" Guid="3fa8163c-b7a3-387f-d203-06325b60bc68">
+        <File Id="File_130" Source="publish\System.Net.Quic.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_131" Guid="4c132c80-0acb-8a92-69d5-2554c1f49b91">
+        <File Id="File_131" Source="publish\System.Net.Requests.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_132" Guid="9ec85993-343a-56bd-e0e0-0b719a22289c">
+        <File Id="File_132" Source="publish\System.Net.Security.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_133" Guid="9890fefb-0a86-31a9-278f-58fc40e3282d">
+        <File Id="File_133" Source="publish\System.Net.ServerSentEvents.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_134" Guid="90d2aef7-bf71-c8b6-8799-b9325da58897">
+        <File Id="File_134" Source="publish\System.Net.ServicePoint.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_135" Guid="d8ee744b-e699-1abe-9a46-6772745faeb7">
+        <File Id="File_135" Source="publish\System.Net.Sockets.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_136" Guid="909d122c-05b6-1fbc-ea9d-f4cb67a1a437">
+        <File Id="File_136" Source="publish\System.Net.WebClient.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_137" Guid="682e28f3-c610-1332-f0f9-49cab6c07bb2">
+        <File Id="File_137" Source="publish\System.Net.WebHeaderCollection.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_138" Guid="566e84c1-61d9-26b2-32e8-2080c679b8e7">
+        <File Id="File_138" Source="publish\System.Net.WebProxy.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_139" Guid="39a7e751-2b4f-7c51-69a3-2079bf67e022">
+        <File Id="File_139" Source="publish\System.Net.WebSockets.Client.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_140" Guid="46dfa227-f7ce-bc5e-5fd5-d6dd087a9873">
+        <File Id="File_140" Source="publish\System.Net.WebSockets.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_141" Guid="111ff7e0-ee0b-42c2-9a3c-8f5cdd78b9ba">
+        <File Id="File_141" Source="publish\System.Net.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_142" Guid="df054063-b186-5953-3ebd-7b3991fe4b9d">
+        <File Id="File_142" Source="publish\System.Numerics.Vectors.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_143" Guid="3555dec6-9486-9a85-07eb-562be8a6d5a3">
+        <File Id="File_143" Source="publish\System.Numerics.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_144" Guid="d3d2fa67-6f75-7c66-803a-9865afded6fd">
+        <File Id="File_144" Source="publish\System.ObjectModel.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_145" Guid="4ec4b008-66a1-af0d-0be2-62967e2496dd">
+        <File Id="File_145" Source="publish\System.Printing.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_146" Guid="bccc6f16-657a-b6a6-057b-f7b1df9a3c47">
+        <File Id="File_146" Source="publish\System.Private.CoreLib.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_147" Guid="be2eb9a0-319f-5680-9c12-5a1831199da3">
+        <File Id="File_147" Source="publish\System.Private.DataContractSerialization.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_148" Guid="4bd94145-9467-9846-7c4e-b617490ab970">
+        <File Id="File_148" Source="publish\System.Private.Uri.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_149" Guid="d0b42c74-1264-e9ed-5183-82efa08ecb04">
+        <File Id="File_149" Source="publish\System.Private.Xml.Linq.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_150" Guid="7605ab18-1694-90ae-0c84-0fdbce003e23">
+        <File Id="File_150" Source="publish\System.Private.Xml.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_151" Guid="73b1e3db-df20-5846-c249-fa3f785d115e">
+        <File Id="File_151" Source="publish\System.Reflection.DispatchProxy.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_152" Guid="7ce761c0-e545-7fa7-58f1-4a79331b1f0d">
+        <File Id="File_152" Source="publish\System.Reflection.Emit.ILGeneration.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_153" Guid="ea84a17c-0555-193e-aeab-acf5ca25f137">
+        <File Id="File_153" Source="publish\System.Reflection.Emit.Lightweight.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_154" Guid="1a4ac658-49c6-0c31-ef04-f1e6022232cb">
+        <File Id="File_154" Source="publish\System.Reflection.Emit.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_155" Guid="098c4242-0e5d-60b1-3720-46914123888d">
+        <File Id="File_155" Source="publish\System.Reflection.Extensions.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_156" Guid="4973ee48-1bf6-b93d-e4a7-812be2f6bda0">
+        <File Id="File_156" Source="publish\System.Reflection.Metadata.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_157" Guid="a3fae730-e551-7506-d831-67a1bda1a3f5">
+        <File Id="File_157" Source="publish\System.Reflection.Primitives.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_158" Guid="003c3549-1957-f306-912f-d5edfd40cae4">
+        <File Id="File_158" Source="publish\System.Reflection.TypeExtensions.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_159" Guid="60c7dfe1-3962-4125-0f42-8b25e603a3ed">
+        <File Id="File_159" Source="publish\System.Reflection.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_160" Guid="376e36b2-60ff-8b0f-e2a8-9c2a2648b641">
+        <File Id="File_160" Source="publish\System.Resources.Extensions.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_161" Guid="c9df54af-2bd7-ce29-466c-764b5f9aee90">
+        <File Id="File_161" Source="publish\System.Resources.Reader.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_162" Guid="dd5cf897-2d02-eb1f-5c3d-ad04ad7c25eb">
+        <File Id="File_162" Source="publish\System.Resources.ResourceManager.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_163" Guid="6d31fdf6-e993-d8c9-ac63-8d86b9fee994">
+        <File Id="File_163" Source="publish\System.Resources.Writer.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_164" Guid="b372f953-374c-92e5-1b77-e43de3a20a36">
+        <File Id="File_164" Source="publish\System.Runtime.CompilerServices.Unsafe.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_165" Guid="caf2b39a-d85f-b499-a529-c79f9cf5ae49">
+        <File Id="File_165" Source="publish\System.Runtime.CompilerServices.VisualC.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_166" Guid="945dfca9-fce8-00b3-6448-dfb9c0ec0921">
+        <File Id="File_166" Source="publish\System.Runtime.Extensions.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_167" Guid="15949052-2f56-8532-a6ca-a53d790a878f">
+        <File Id="File_167" Source="publish\System.Runtime.Handles.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_168" Guid="954a714b-20ee-7936-7adf-44a72ed87127">
+        <File Id="File_168" Source="publish\System.Runtime.InteropServices.JavaScript.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_169" Guid="463c6599-a3b5-aadf-4570-eb95d86310b8">
+        <File Id="File_169" Source="publish\System.Runtime.InteropServices.RuntimeInformation.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_170" Guid="a779180c-f88b-9c56-e02d-32deef63b764">
+        <File Id="File_170" Source="publish\System.Runtime.InteropServices.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_171" Guid="3f7e8b28-41ba-d6aa-231a-ada34cb85a58">
+        <File Id="File_171" Source="publish\System.Runtime.Intrinsics.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_172" Guid="26dda1f5-1800-6c24-edde-11808faf3814">
+        <File Id="File_172" Source="publish\System.Runtime.Loader.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_173" Guid="d271976e-f698-384f-8d4a-8092195d5349">
+        <File Id="File_173" Source="publish\System.Runtime.Numerics.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_174" Guid="57bad482-5067-b201-a2a1-fafa17102728">
+        <File Id="File_174" Source="publish\System.Runtime.Serialization.Formatters.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_175" Guid="eae85b22-0714-4976-4e30-e700ebf72734">
+        <File Id="File_175" Source="publish\System.Runtime.Serialization.Json.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_176" Guid="2ea423d6-4605-cbfc-e7f5-fb876a866e25">
+        <File Id="File_176" Source="publish\System.Runtime.Serialization.Primitives.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_177" Guid="5c812a0d-55c5-7295-22cc-1483887b9a4a">
+        <File Id="File_177" Source="publish\System.Runtime.Serialization.Xml.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_178" Guid="b3750820-2c42-d7c6-7a1c-c0fddf10ee7d">
+        <File Id="File_178" Source="publish\System.Runtime.Serialization.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_179" Guid="cfbb2b5c-a90c-e5d2-75f6-544f0e522858">
+        <File Id="File_179" Source="publish\System.Runtime.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_180" Guid="3d2db02b-6985-90e5-3285-5e6c0555f14d">
+        <File Id="File_180" Source="publish\System.Security.AccessControl.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_181" Guid="891808ae-e45d-a692-0b4c-0991ce87e272">
+        <File Id="File_181" Source="publish\System.Security.Claims.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_182" Guid="db9e7bc3-7e6d-3b86-482a-d3a791ca75c1">
+        <File Id="File_182" Source="publish\System.Security.Cryptography.Algorithms.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_183" Guid="2d17d42f-fb7a-02ff-3aa2-63d54188ebd8">
+        <File Id="File_183" Source="publish\System.Security.Cryptography.Cng.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_184" Guid="69dbe10b-2857-c317-3291-cb91c1ed4470">
+        <File Id="File_184" Source="publish\System.Security.Cryptography.Csp.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_185" Guid="52138cc9-3da6-1e06-fa05-caa7e7ad23e7">
+        <File Id="File_185" Source="publish\System.Security.Cryptography.Encoding.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_186" Guid="45adf146-bcdd-3079-d740-4ef40fbe9b79">
+        <File Id="File_186" Source="publish\System.Security.Cryptography.OpenSsl.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_187" Guid="14a4686c-c6d9-d34d-7f21-8a7fa5eddb50">
+        <File Id="File_187" Source="publish\System.Security.Cryptography.Pkcs.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_188" Guid="a39de482-74fb-afd3-8a80-2938ab83fa8f">
+        <File Id="File_188" Source="publish\System.Security.Cryptography.Primitives.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_189" Guid="10791547-ded4-e65b-0b92-c411c5dc49b1">
+        <File Id="File_189" Source="publish\System.Security.Cryptography.ProtectedData.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_190" Guid="839a39c6-3785-ea2b-c3e7-b0856aaf5a15">
+        <File Id="File_190" Source="publish\System.Security.Cryptography.X509Certificates.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_191" Guid="1b003e83-0efd-26cc-83ee-a2942695364c">
+        <File Id="File_191" Source="publish\System.Security.Cryptography.Xml.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_192" Guid="edb23e56-2a33-acd7-621a-65d418df56d1">
+        <File Id="File_192" Source="publish\System.Security.Cryptography.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_193" Guid="15b1c2ed-0c49-2615-2e2e-2b4e04216d0d">
+        <File Id="File_193" Source="publish\System.Security.Permissions.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_194" Guid="459e4d64-7c30-6030-8e66-df3174ef049f">
+        <File Id="File_194" Source="publish\System.Security.Principal.Windows.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_195" Guid="0d88121e-45bf-22f6-1cca-363b73b13472">
+        <File Id="File_195" Source="publish\System.Security.Principal.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_196" Guid="ef93ae26-1b7b-9a5f-d0cc-42ed2490cbf1">
+        <File Id="File_196" Source="publish\System.Security.SecureString.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_197" Guid="e6a266e2-83f9-908d-72dd-573e3ddf65ec">
+        <File Id="File_197" Source="publish\System.Security.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_198" Guid="0a1a4081-36cd-9cf5-2b62-8bc7dd721a1f">
+        <File Id="File_198" Source="publish\System.ServiceModel.Web.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_199" Guid="b09b7e90-de39-d073-f92c-6fe4a8ebb200">
+        <File Id="File_199" Source="publish\System.ServiceProcess.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_200" Guid="8f909cda-6715-5ec1-b7e2-feb9c48721a4">
+        <File Id="File_200" Source="publish\System.Text.Encoding.CodePages.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_201" Guid="0c6d6e1d-9939-2ac3-4c87-9f409cf1cfe5">
+        <File Id="File_201" Source="publish\System.Text.Encoding.Extensions.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_202" Guid="da8ea9b6-03ad-7703-0638-ae18d852f153">
+        <File Id="File_202" Source="publish\System.Text.Encoding.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_203" Guid="61b7ea9b-39b6-3446-8888-6681a2c681bb">
+        <File Id="File_203" Source="publish\System.Text.Encodings.Web.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_204" Guid="11a43862-cf16-b40a-b99a-974f68fe19f0">
+        <File Id="File_204" Source="publish\System.Text.Json.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_205" Guid="2fac2db4-8f34-3115-5838-129909c4e5d2">
+        <File Id="File_205" Source="publish\System.Text.RegularExpressions.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_206" Guid="5bfe1bec-62c6-27d8-daf3-836da57d4216">
+        <File Id="File_206" Source="publish\System.Threading.AccessControl.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_207" Guid="b1af0061-d7ac-1137-c625-b020c9852f1d">
+        <File Id="File_207" Source="publish\System.Threading.Channels.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_208" Guid="cbdba98a-9c26-d709-16a9-3f487b998d53">
+        <File Id="File_208" Source="publish\System.Threading.Overlapped.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_209" Guid="5653ed47-612d-4058-a36e-78c3a3200508">
+        <File Id="File_209" Source="publish\System.Threading.Tasks.Dataflow.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_210" Guid="b475ac49-a11c-f7b7-de3b-992260a37639">
+        <File Id="File_210" Source="publish\System.Threading.Tasks.Extensions.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_211" Guid="be348d32-2a85-ef33-1509-b56b3f85cb12">
+        <File Id="File_211" Source="publish\System.Threading.Tasks.Parallel.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_212" Guid="a01a12b0-0aca-d8aa-8a87-9519c32d01e7">
+        <File Id="File_212" Source="publish\System.Threading.Tasks.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_213" Guid="8b79780c-8148-7570-d033-f07a2db2d011">
+        <File Id="File_213" Source="publish\System.Threading.Thread.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_214" Guid="40185a2d-62b3-33a2-fbc3-2370603ed197">
+        <File Id="File_214" Source="publish\System.Threading.ThreadPool.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_215" Guid="027dd507-b783-f822-72f8-e1b21203d4a7">
+        <File Id="File_215" Source="publish\System.Threading.Timer.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_216" Guid="39da6487-ca54-e294-57e1-c495a496c702">
+        <File Id="File_216" Source="publish\System.Threading.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_217" Guid="0a8352d7-5752-35a4-0ec2-f55cc394d119">
+        <File Id="File_217" Source="publish\System.Transactions.Local.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_218" Guid="687d8940-b737-af26-c243-d0b4264836ca">
+        <File Id="File_218" Source="publish\System.Transactions.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_219" Guid="ba09fbbd-6712-a312-3dba-c03bca9dee7d">
+        <File Id="File_219" Source="publish\System.ValueTuple.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_220" Guid="8a730cd7-084d-c5d9-81c1-e2f62cc4491b">
+        <File Id="File_220" Source="publish\System.Web.HttpUtility.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_221" Guid="aa222a73-716c-970d-1799-689235df81d4">
+        <File Id="File_221" Source="publish\System.Web.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_222" Guid="d167f438-b01c-6a03-4018-96371b8c40d5">
+        <File Id="File_222" Source="publish\System.Windows.Controls.Ribbon.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_223" Guid="5113ae9c-e93a-3bc7-cbab-14788b2c595a">
+        <File Id="File_223" Source="publish\System.Windows.Extensions.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_224" Guid="12ddf98c-7778-69fe-4166-f641dc62b2ca">
+        <File Id="File_224" Source="publish\System.Windows.Forms.Design.Editors.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_225" Guid="30aa5289-c32c-4f5b-5af5-e80eba238720">
+        <File Id="File_225" Source="publish\System.Windows.Forms.Design.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_226" Guid="5ad5ee24-4c26-a2d3-0a79-068481e04b6e">
+        <File Id="File_226" Source="publish\System.Windows.Forms.Primitives.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_227" Guid="8bd4a031-2b1d-fe61-1808-5a41dbc0587d">
+        <File Id="File_227" Source="publish\System.Windows.Forms.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_228" Guid="08a5d81c-c314-cfc1-6b79-8da7120c7158">
+        <File Id="File_228" Source="publish\System.Windows.Input.Manipulations.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_229" Guid="1b64b36a-d9b6-d88e-d898-4b83753df8a9">
+        <File Id="File_229" Source="publish\System.Windows.Presentation.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_230" Guid="2b2b30a4-a6f0-e367-466a-92ae634f18ce">
+        <File Id="File_230" Source="publish\System.Windows.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_231" Guid="3835c7c4-e54b-846d-3760-69a46cb762a9">
+        <File Id="File_231" Source="publish\System.Xaml.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_232" Guid="af810015-97d3-e577-8d39-f40e3b9a39c4">
+        <File Id="File_232" Source="publish\System.Xml.Linq.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_233" Guid="3e4e187f-c72f-8677-6adc-14ec2f5157c7">
+        <File Id="File_233" Source="publish\System.Xml.ReaderWriter.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_234" Guid="e5256e4c-f22a-4b27-a65c-6675750c4c68">
+        <File Id="File_234" Source="publish\System.Xml.Serialization.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_235" Guid="61ef49c2-e938-27d0-acdb-556bdd4e3e40">
+        <File Id="File_235" Source="publish\System.Xml.XDocument.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_236" Guid="776f9fbe-06e0-69a1-dacf-e86fcbf94320">
+        <File Id="File_236" Source="publish\System.Xml.XPath.XDocument.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_237" Guid="720ec1ef-1059-0aba-7e7b-dacad36245f2">
+        <File Id="File_237" Source="publish\System.Xml.XPath.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_238" Guid="496b7aff-2337-07f3-4bf0-390bc47d88d9">
+        <File Id="File_238" Source="publish\System.Xml.XmlDocument.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_239" Guid="b20055c4-6e23-a2f0-0aa3-46e46285cd16">
+        <File Id="File_239" Source="publish\System.Xml.XmlSerializer.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_240" Guid="63946fb7-f413-eb06-51cd-78e9cff89fd9">
+        <File Id="File_240" Source="publish\System.Xml.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_241" Guid="a674ffdf-2929-b467-7f3c-47386f6b76bb">
+        <File Id="File_241" Source="publish\System.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_242" Guid="8fde6c47-c522-0772-2330-631e26e21169">
+        <File Id="File_242" Source="publish\UIAutomationClient.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_243" Guid="3f97dd13-6b6d-e029-8d2d-899beb8fdec8">
+        <File Id="File_243" Source="publish\UIAutomationClientSideProviders.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_244" Guid="cb5d061e-a83a-248e-b848-1f45e9836ee7">
+        <File Id="File_244" Source="publish\UIAutomationProvider.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_245" Guid="e8d79e79-63fe-0fa3-a6d0-01fc50ca6da6">
+        <File Id="File_245" Source="publish\UIAutomationTypes.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_246" Guid="27ef1f45-4489-0bb2-146f-a63f02c5442a">
+        <File Id="File_246" Source="publish\WindowsBase.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_247" Guid="938038c0-df4d-558d-ed13-e460baa786bf">
+        <File Id="File_247" Source="publish\WindowsFormsIntegration.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_248" Guid="f2fe7545-be5c-344a-a735-8601b1a70e15">
+        <File Id="File_248" Source="publish\appsettings.json" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_249" Guid="0e761262-782b-04e2-434e-af9687e1bf2f">
+        <File Id="File_249" Source="publish\clretwrc.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_250" Guid="5f6e0aa0-c49c-803e-22c5-9a7c9bf4b4af">
+        <File Id="File_250" Source="publish\clrgc.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_251" Guid="fd82f850-d53d-0bd5-df70-9f56f2070063">
+        <File Id="File_251" Source="publish\clrjit.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_252" Guid="e1d86768-8e02-911a-56a0-ebbdd033ff03">
+        <File Id="File_252" Source="publish\coreclr.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_253" Guid="058b99c3-d9f6-ae38-1269-ecde2663b6de">
+        <File Id="File_253" Source="publish\createdump.exe" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_254" Guid="9f4ff3ea-7fd5-54f1-5a19-7414dc7f04e8">
+        <File Id="File_254" Source="publish\drinkOrderSystem.deps.json" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_255" Guid="8348f849-e083-7974-1192-4e92de48d8a1">
+        <File Id="File_255" Source="publish\drinkOrderSystem.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_256" Guid="99fc7fc8-1e09-8798-b7e3-a47a847ac400">
+        <File Id="File_256" Source="publish\drinkOrderSystem.exe" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_257" Guid="4a582d8b-bb37-c487-d8f4-e6f5ecd1d2d7">
+        <File Id="File_257" Source="publish\drinkOrderSystem.pdb" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_258" Guid="c294dae5-2647-fea3-4b26-cfa7afcfa955">
+        <File Id="File_258" Source="publish\drinkOrderSystem.runtimeconfig.json" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_259" Guid="b35fd665-e55c-ab79-0412-9bae4db9105e">
+        <File Id="File_259" Source="publish\hostfxr.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_260" Guid="74db664c-0cec-9ccf-15f5-5548babcadb1">
+        <File Id="File_260" Source="publish\hostpolicy.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_261" Guid="275b3e66-b129-a627-d786-b3ffe45680fd">
+        <File Id="File_261" Source="publish\mscordaccore.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_262" Guid="5d1d543f-1488-766a-8b52-24e0bb46ed39">
+        <File Id="File_262" Source="publish\mscordaccore_amd64_amd64_8.0.2726.22922.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_263" Guid="940936ad-78a8-025d-4c59-659e8a266dcd">
+        <File Id="File_263" Source="publish\mscordbi.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_264" Guid="74601154-41eb-15e8-f4d4-a43f22d40ea0">
+        <File Id="File_264" Source="publish\mscorlib.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_265" Guid="7aefa2e3-aee8-5cc5-652b-5a75720edf82">
+        <File Id="File_265" Source="publish\mscorrc.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_266" Guid="0876328c-5bbb-ef57-f0c3-cf874f718952">
+        <File Id="File_266" Source="publish\msquic.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_267" Guid="8c10cfd1-2d73-0ab4-735b-a9012f623757">
+        <File Id="File_267" Source="publish\netstandard.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_268" Guid="891ba3a7-3051-3a19-89e4-c9369be8de2e">
+        <File Id="File_268" Source="publish\shared.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_269" Guid="8ae2d36b-f838-f547-962c-8fbd53c06342">
+        <File Id="File_269" Source="publish\shared.pdb" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_270" Guid="d2b36a3e-4766-55dc-7c6c-8fca3cff3b53">
+        <File Id="File_270" Source="publish\vcruntime140_cor3.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_271" Guid="fb9368a8-3344-c540-27b5-b03375cfb063">
+        <File Id="File_271" Source="publish\wpfgfx_cor3.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_272" Guid="61764bc1-ae89-bdf9-7144-f809f3a2acf3">
+        <File Id="File_272" Source="publish\cs\Microsoft.VisualBasic.Forms.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_273" Guid="1ab0c8f6-07b3-b9d1-1cd2-e3362501c98a">
+        <File Id="File_273" Source="publish\cs\PresentationCore.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_274" Guid="9a2e9f63-3179-32b0-4faa-edfdd8434a8f">
+        <File Id="File_274" Source="publish\cs\PresentationFramework.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_275" Guid="c8e7ce96-4754-91e8-ef46-0e0fe7be993e">
+        <File Id="File_275" Source="publish\cs\PresentationUI.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_276" Guid="63d1ed30-aede-6b65-a504-6d90dd341e03">
+        <File Id="File_276" Source="publish\cs\ReachFramework.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_277" Guid="c3ca4a0b-1260-5c19-c31b-3fa6995f42d5">
+        <File Id="File_277" Source="publish\cs\System.Windows.Controls.Ribbon.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_278" Guid="f7c52e4d-343a-04fd-fd2c-7d9e46bb1168">
+        <File Id="File_278" Source="publish\cs\System.Windows.Forms.Design.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_279" Guid="bc85f831-cc89-5f11-d314-7b4f4ca18da4">
+        <File Id="File_279" Source="publish\cs\System.Windows.Forms.Primitives.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_280" Guid="3a0ca1ae-3632-1800-fff5-e11eb13d6d63">
+        <File Id="File_280" Source="publish\cs\System.Windows.Forms.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_281" Guid="d8c0ebf5-5d7e-cb01-6b06-c7cd59d72999">
+        <File Id="File_281" Source="publish\cs\System.Windows.Input.Manipulations.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_282" Guid="8bd44521-2335-dc9f-d23d-cb23d5a1c0ef">
+        <File Id="File_282" Source="publish\cs\System.Xaml.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_283" Guid="8e867067-e547-9e2a-d875-cbb06d3a34cc">
+        <File Id="File_283" Source="publish\cs\UIAutomationClient.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_284" Guid="a48645a4-d0bc-8ab8-728b-9c6606130698">
+        <File Id="File_284" Source="publish\cs\UIAutomationClientSideProviders.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_285" Guid="a5c151f0-1831-fb19-211f-a8a692fe1ecc">
+        <File Id="File_285" Source="publish\cs\UIAutomationProvider.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_286" Guid="b7004c24-c376-3717-9014-f262947a0b37">
+        <File Id="File_286" Source="publish\cs\UIAutomationTypes.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_287" Guid="17ef6535-2916-4ab4-4ba7-aabae475cc88">
+        <File Id="File_287" Source="publish\cs\WindowsBase.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_288" Guid="38521d34-bd86-dbde-39b3-1af7eaad8f41">
+        <File Id="File_288" Source="publish\cs\WindowsFormsIntegration.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_289" Guid="49e79674-0fef-33f3-9456-408ef62ba253">
+        <File Id="File_289" Source="publish\de\Microsoft.VisualBasic.Forms.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_290" Guid="d09d02a3-eaa4-544d-fa7b-b5395aaf4b42">
+        <File Id="File_290" Source="publish\de\PresentationCore.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_291" Guid="f8d30915-0a64-d4cf-79c3-26e2af09e935">
+        <File Id="File_291" Source="publish\de\PresentationFramework.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_292" Guid="5ec9c5f1-98e9-b9ba-c3a0-0a939729fc11">
+        <File Id="File_292" Source="publish\de\PresentationUI.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_293" Guid="9027205e-64f3-050e-0100-e0e969723b83">
+        <File Id="File_293" Source="publish\de\ReachFramework.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_294" Guid="28f88a99-1953-317d-4c48-be4dd3de0360">
+        <File Id="File_294" Source="publish\de\System.Windows.Controls.Ribbon.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_295" Guid="92161cad-2883-e20c-e110-c9e655276c4d">
+        <File Id="File_295" Source="publish\de\System.Windows.Forms.Design.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_296" Guid="25f1fc95-2693-50fe-ab21-7060949bf74a">
+        <File Id="File_296" Source="publish\de\System.Windows.Forms.Primitives.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_297" Guid="b02f9154-a4e5-ba9e-7d11-5bf1f0c0d24c">
+        <File Id="File_297" Source="publish\de\System.Windows.Forms.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_298" Guid="5be9b5ef-c880-d471-8daf-ce002c0b1b18">
+        <File Id="File_298" Source="publish\de\System.Windows.Input.Manipulations.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_299" Guid="1d1e5765-4beb-d3cb-9eea-acfaff885b02">
+        <File Id="File_299" Source="publish\de\System.Xaml.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_300" Guid="6be1c610-1244-ee4b-0fc1-88c1c9d30603">
+        <File Id="File_300" Source="publish\de\UIAutomationClient.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_301" Guid="0ecd53ad-9640-c83d-3177-d45ec3e47886">
+        <File Id="File_301" Source="publish\de\UIAutomationClientSideProviders.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_302" Guid="d26a4f6a-e5ec-ead6-8d81-956de7c3cfb5">
+        <File Id="File_302" Source="publish\de\UIAutomationProvider.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_303" Guid="0fed15ab-dc01-6cc1-08e5-219e20707add">
+        <File Id="File_303" Source="publish\de\UIAutomationTypes.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_304" Guid="b3c1b058-526d-7653-ce8f-dfd610330cfd">
+        <File Id="File_304" Source="publish\de\WindowsBase.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_305" Guid="26f38097-670e-80b5-65ef-a434380d4e84">
+        <File Id="File_305" Source="publish\de\WindowsFormsIntegration.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_306" Guid="71d17232-3c4d-20ef-5ac2-68ac7ae3d3e3">
+        <File Id="File_306" Source="publish\es\Microsoft.VisualBasic.Forms.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_307" Guid="215359d7-1adc-0f19-a5ef-d8f81fc984f8">
+        <File Id="File_307" Source="publish\es\PresentationCore.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_308" Guid="9a18af61-4301-6504-36d7-35ca3069f44f">
+        <File Id="File_308" Source="publish\es\PresentationFramework.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_309" Guid="039281aa-1941-e5fc-6241-9a2f6920e8f7">
+        <File Id="File_309" Source="publish\es\PresentationUI.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_310" Guid="94324457-f268-b66b-f671-d6c6a74317ca">
+        <File Id="File_310" Source="publish\es\ReachFramework.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_311" Guid="347af894-ac88-9b87-2331-0e5dce110427">
+        <File Id="File_311" Source="publish\es\System.Windows.Controls.Ribbon.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_312" Guid="ade8fca8-5d0b-5a46-cb95-423bf7786dde">
+        <File Id="File_312" Source="publish\es\System.Windows.Forms.Design.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_313" Guid="cd2e0159-9dad-ce5d-06f9-78bb7aacedcb">
+        <File Id="File_313" Source="publish\es\System.Windows.Forms.Primitives.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_314" Guid="e9611396-d7b4-ec55-668f-bc6618f281e8">
+        <File Id="File_314" Source="publish\es\System.Windows.Forms.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_315" Guid="51f29b2e-e4e2-a4d9-0d8b-4e3234ddeeed">
+        <File Id="File_315" Source="publish\es\System.Windows.Input.Manipulations.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_316" Guid="7553f399-1290-b951-f8d0-63516e408de5">
+        <File Id="File_316" Source="publish\es\System.Xaml.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_317" Guid="525b5c99-ed92-ee5c-5a5d-6a49fcfb4f78">
+        <File Id="File_317" Source="publish\es\UIAutomationClient.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_318" Guid="c2615b07-2bea-2069-7fd5-e9faee879f28">
+        <File Id="File_318" Source="publish\es\UIAutomationClientSideProviders.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_319" Guid="26367a6e-5d9b-d457-4f2d-204f17e22092">
+        <File Id="File_319" Source="publish\es\UIAutomationProvider.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_320" Guid="6fff911e-4013-77df-71c6-036b61da4090">
+        <File Id="File_320" Source="publish\es\UIAutomationTypes.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_321" Guid="0560d27a-1132-88e3-0eed-68b817833f7e">
+        <File Id="File_321" Source="publish\es\WindowsBase.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_322" Guid="0fef5468-af19-4405-da07-c2108fe77380">
+        <File Id="File_322" Source="publish\es\WindowsFormsIntegration.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_323" Guid="ade1f970-09c9-711a-b623-75316cab3c50">
+        <File Id="File_323" Source="publish\fr\Microsoft.VisualBasic.Forms.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_324" Guid="107e9998-702f-0f90-1295-cf238e6e04a3">
+        <File Id="File_324" Source="publish\fr\PresentationCore.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_325" Guid="5e1571ae-ecca-2fa8-0898-d4a78b3e2610">
+        <File Id="File_325" Source="publish\fr\PresentationFramework.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_326" Guid="d0625016-e4b7-195f-85da-a1bf99a76576">
+        <File Id="File_326" Source="publish\fr\PresentationUI.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_327" Guid="c0237074-c18f-db7c-5c6b-e63b00942a44">
+        <File Id="File_327" Source="publish\fr\ReachFramework.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_328" Guid="4097411d-9017-8019-605e-a1ceb40dacb5">
+        <File Id="File_328" Source="publish\fr\System.Windows.Controls.Ribbon.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_329" Guid="5c95902a-ffd4-2269-e372-2b0055d8865a">
+        <File Id="File_329" Source="publish\fr\System.Windows.Forms.Design.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_330" Guid="76240c0d-ec2a-4fac-d8fc-efb5b8bc4989">
+        <File Id="File_330" Source="publish\fr\System.Windows.Forms.Primitives.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_331" Guid="efaa38cf-e657-cfa7-a208-211b16ed2f40">
+        <File Id="File_331" Source="publish\fr\System.Windows.Forms.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_332" Guid="8ef38a29-b594-7f60-7a70-3b645f466443">
+        <File Id="File_332" Source="publish\fr\System.Windows.Input.Manipulations.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_333" Guid="c36e6ae0-070e-da9e-c404-4b904b93b72d">
+        <File Id="File_333" Source="publish\fr\System.Xaml.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_334" Guid="6718cf1b-a986-e634-1760-f0061f4a676b">
+        <File Id="File_334" Source="publish\fr\UIAutomationClient.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_335" Guid="6e807b6b-2c52-3a80-35fe-b7fd8a7672a7">
+        <File Id="File_335" Source="publish\fr\UIAutomationClientSideProviders.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_336" Guid="7491b1c4-898c-9901-d667-0e6a09e7e392">
+        <File Id="File_336" Source="publish\fr\UIAutomationProvider.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_337" Guid="21b04280-b95e-11e6-7e10-c0efe8ec4e8a">
+        <File Id="File_337" Source="publish\fr\UIAutomationTypes.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_338" Guid="0c301895-be47-5d4b-292c-001c1da2ecc2">
+        <File Id="File_338" Source="publish\fr\WindowsBase.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_339" Guid="5314f740-b7c4-3e56-89ed-abca3dbc301c">
+        <File Id="File_339" Source="publish\fr\WindowsFormsIntegration.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_340" Guid="067337b3-8d6d-2b58-a78e-d12e76673c09">
+        <File Id="File_340" Source="publish\it\Microsoft.VisualBasic.Forms.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_341" Guid="0b6715b0-ef8b-176a-c17e-a21ad0bdba5a">
+        <File Id="File_341" Source="publish\it\PresentationCore.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_342" Guid="9cbb1ecf-297e-c113-19c7-91dedb1cdc51">
+        <File Id="File_342" Source="publish\it\PresentationFramework.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_343" Guid="d2282879-fba5-cf48-99c6-a6b2e6eeb1cc">
+        <File Id="File_343" Source="publish\it\PresentationUI.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_344" Guid="3801d308-a4c5-2aa4-cf6a-b062ba450b91">
+        <File Id="File_344" Source="publish\it\ReachFramework.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_345" Guid="9c460652-c31a-2ed3-2e44-ba8a561980fb">
+        <File Id="File_345" Source="publish\it\System.Windows.Controls.Ribbon.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_346" Guid="c5606de1-cd1d-457f-ba64-73a79eb94e12">
+        <File Id="File_346" Source="publish\it\System.Windows.Forms.Design.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_347" Guid="65253a5b-e304-8a82-1ca9-be9ecce4a854">
+        <File Id="File_347" Source="publish\it\System.Windows.Forms.Primitives.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_348" Guid="0fcd3b3d-daeb-dc8c-05fe-d9b625db7b55">
+        <File Id="File_348" Source="publish\it\System.Windows.Forms.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_349" Guid="c988ba9a-ef52-f2a7-0ace-7db214875541">
+        <File Id="File_349" Source="publish\it\System.Windows.Input.Manipulations.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_350" Guid="dc1a35da-095b-912d-7fea-0192413ac793">
+        <File Id="File_350" Source="publish\it\System.Xaml.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_351" Guid="4d8cb570-5b1f-548b-5f8b-be843c0ef84f">
+        <File Id="File_351" Source="publish\it\UIAutomationClient.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_352" Guid="e3fb6ba9-189d-1c7b-48fd-1a7b1b8296dd">
+        <File Id="File_352" Source="publish\it\UIAutomationClientSideProviders.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_353" Guid="ff56a3ce-e920-37d2-a2d0-ccf06e6964ba">
+        <File Id="File_353" Source="publish\it\UIAutomationProvider.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_354" Guid="cc5eb7fc-b88a-6d9e-a4ac-8d48b3ca3d42">
+        <File Id="File_354" Source="publish\it\UIAutomationTypes.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_355" Guid="7a702077-3684-7e15-a737-58d0c67f4167">
+        <File Id="File_355" Source="publish\it\WindowsBase.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_356" Guid="91b9de2a-496b-8284-ba42-8b55dddf6239">
+        <File Id="File_356" Source="publish\it\WindowsFormsIntegration.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_357" Guid="9e63e3ba-b5f4-40e8-6662-9967aba5a9b2">
+        <File Id="File_357" Source="publish\ja\Microsoft.VisualBasic.Forms.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_358" Guid="b57d4a86-cb3b-bb0e-111f-c9651b1d93ab">
+        <File Id="File_358" Source="publish\ja\PresentationCore.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_359" Guid="4a4da610-5b5d-0e67-5e22-70ce30af17ce">
+        <File Id="File_359" Source="publish\ja\PresentationFramework.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_360" Guid="2d729945-b85e-0626-8c0b-1b253171b7c6">
+        <File Id="File_360" Source="publish\ja\PresentationUI.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_361" Guid="7f2386fe-0f26-b040-6699-13b005602eb7">
+        <File Id="File_361" Source="publish\ja\ReachFramework.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_362" Guid="412b9f2f-f5cb-0e57-706a-dd30bec8aa5e">
+        <File Id="File_362" Source="publish\ja\System.Windows.Controls.Ribbon.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_363" Guid="bb6fb213-efac-d01d-6cef-aee694617825">
+        <File Id="File_363" Source="publish\ja\System.Windows.Forms.Design.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_364" Guid="672ab2a4-9c8d-e531-f12c-376192c6da6e">
+        <File Id="File_364" Source="publish\ja\System.Windows.Forms.Primitives.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_365" Guid="9ba6f301-3f87-e3f0-a299-5c93088e4bf6">
+        <File Id="File_365" Source="publish\ja\System.Windows.Forms.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_366" Guid="45e18fef-e4f4-2ca5-bd33-00a814278c36">
+        <File Id="File_366" Source="publish\ja\System.Windows.Input.Manipulations.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_367" Guid="e8ea38cb-9d51-5bf4-0f49-355c347f4267">
+        <File Id="File_367" Source="publish\ja\System.Xaml.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_368" Guid="ea773a69-525a-a03f-8cc1-24adacd9d98d">
+        <File Id="File_368" Source="publish\ja\UIAutomationClient.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_369" Guid="40e6a1c5-0a7e-051a-94b4-51a4e63edcdb">
+        <File Id="File_369" Source="publish\ja\UIAutomationClientSideProviders.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_370" Guid="d3219bd8-1dce-65c9-4752-5ce5586284a4">
+        <File Id="File_370" Source="publish\ja\UIAutomationProvider.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_371" Guid="ef93db69-5e1d-edb1-48e3-263eb5273b3f">
+        <File Id="File_371" Source="publish\ja\UIAutomationTypes.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_372" Guid="d685f36f-3b51-174e-3655-ce5abc5dca5a">
+        <File Id="File_372" Source="publish\ja\WindowsBase.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_373" Guid="0a0cc0f4-c48b-057b-1566-47d16c019bc3">
+        <File Id="File_373" Source="publish\ja\WindowsFormsIntegration.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_374" Guid="90d36cb6-5fdb-fe0b-b3cc-fdb0e99382e4">
+        <File Id="File_374" Source="publish\ko\Microsoft.VisualBasic.Forms.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_375" Guid="fb97cbfe-a5ae-a929-49ad-178cc3184d30">
+        <File Id="File_375" Source="publish\ko\PresentationCore.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_376" Guid="c6d11467-37c3-c416-ed82-b73e48ed42af">
+        <File Id="File_376" Source="publish\ko\PresentationFramework.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_377" Guid="5266a53b-58ca-7d25-6d38-7378ebcd770a">
+        <File Id="File_377" Source="publish\ko\PresentationUI.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_378" Guid="14c9a6f6-5e9e-586d-15b4-d2e821249852">
+        <File Id="File_378" Source="publish\ko\ReachFramework.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_379" Guid="56fed78c-72c6-ee66-0381-fe3cb537ebd8">
+        <File Id="File_379" Source="publish\ko\System.Windows.Controls.Ribbon.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_380" Guid="58ab3fbb-73c2-11b1-a1aa-832ca1da8ebb">
+        <File Id="File_380" Source="publish\ko\System.Windows.Forms.Design.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_381" Guid="50d0f07c-626b-9a62-6a92-d236fbf4b99e">
+        <File Id="File_381" Source="publish\ko\System.Windows.Forms.Primitives.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_382" Guid="cdd8daeb-fed0-d12d-82f3-87c70a3928c9">
+        <File Id="File_382" Source="publish\ko\System.Windows.Forms.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_383" Guid="e2bd543e-7b87-c8ae-4941-51cb4d4c2515">
+        <File Id="File_383" Source="publish\ko\System.Windows.Input.Manipulations.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_384" Guid="2bc67662-db09-b6c0-41da-b7652c812bed">
+        <File Id="File_384" Source="publish\ko\System.Xaml.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_385" Guid="162901d1-2c13-b54c-6179-9dfab087577c">
+        <File Id="File_385" Source="publish\ko\UIAutomationClient.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_386" Guid="cee8941c-07f9-4eac-47c9-18a7356605ad">
+        <File Id="File_386" Source="publish\ko\UIAutomationClientSideProviders.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_387" Guid="75e4adf0-f9dc-48a1-e03e-daa61df2cfde">
+        <File Id="File_387" Source="publish\ko\UIAutomationProvider.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_388" Guid="ac12d0aa-2476-b4d8-2ec2-45c8d1684c8b">
+        <File Id="File_388" Source="publish\ko\UIAutomationTypes.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_389" Guid="2eba10c3-d256-f475-1d79-868ea23a9b60">
+        <File Id="File_389" Source="publish\ko\WindowsBase.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_390" Guid="955f9c33-2b94-7aa6-a5a8-df0852c0c6f7">
+        <File Id="File_390" Source="publish\ko\WindowsFormsIntegration.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_391" Guid="9eff439c-0b3c-b458-97db-b3a89b282116">
+        <File Id="File_391" Source="publish\pl\Microsoft.VisualBasic.Forms.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_392" Guid="ea8f7db3-985d-e96a-0232-ede664c22db0">
+        <File Id="File_392" Source="publish\pl\PresentationCore.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_393" Guid="baa1bc4c-2a06-e4cb-6544-4230ecdd0136">
+        <File Id="File_393" Source="publish\pl\PresentationFramework.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_394" Guid="315ffa90-a265-f6e1-2be3-d4913393224c">
+        <File Id="File_394" Source="publish\pl\PresentationUI.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_395" Guid="809e8fea-6c33-3fe7-ac98-988ca330a1de">
+        <File Id="File_395" Source="publish\pl\ReachFramework.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_396" Guid="babdae06-cac7-b584-306a-8ca3e06b944d">
+        <File Id="File_396" Source="publish\pl\System.Windows.Controls.Ribbon.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_397" Guid="f0b304aa-aaad-3043-eb78-1cc17f79e985">
+        <File Id="File_397" Source="publish\pl\System.Windows.Forms.Design.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_398" Guid="0da2f08a-e514-0b9a-b160-b75dd9668e70">
+        <File Id="File_398" Source="publish\pl\System.Windows.Forms.Primitives.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_399" Guid="a27a2a32-f7ff-83cf-8296-767f973ad539">
+        <File Id="File_399" Source="publish\pl\System.Windows.Forms.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_400" Guid="2ca79e53-bc41-6096-2e0a-801f29bf6fcd">
+        <File Id="File_400" Source="publish\pl\System.Windows.Input.Manipulations.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_401" Guid="60c7745c-dfd8-d545-5161-1cfbe79ecd5c">
+        <File Id="File_401" Source="publish\pl\System.Xaml.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_402" Guid="9e08794e-1891-c2ed-422a-29982036fd39">
+        <File Id="File_402" Source="publish\pl\UIAutomationClient.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_403" Guid="9db71c12-46b7-038e-8cc9-3c81b42023a9">
+        <File Id="File_403" Source="publish\pl\UIAutomationClientSideProviders.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_404" Guid="b2cb61a8-127c-b103-7b96-9b3f717d0ad8">
+        <File Id="File_404" Source="publish\pl\UIAutomationProvider.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_405" Guid="2b041ced-2466-7123-7355-2d4a27286511">
+        <File Id="File_405" Source="publish\pl\UIAutomationTypes.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_406" Guid="f2c3f72f-433b-76d9-d15c-2095fe1c31df">
+        <File Id="File_406" Source="publish\pl\WindowsBase.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_407" Guid="f370ce7d-b1f6-32b6-d625-5e559bbf4388">
+        <File Id="File_407" Source="publish\pl\WindowsFormsIntegration.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_408" Guid="92cf9c8e-eb4d-1498-99f6-a9ca89b8d66c">
+        <File Id="File_408" Source="publish\pt-BR\Microsoft.VisualBasic.Forms.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_409" Guid="42e1ad73-c2c2-a406-6602-17e82b16c635">
+        <File Id="File_409" Source="publish\pt-BR\PresentationCore.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_410" Guid="22674e5b-82b8-5f2b-7e75-d96e0d5813ec">
+        <File Id="File_410" Source="publish\pt-BR\PresentationFramework.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_411" Guid="2a4439fe-eebe-7827-0da5-8f01dd9ebd61">
+        <File Id="File_411" Source="publish\pt-BR\PresentationUI.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_412" Guid="acc602bd-42fe-c418-8d93-7f64af7f4b5d">
+        <File Id="File_412" Source="publish\pt-BR\ReachFramework.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_413" Guid="c16b31b7-20cd-8265-d10a-7679a820001c">
+        <File Id="File_413" Source="publish\pt-BR\System.Windows.Controls.Ribbon.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_414" Guid="a3838678-c89b-190c-7e36-1954ae53087e">
+        <File Id="File_414" Source="publish\pt-BR\System.Windows.Forms.Design.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_415" Guid="d2e0f466-eb07-6bec-7900-62b54e15368f">
+        <File Id="File_415" Source="publish\pt-BR\System.Windows.Forms.Primitives.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_416" Guid="4d8ad4aa-096b-4cb0-c180-5b3c72710d99">
+        <File Id="File_416" Source="publish\pt-BR\System.Windows.Forms.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_417" Guid="767c034d-7139-769c-380f-d33a1e17a61b">
+        <File Id="File_417" Source="publish\pt-BR\System.Windows.Input.Manipulations.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_418" Guid="52186fa0-8787-6f6a-7928-7d80f0a5a58c">
+        <File Id="File_418" Source="publish\pt-BR\System.Xaml.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_419" Guid="f3a24d3f-cbd7-4a7e-b7c2-5696cae0d646">
+        <File Id="File_419" Source="publish\pt-BR\UIAutomationClient.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_420" Guid="5781c0fd-fbf2-fc4a-f238-37c7fb7c11ce">
+        <File Id="File_420" Source="publish\pt-BR\UIAutomationClientSideProviders.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_421" Guid="66b7a8b1-5afc-ff0c-0ef5-9a60ad313e09">
+        <File Id="File_421" Source="publish\pt-BR\UIAutomationProvider.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_422" Guid="03036d12-df30-6d63-9286-d03e7d672857">
+        <File Id="File_422" Source="publish\pt-BR\UIAutomationTypes.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_423" Guid="a38c48f9-0516-b7f5-7653-dcaa2fa2cac0">
+        <File Id="File_423" Source="publish\pt-BR\WindowsBase.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_424" Guid="597e55f2-bf5b-9670-4224-d91da1c65d86">
+        <File Id="File_424" Source="publish\pt-BR\WindowsFormsIntegration.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_425" Guid="5e17d929-c7c8-d79e-e16c-bbaa63253e70">
+        <File Id="File_425" Source="publish\ru\Microsoft.VisualBasic.Forms.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_426" Guid="0de46106-87ce-836b-5860-c65baf0e73f6">
+        <File Id="File_426" Source="publish\ru\PresentationCore.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_427" Guid="3ea02b9e-6684-d5f7-c765-8e91eafff272">
+        <File Id="File_427" Source="publish\ru\PresentationFramework.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_428" Guid="33900b78-a3d1-7f8c-39c6-de30d9523393">
+        <File Id="File_428" Source="publish\ru\PresentationUI.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_429" Guid="8a06af47-47ca-51c2-84c5-9293dfead97d">
+        <File Id="File_429" Source="publish\ru\ReachFramework.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_430" Guid="5abafcea-d821-2b30-c2b4-8db3348ab1b6">
+        <File Id="File_430" Source="publish\ru\System.Windows.Controls.Ribbon.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_431" Guid="88599e59-9117-d1f9-6e62-8a6d86f25409">
+        <File Id="File_431" Source="publish\ru\System.Windows.Forms.Design.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_432" Guid="925742e3-02c2-e599-25e5-ccf5b2cc6d66">
+        <File Id="File_432" Source="publish\ru\System.Windows.Forms.Primitives.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_433" Guid="b2c8e771-94c4-6867-2377-57dec6edfaf9">
+        <File Id="File_433" Source="publish\ru\System.Windows.Forms.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_434" Guid="407c7b58-d8e4-d353-54ed-c33aaece7691">
+        <File Id="File_434" Source="publish\ru\System.Windows.Input.Manipulations.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_435" Guid="4d15f11f-dc12-1023-e5b3-aa63f344bc22">
+        <File Id="File_435" Source="publish\ru\System.Xaml.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_436" Guid="d69949c5-d1d3-fb34-0967-0b8b4aae18db">
+        <File Id="File_436" Source="publish\ru\UIAutomationClient.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_437" Guid="557edbb3-0aa0-b41b-7bdf-fa3c31d5545b">
+        <File Id="File_437" Source="publish\ru\UIAutomationClientSideProviders.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_438" Guid="7b3f4843-00ca-694c-9b8d-a00ddc7e915b">
+        <File Id="File_438" Source="publish\ru\UIAutomationProvider.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_439" Guid="b9739597-55a7-1152-2965-648afadfc744">
+        <File Id="File_439" Source="publish\ru\UIAutomationTypes.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_440" Guid="56861533-27e3-ce42-79e9-2d5a23bde6e6">
+        <File Id="File_440" Source="publish\ru\WindowsBase.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_441" Guid="c041490b-a5dc-3c08-cdf5-07ebcaffceef">
+        <File Id="File_441" Source="publish\ru\WindowsFormsIntegration.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_442" Guid="bbacf7c2-da86-a665-556d-38830c776a41">
+        <File Id="File_442" Source="publish\tr\Microsoft.VisualBasic.Forms.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_443" Guid="8c9c8cd5-ac60-5b0a-28d0-4fd2e77ffe41">
+        <File Id="File_443" Source="publish\tr\PresentationCore.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_444" Guid="c5e13056-2e30-a923-c2f2-f5fcf95684d8">
+        <File Id="File_444" Source="publish\tr\PresentationFramework.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_445" Guid="6495e7b9-66ab-9a7c-e7d7-f35fea9959c9">
+        <File Id="File_445" Source="publish\tr\PresentationUI.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_446" Guid="48d888ad-8ca6-3cb9-f82a-2d52db2c6c33">
+        <File Id="File_446" Source="publish\tr\ReachFramework.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_447" Guid="592f43c2-4944-2128-97df-be4ebdc7329f">
+        <File Id="File_447" Source="publish\tr\System.Windows.Controls.Ribbon.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_448" Guid="60473f52-7ea6-b27c-f84d-3cdf07bb8220">
+        <File Id="File_448" Source="publish\tr\System.Windows.Forms.Design.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_449" Guid="11c134d8-ab1a-f1fc-11b7-bb860e03fb83">
+        <File Id="File_449" Source="publish\tr\System.Windows.Forms.Primitives.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_450" Guid="a6b736b2-cdc9-e6ed-ec66-4da7bff494c7">
+        <File Id="File_450" Source="publish\tr\System.Windows.Forms.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_451" Guid="f91e9ce5-6e1a-1f95-427f-937af5770bd7">
+        <File Id="File_451" Source="publish\tr\System.Windows.Input.Manipulations.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_452" Guid="e4e5f631-3884-115f-43d1-16cd60f37d4e">
+        <File Id="File_452" Source="publish\tr\System.Xaml.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_453" Guid="9786ac8d-790d-3b19-a602-812fb1ed2105">
+        <File Id="File_453" Source="publish\tr\UIAutomationClient.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_454" Guid="2d2a1af5-eff0-2082-e375-d1e34381d859">
+        <File Id="File_454" Source="publish\tr\UIAutomationClientSideProviders.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_455" Guid="c4e06e5e-4215-d0e3-fb97-37f24100df52">
+        <File Id="File_455" Source="publish\tr\UIAutomationProvider.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_456" Guid="6f22d60e-b41f-38fe-0271-f10f04ffee27">
+        <File Id="File_456" Source="publish\tr\UIAutomationTypes.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_457" Guid="299e4686-34f4-ffe0-eb2a-fe9edf8713f9">
+        <File Id="File_457" Source="publish\tr\WindowsBase.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_458" Guid="bb831d08-448d-f54d-308f-eb0ed711eacd">
+        <File Id="File_458" Source="publish\tr\WindowsFormsIntegration.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_459" Guid="313690be-4bb5-19fc-5daf-0985e1cdfcc8">
+        <File Id="File_459" Source="publish\zh-Hans\Microsoft.VisualBasic.Forms.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_460" Guid="b0907383-272b-d89c-d979-e39691f4f9df">
+        <File Id="File_460" Source="publish\zh-Hans\PresentationCore.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_461" Guid="58ef735a-7b03-d8c6-8375-5476e475a991">
+        <File Id="File_461" Source="publish\zh-Hans\PresentationFramework.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_462" Guid="6ea7dad9-de18-5bf2-bfc6-1469e56bf4e0">
+        <File Id="File_462" Source="publish\zh-Hans\PresentationUI.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_463" Guid="766f864c-2845-afd1-7319-b3f554116405">
+        <File Id="File_463" Source="publish\zh-Hans\ReachFramework.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_464" Guid="7b8665b9-030b-547c-05f3-783922933ee1">
+        <File Id="File_464" Source="publish\zh-Hans\System.Windows.Controls.Ribbon.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_465" Guid="72f7afdb-d3a9-73f5-e562-549014bb0247">
+        <File Id="File_465" Source="publish\zh-Hans\System.Windows.Forms.Design.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_466" Guid="e8e8702b-4d7d-5468-4b06-d5e5f9d3d709">
+        <File Id="File_466" Source="publish\zh-Hans\System.Windows.Forms.Primitives.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_467" Guid="ab3cf010-068a-8584-9f72-bd5d2c21e43c">
+        <File Id="File_467" Source="publish\zh-Hans\System.Windows.Forms.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_468" Guid="5f75dc46-624d-2f9c-31be-1b1a1930331d">
+        <File Id="File_468" Source="publish\zh-Hans\System.Windows.Input.Manipulations.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_469" Guid="73698668-2eaf-9960-d53e-0586b7a992c2">
+        <File Id="File_469" Source="publish\zh-Hans\System.Xaml.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_470" Guid="8218a27e-65aa-c35d-9be2-776846af7327">
+        <File Id="File_470" Source="publish\zh-Hans\UIAutomationClient.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_471" Guid="2dbac5bf-6126-abc4-6965-206591cb840c">
+        <File Id="File_471" Source="publish\zh-Hans\UIAutomationClientSideProviders.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_472" Guid="0437e352-2a6f-039c-75b8-317aa5c63871">
+        <File Id="File_472" Source="publish\zh-Hans\UIAutomationProvider.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_473" Guid="4fbf1a43-9538-75b2-3c2f-659d1c09596b">
+        <File Id="File_473" Source="publish\zh-Hans\UIAutomationTypes.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_474" Guid="b8e35e3d-5cf0-5598-45a5-6bd2bb3cfaba">
+        <File Id="File_474" Source="publish\zh-Hans\WindowsBase.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_475" Guid="c9115621-7f17-d937-2842-2db92e876786">
+        <File Id="File_475" Source="publish\zh-Hans\WindowsFormsIntegration.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_476" Guid="a8b89ab1-27bc-f748-2662-8ccd774ca657">
+        <File Id="File_476" Source="publish\zh-Hant\Microsoft.VisualBasic.Forms.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_477" Guid="86cbc526-e839-851e-54a8-08a9f77a8618">
+        <File Id="File_477" Source="publish\zh-Hant\PresentationCore.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_478" Guid="abdc01a3-3cac-fb08-1916-2b6680c90567">
+        <File Id="File_478" Source="publish\zh-Hant\PresentationFramework.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_479" Guid="719179a7-598b-e3ff-3a97-036133f804c4">
+        <File Id="File_479" Source="publish\zh-Hant\PresentationUI.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_480" Guid="a0a4af4d-1b47-41b9-6704-fc7a22499ca9">
+        <File Id="File_480" Source="publish\zh-Hant\ReachFramework.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_481" Guid="fb30641f-c889-3bd1-b106-b892717ad232">
+        <File Id="File_481" Source="publish\zh-Hant\System.Windows.Controls.Ribbon.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_482" Guid="b6e2ba01-e11d-9ec9-de22-b854832660ca">
+        <File Id="File_482" Source="publish\zh-Hant\System.Windows.Forms.Design.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_483" Guid="243c59d3-284a-c38a-56ee-dcc51b1bb767">
+        <File Id="File_483" Source="publish\zh-Hant\System.Windows.Forms.Primitives.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_484" Guid="efef1b6e-1a70-c4cb-64f4-d605080e5e16">
+        <File Id="File_484" Source="publish\zh-Hant\System.Windows.Forms.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_485" Guid="018bcb86-116a-0bb0-910a-266e440abe4f">
+        <File Id="File_485" Source="publish\zh-Hant\System.Windows.Input.Manipulations.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_486" Guid="407c6e39-6bd7-394a-0a02-a36fd9efac2c">
+        <File Id="File_486" Source="publish\zh-Hant\System.Xaml.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_487" Guid="b9f69e87-28be-6c8a-1f36-839a680754cf">
+        <File Id="File_487" Source="publish\zh-Hant\UIAutomationClient.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_488" Guid="d14ca635-fb4c-c267-771c-8342d1abe95c">
+        <File Id="File_488" Source="publish\zh-Hant\UIAutomationClientSideProviders.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_489" Guid="775ba36c-8634-37fb-786b-c5e46c037325">
+        <File Id="File_489" Source="publish\zh-Hant\UIAutomationProvider.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_490" Guid="9ecb1e20-2526-be5b-d34a-8a3011320141">
+        <File Id="File_490" Source="publish\zh-Hant\UIAutomationTypes.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_491" Guid="7a6a57de-3d7f-14a2-87c6-2c6d7d71bf5b">
+        <File Id="File_491" Source="publish\zh-Hant\WindowsBase.resources.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="Comp_492" Guid="e3982a69-2a5f-0bf7-234a-7b4665ea2fff">
+        <File Id="File_492" Source="publish\zh-Hant\WindowsFormsIntegration.resources.dll" KeyPath="yes"/>
+      </Component>
+    </ComponentGroup>
+
+  </Package>
+</Wix>
