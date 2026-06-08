@@ -5,112 +5,65 @@
 
     <!-- ヘッダー -->
     <div class="order-header">
-        <span class="header-title">オーダー</span>
+        <div class="header-left">
+            <!-- キャストボタン（オレンジ丸） -->
+            <button class="btn-header btn-cast" @onclick="OnCastClick">キャスト</button>
+            <!-- 変更ボタン（緑丸） -->
+            <button class="btn-header btn-change" @onclick="OnChangeClick">変更</button>
+        </div>
+        <div class="header-right">
+            <!-- 履歴ボタン（青丸） -->
+            <button class="btn-header btn-history" @onclick="OnHistoryClick">履歴</button>
+        </div>
+    </div>
+
+    <!-- カテゴリ選択エリア -->
+    <div class="order-content">
+
         @if (!string.IsNullOrEmpty(_errorMessage))
         {
-            <span class="error-badge">⚠ @_errorMessage</span>
+            <div class="error-banner">⚠ @_errorMessage</div>
         }
-        @if (_isLoading)
-        {
-            <span class="loading-badge">読込中...</span>
-        }
-    </div>
 
-    <!-- オーダー一覧テーブル -->
-    <div class="order-table-wrapper">
-        <table class="order-table">
-            <thead>
-                <tr>
-                    <th>テーブル名</th>
-                    <th class="col-product">商品名</th>
-                    <th class="col-qty">数量</th>
-                    <th>キャスト名</th>
-                    <th>ステータス</th>
-                    <th class="col-action"></th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (_orders.Count == 0 && !_isLoading)
-                {
-                    <tr>
-                        <td colspan="6" class="empty-row">オーダーはありません</td>
-                    </tr>
-                }
-                @foreach (var order in _orders)
-                {
-                    <tr class="@(GetRowClass(order))">
-                        <td>@order.SetNumber</td>
-                        <td class="col-product">@order.ProductName</td>
-                        <td class="col-qty">@order.Quantity</td>
-                        <td>@order.CastNamesDisplay</td>
-                        <td>@GetStatusText(order)</td>
-                        <td class="col-action">
-                            <button class="btn-status" @onclick="() => OnStatusClick(order)">▼</button>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+        <!-- ドリンクカテゴリ（青角丸ボタン） -->
+        <div class="btn-group">
+            <button class="btn-category btn-drink" @onclick='() => OnCategoryClick("シャンパン")'>シャンパン</button>
+            <button class="btn-category btn-drink" @onclick='() => OnCategoryClick("ボトル")'>ボトル</button>
+            <button class="btn-category btn-drink" @onclick='() => OnCategoryClick("飲み放題")'>飲み放題</button>
+            <button class="btn-category btn-drink" @onclick='() => OnCategoryClick("ショット")'>ショット</button>
+        </div>
 
-    <!-- 反映ボタン -->
-    <div class="footer-area">
-        <button class="btn-reflect" @onclick="OnReflectClick" disabled="@_isLoading">
-            反映
-        </button>
+        <!-- キャスト系カテゴリ（オレンジ角丸ボタン） -->
+        <div class="btn-group">
+            <button class="btn-category btn-cast-item" @onclick='() => OnCategoryClick("キャスト")'>キャスト</button>
+            <button class="btn-category btn-cast-item" @onclick='() => OnCategoryClick("チェキ")'>チェキ</button>
+        </div>
+
     </div>
 
 </div>
 
 @code {
-    private List<OrderResponse> _orders = new();
     private bool _isLoading = false;
     private string _errorMessage = string.Empty;
 
-    protected override async Task OnInitializedAsync()
+    private void OnCastClick()
     {
-        await LoadOrdersAsync();
+        // キャスト選択：別途指示
     }
 
-    private async Task LoadOrdersAsync()
+    private void OnChangeClick()
     {
-        _isLoading = true;
-        _errorMessage = string.Empty;
-        try
-        {
-            _orders = await OrderApi.GetOrdersAsync();
-        }
-        catch (Exception ex)
-        {
-            _errorMessage = "読込失敗: " + ex.Message;
-        }
-        finally
-        {
-            _isLoading = false;
-        }
+        // 変更：別途指示
     }
 
-    private async Task OnReflectClick()
+    private void OnHistoryClick()
     {
-        await LoadOrdersAsync();
+        // 履歴：別途指示
     }
 
-    private void OnStatusClick(OrderResponse order)
+    private void OnCategoryClick(string category)
     {
-        // ボタン制御は別途指示
+        // カテゴリ選択：別途指示
     }
-
-    private static string GetStatusText(OrderResponse order) => order.Status switch
-    {
-        true  => "済",
-        false => "キャンセル",
-        _     => "未対応"
-    };
-
-    private static string GetRowClass(OrderResponse order) => order.Status switch
-    {
-        true  => "row-done",
-        false => "row-cancel",
-        _     => ""
-    };
 }

@@ -22,7 +22,6 @@ body {
     background: #f5eddc;
     color: #333;
     -webkit-tap-highlight-color: transparent;
-    /* html の font-size を基準にした相対単位（em）を使う */
     font-size: 1rem;
 }
 
@@ -37,12 +36,15 @@ body {
     overflow: hidden;
 }
 
-/* ヘッダー */
+/* ========================================
+   ヘッダー（菱形パターン・左右ボタン）
+======================================== */
+
 .order-header {
     display: flex;
     align-items: center;
-    gap: 0.85rem;
-    padding: 0.6rem 1rem;
+    justify-content: space-between;
+    padding: 0.5rem 0.75rem;
     background: repeating-linear-gradient(
         45deg,
         #3a3a3a,
@@ -50,140 +52,125 @@ body {
         #4a4a4a 6px,
         #4a4a4a 12px
     );
-    color: white;
-    font-weight: bold;
-    min-height: 3rem;
+    min-height: 3.5rem;
     flex-shrink: 0;
 }
 
-.header-title {
-    font-size: 1.2rem;
+.header-left {
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
 }
 
-.error-badge {
+.header-right {
+    display: flex;
+    align-items: center;
+}
+
+/* ヘッダー丸ボタン共通 */
+.btn-header {
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    border: none;
     font-size: 0.85rem;
-    background: #e74c3c;
-    padding: 0.15rem 0.5rem;
-    border-radius: 12px;
+    font-weight: bold;
+    color: #222;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.35);
+    touch-action: manipulation;
+    line-height: 1.2;
 }
 
-.loading-badge {
-    font-size: 0.85rem;
-    background: #3498db;
-    padding: 0.15rem 0.5rem;
-    border-radius: 12px;
+.btn-header:active {
+    opacity: 0.75;
+    transform: scale(0.95);
 }
 
-/* テーブルラッパー */
-.order-table-wrapper {
+/* キャストボタン（オレンジ） */
+.btn-cast {
+    background: radial-gradient(circle at 35% 35%, #ffb55a, #e8884a);
+    color: #3a2000;
+}
+
+/* 変更ボタン（緑） */
+.btn-change {
+    background: radial-gradient(circle at 35% 35%, #7de07d, #5cb85c);
+    color: #003a00;
+}
+
+/* 履歴ボタン（青） */
+.btn-history {
+    background: radial-gradient(circle at 35% 35%, #85bfec, #4b7bbe);
+    color: white;
+}
+
+/* ========================================
+   コンテンツエリア（ベージュ背景・ボタン群）
+======================================== */
+
+.order-content {
     flex: 1;
     overflow-y: auto;
-    overflow-x: hidden;
-    background: white;
-    margin: 0.75rem 0.75rem 0.4rem 0.75rem;
-    border: 1px solid #ccc;
-}
-
-/* オーダーテーブル */
-.order-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 1rem;
-}
-
-.order-table thead tr {
-    background: #fffbe6;
-    position: sticky;
-    top: 0;
-    z-index: 1;
-}
-
-.order-table th {
-    padding: 0.6rem 0.5rem;
-    text-align: left;
-    font-weight: bold;
-    color: #4b7bbe;
-    border-bottom: 2px solid #ccc;
-    white-space: nowrap;
-    font-size: 0.9rem;
-}
-
-.order-table td {
-    padding: 0.6rem 0.5rem;
-    border-bottom: 1px solid #eee;
-    vertical-align: middle;
-}
-
-.col-product {
-    width: 100%;
-}
-
-.col-qty {
-    text-align: center;
-    white-space: nowrap;
-}
-
-.col-action {
-    width: 2.75rem;
-    text-align: center;
-}
-
-.row-done td {
-    color: #aaa;
-    text-decoration: line-through;
-}
-
-.row-cancel td {
-    color: #e74c3c;
-}
-
-.empty-row {
-    text-align: center;
-    padding: 2rem !important;
-    color: #aaa;
-    font-size: 1rem;
-}
-
-/* ▼ボタン */
-.btn-status {
-    width: 1.9rem;
-    height: 1.6rem;
-    background: #5cb85c;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    font-size: 0.75rem;
-    cursor: pointer;
-    touch-action: manipulation;
-}
-
-.btn-status:active {
-    opacity: 0.7;
-}
-
-/* フッター */
-.footer-area {
-    flex-shrink: 0;
+    padding: 1.5rem 1.2rem;
     display: flex;
-    justify-content: flex-end;
-    align-items: flex-end;
-    padding: 0.5rem 1rem 1rem 0;
-    background: #f5eddc;
+    flex-direction: column;
+    gap: 1.2rem;
 }
 
-.btn-reflect {
-    width: 5.5rem;
-    height: 2.5rem;
-    background: #5cb85c;
+.error-banner {
+    font-size: 0.9rem;
+    background: #e74c3c;
     color: white;
+    padding: 0.4rem 0.8rem;
+    border-radius: 8px;
+}
+
+/* ボタングループ（横並びWrap） */
+.btn-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+/* カテゴリボタン共通 */
+.btn-category {
+    width: 6rem;
+    height: 6rem;
+    border-radius: 1rem;
     border: none;
-    border-radius: 10px;
-    font-size: 1rem;
+    font-size: 1.05rem;
     font-weight: bold;
     cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.25);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.25);
     touch-action: manipulation;
+    line-height: 1.3;
+    word-break: keep-all;
 }
 
-.btn-reflect:active  { opacity: 0.75; }
-.btn-reflect:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-category:active {
+    opacity: 0.75;
+    transform: scale(0.95);
+}
+
+/* ドリンクカテゴリ（青グラデーション） */
+.btn-drink {
+    background: linear-gradient(145deg, #85bfec, #4b7bbe);
+    color: white;
+    border: 2px solid #3a6fa8;
+}
+
+.btn-drink:hover {
+    background: linear-gradient(145deg, #9acff5, #5b8fce);
+}
+
+/* キャスト系カテゴリ（オレンジグラデーション） */
+.btn-cast-item {
+    background: linear-gradient(145deg, #ffb77a, #e8884a);
+    color: #3a2000;
+    border: 2px solid #c06030;
+}
+
+.btn-cast-item:hover {
+    background: linear-gradient(145deg, #ffc88a, #f89a5a);
+}

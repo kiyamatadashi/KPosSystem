@@ -53,6 +53,9 @@
                     x:Key="HeaderHeight">60</sys:Double>
         <sys:Double xmlns:sys="clr-namespace:System;assembly=mscorlib"
                     x:Key="RowHeight">34</sys:Double>
+        <!-- フィルタ用ComboBox高さ（App.xaml.csでスケール適用） -->
+        <sys:Double xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    x:Key="FilterComboHeight">24</sys:Double>
 
         <!-- ========================================
              ヘッダー背景ブラシ（菱形パターン）

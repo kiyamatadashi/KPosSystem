@@ -11,8 +11,8 @@
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="3*"/>
-            <RowDefinition Height="2*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <!-- ヘッダー：Paddingで上下余白確保 -->
@@ -49,7 +49,7 @@
             </Grid>
         </Border>
 
-        <!-- DataGrid -->
+        <!-- DataGrid：画面いっぱいに拡張 -->
         <Border Grid.Row="1"
                 Margin="12,12,12,6"
                 BorderBrush="#FFCCCCCC"
@@ -76,7 +76,7 @@
                         <Setter Property="Background"      Value="#FFFFFBE6"/>
                         <Setter Property="Foreground"      Value="#FF4B7BBE"/>
                         <Setter Property="FontWeight"      Value="Bold"/>
-                        <Setter Property="FontSize"        Value="{DynamicResource FontSizeSm}"/>
+                        <Setter Property="FontSize"        Value="{DynamicResource FontSizeMd}"/>
                         <Setter Property="Height"          Value="{DynamicResource RowHeight}"/>
                         <Setter Property="BorderBrush"     Value="#FFCCCCCC"/>
                         <Setter Property="BorderThickness" Value="0,0,1,1"/>
@@ -86,7 +86,8 @@
 
                 <DataGrid.Columns>
 
-                    <DataGridTemplateColumn Width="130">
+                    <!-- テーブル名列（フィルタComboBox固定幅） -->
+                    <DataGridTemplateColumn Width="180">
                         <DataGridTemplateColumn.Header>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                 <TextBlock Text="テーブル名" VerticalAlignment="Center"/>
@@ -95,8 +96,10 @@
                                           SelectedItem="{Binding DataContext.SelectedTableNameFilter,
                                               RelativeSource={RelativeSource AncestorType=Window},
                                               Mode=TwoWay}"
-                                          Width="26" Height="20" Margin="4,0,0,0"
-                                          FontSize="10" Padding="0"/>
+                                          Width="70" Height="{DynamicResource FilterComboHeight}"
+                                          Margin="6,0,0,0"
+                                          FontSize="{DynamicResource FontSizeSm}"
+                                          Padding="4,0"/>
                             </StackPanel>
                         </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
@@ -107,6 +110,7 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
 
+                    <!-- 商品名列 -->
                     <DataGridTextColumn Header="商品名" Binding="{Binding ProductName}" Width="*">
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="TextBlock">
@@ -116,7 +120,8 @@
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
 
-                    <DataGridTextColumn Header="数量" Binding="{Binding Quantity}" Width="70">
+                    <!-- 数量列 -->
+                    <DataGridTextColumn Header="数量" Binding="{Binding Quantity}" Width="80">
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="TextBlock">
                                 <Setter Property="Padding"             Value="8,0"/>
@@ -126,7 +131,8 @@
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
 
-                    <DataGridTextColumn Header="キャスト名" Binding="{Binding CastNamesDisplay}" Width="120">
+                    <!-- キャスト名列 -->
+                    <DataGridTextColumn Header="キャスト名" Binding="{Binding CastNamesDisplay}" Width="150">
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="TextBlock">
                                 <Setter Property="Padding"           Value="8,0"/>
@@ -135,7 +141,8 @@
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
 
-                    <DataGridTemplateColumn Width="130">
+                    <!-- ステータス列（フィルタComboBox固定幅） -->
+                    <DataGridTemplateColumn Width="180">
                         <DataGridTemplateColumn.Header>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                 <TextBlock Text="ステータス" VerticalAlignment="Center"/>
@@ -144,8 +151,10 @@
                                           SelectedItem="{Binding DataContext.SelectedStatusFilter,
                                               RelativeSource={RelativeSource AncestorType=Window},
                                               Mode=TwoWay}"
-                                          Width="26" Height="20" Margin="4,0,0,0"
-                                          FontSize="10" Padding="0"/>
+                                          Width="70" Height="{DynamicResource FilterComboHeight}"
+                                          Margin="6,0,0,0"
+                                          FontSize="{DynamicResource FontSizeSm}"
+                                          Padding="4,0"/>
                             </StackPanel>
                         </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
@@ -156,47 +165,19 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
 
-                    <DataGridTemplateColumn Width="44" Header="">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Content="▼" Width="30" Height="24"
-                                        FontSize="11" Margin="4,0"
-                                        BorderThickness="0" Cursor="Hand">
-                                    <Button.Template>
-                                        <ControlTemplate TargetType="Button">
-                                            <Border Background="{StaticResource AttendStartBrush}"
-                                                    CornerRadius="4">
-                                                <ContentPresenter HorizontalAlignment="Center"
-                                                                  VerticalAlignment="Center"/>
-                                            </Border>
-                                            <ControlTemplate.Triggers>
-                                                <Trigger Property="IsMouseOver" Value="True">
-                                                    <Setter Property="Background" Value="{StaticResource AttendStartHoverBrush}"/>
-                                                </Trigger>
-                                                <Trigger Property="IsPressed" Value="True">
-                                                    <Setter Property="Opacity" Value="0.75"/>
-                                                </Trigger>
-                                            </ControlTemplate.Triggers>
-                                        </ControlTemplate>
-                                    </Button.Template>
-                                </Button>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-
                 </DataGrid.Columns>
             </DataGrid>
         </Border>
 
-        <!-- 下部エリア＋反映ボタン -->
-        <Grid Grid.Row="2">
+        <!-- フッター：反映ボタンのみ -->
+        <Border Grid.Row="2"
+                Background="{StaticResource ContentTextureBrush}"
+                Padding="0,8,16,16">
             <Button x:Name="ReflectButton"
                     Content="反映"
-                    Width="80" Height="36"
+                    Width="100" Height="44"
                     HorizontalAlignment="Right"
-                    VerticalAlignment="Bottom"
-                    Margin="0,0,20,20"
-                    FontSize="{DynamicResource FontSizeMd}"
+                    FontSize="{DynamicResource FontSizeLg}"
                     FontWeight="Bold"
                     Foreground="White"
                     BorderThickness="0"
@@ -221,7 +202,7 @@
                     </ControlTemplate>
                 </Button.Template>
             </Button>
-        </Grid>
+        </Border>
 
     </Grid>
 
