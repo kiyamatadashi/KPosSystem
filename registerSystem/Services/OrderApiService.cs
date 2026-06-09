@@ -1,4 +1,6 @@
+using shared.Models.Requests.Masters;
 using shared.Models.Requests.Orders;
+using shared.Models.Responses.Masters;
 using shared.Models.Responses.Orders;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -34,6 +36,34 @@ public class OrderApiService
             var json = JsonSerializer.Serialize(orders);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await _client.PostAsync(ApiEndpoints.Orders, content);
+            response.EnsureSuccessStatusCode();
+            return response;
+        });
+    }
+
+    // ─── ProductMaster ────────────────────────────────────────────────────
+
+    /// <summary>
+    /// 商品マスタ一覧を取得する。
+    /// </summary>
+    public async Task<List<ProductMasterResponse>?> GetProductMastersAsync()
+    {
+        var url = $"{ApiEndpoints.Masters}&shopId={AppSettings.ShopId}";
+        return await ExecuteWithRetryAsync(async () =>
+            await _client.GetFromJsonAsync<List<ProductMasterResponse>>(url)
+        );
+    }
+
+    /// <summary>
+    /// 商品マスタを一括Upsertする。
+    /// </summary>
+    public async Task UpsertProductMastersAsync(List<UpsertProductMasterRequest> items)
+    {
+        await ExecuteWithRetryAsync(async () =>
+        {
+            var json = JsonSerializer.Serialize(items);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _client.PostAsync(ApiEndpoints.Masters, content);
             response.EnsureSuccessStatusCode();
             return response;
         });

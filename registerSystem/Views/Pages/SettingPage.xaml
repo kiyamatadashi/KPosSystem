@@ -1,10 +1,8 @@
-﻿<UserControl x:Class="registerSystem.Views.Pages.SettingPage"
+<UserControl x:Class="registerSystem.Views.Pages.SettingPage"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <!-- 設定画面：左サイドメニュー＋右コンテンツエリア
-         設計書: サイドボタンは左端から適度な余白、ボタン間に余白あり
-                コンテンツは白い矩形で残り幅を占有 -->
+    <!-- 設定画面：左サイドメニュー＋右コンテンツエリア -->
     <Grid Background="{StaticResource ContentTextureBrush}">
 
         <Grid.ColumnDefinitions>
@@ -20,16 +18,24 @@
                     Margin="14,16,0,16">
 
             <Button x:Name="SideButton1"
-                    Content="釦１"
-                    Style="{StaticResource SideButtonStyle}"/>
+                    Content="料金"
+                    Style="{StaticResource SideButtonStyle}"
+                    Click="SideButton1_Click"/>
 
             <Button x:Name="SideButton2"
-                    Content="釦２"
-                    Style="{StaticResource SideButtonStyle}"/>
+                    Content="テーブル"
+                    Style="{StaticResource SideButtonStyle}"
+                    Click="SideButton2_Click"/>
 
             <Button x:Name="SideButton3"
-                    Content="釦３"
-                    Style="{StaticResource SideButtonStyle}"/>
+                    Content="入出金"
+                    Style="{StaticResource SideButtonStyle}"
+                    Click="SideButton3_Click"/>
+
+            <Button x:Name="SideButtonMenu"
+                    Content="メニュー"
+                    Style="{StaticResource SideButtonStyle}"
+                    Click="SideButtonMenu_Click"/>
 
         </StackPanel>
 
@@ -41,7 +47,328 @@
             <Border.Effect>
                 <DropShadowEffect ShadowDepth="1" BlurRadius="4" Opacity="0.15"/>
             </Border.Effect>
-            <ContentControl x:Name="ContentArea"/>
+
+            <!-- 通常コンテンツ（料金・テーブル・入出金）-->
+            <Grid>
+                <ContentControl x:Name="ContentArea"
+                                Visibility="Visible"/>
+
+                <!-- ─── メニュー画面（ProductMaster編集）─── -->
+                <Grid x:Name="MenuContent"
+                      Visibility="Collapsed">
+                    <Grid.RowDefinitions>
+                        <!-- DataGrid: 残余領域すべて -->
+                        <RowDefinition Height="*"/>
+                        <!-- ボタン行: ボタン高さのみ -->
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- DataGrid -->
+                    <DataGrid x:Name="ProductGrid"
+                              Grid.Row="0"
+                              AutoGenerateColumns="False"
+                              CanUserAddRows="False"
+                              CanUserDeleteRows="False"
+                              CanUserReorderColumns="False"
+                              CanUserResizeRows="False"
+                              HeadersVisibility="Column"
+                              GridLinesVisibility="All"
+                              HorizontalScrollBarVisibility="Auto"
+                              VerticalScrollBarVisibility="Auto"
+                              FontSize="{DynamicResource FontSizeMd}"
+                              RowHeight="{DynamicResource RowHeight}"
+                              Margin="0">
+
+                        <DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="DataGridColumnHeader">
+                                <Setter Property="FontSize"   Value="{DynamicResource FontSizeMd}"/>
+                                <Setter Property="FontWeight" Value="Bold"/>
+                                <Setter Property="Padding"    Value="6,4"/>
+                            </Style>
+                        </DataGrid.ColumnHeaderStyle>
+
+                        <DataGrid.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="FontSize" Value="{DynamicResource FontSizeMd}"/>
+                                <Setter Property="Padding"  Value="4,2"/>
+                            </Style>
+                        </DataGrid.CellStyle>
+
+                        <DataGrid.Columns>
+
+                            <!-- カテゴリ（文字列入力） -->
+                            <DataGridTemplateColumn Header="カテゴリ" Width="120">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Category}"
+                                                   FontSize="{DynamicResource FontSizeMd}"
+                                                   VerticalAlignment="Center"
+                                                   Padding="4,0"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding Category, UpdateSourceTrigger=PropertyChanged}"
+                                                 FontSize="{DynamicResource FontSizeMd}"
+                                                 BorderThickness="0"
+                                                 Padding="4,0"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+
+                            <!-- 商品Gr（SideMenu・文字列入力） -->
+                            <DataGridTemplateColumn Header="商品Gr" Width="120">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding SideMenu}"
+                                                   FontSize="{DynamicResource FontSizeMd}"
+                                                   VerticalAlignment="Center"
+                                                   Padding="4,0"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding SideMenu, UpdateSourceTrigger=PropertyChanged}"
+                                                 FontSize="{DynamicResource FontSizeMd}"
+                                                 BorderThickness="0"
+                                                 Padding="4,0"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+
+                            <!-- 商品名（文字列入力） -->
+                            <DataGridTemplateColumn Header="商品名" Width="160">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding ProductName}"
+                                                   FontSize="{DynamicResource FontSizeMd}"
+                                                   VerticalAlignment="Center"
+                                                   Padding="4,0"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding ProductName, UpdateSourceTrigger=PropertyChanged}"
+                                                 FontSize="{DynamicResource FontSizeMd}"
+                                                 BorderThickness="0"
+                                                 Padding="4,0"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+
+                            <!-- 単価（数値入力） -->
+                            <DataGridTemplateColumn Header="単価" Width="80">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Amount}"
+                                                   FontSize="{DynamicResource FontSizeMd}"
+                                                   VerticalAlignment="Center"
+                                                   TextAlignment="Right"
+                                                   Padding="4,0"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding Amount, UpdateSourceTrigger=PropertyChanged}"
+                                                 FontSize="{DynamicResource FontSizeMd}"
+                                                 TextAlignment="Right"
+                                                 BorderThickness="0"
+                                                 Padding="4,0"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+
+                            <!-- バック金額（数値入力） -->
+                            <DataGridTemplateColumn Header="バック金額" Width="90">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding BackAmount}"
+                                                   FontSize="{DynamicResource FontSizeMd}"
+                                                   VerticalAlignment="Center"
+                                                   TextAlignment="Right"
+                                                   Padding="4,0"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding BackAmount, UpdateSourceTrigger=PropertyChanged}"
+                                                 FontSize="{DynamicResource FontSizeMd}"
+                                                 TextAlignment="Right"
+                                                 BorderThickness="0"
+                                                 Padding="4,0"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+
+                            <!-- バック単位（円 or ％ の選択） -->
+                            <DataGridTemplateColumn Header="バック単位" Width="90">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding BackUnit}"
+                                                   FontSize="{DynamicResource FontSizeMd}"
+                                                   VerticalAlignment="Center"
+                                                   HorizontalAlignment="Center"
+                                                   Padding="4,0"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <ComboBox SelectedValue="{Binding BackUnit, UpdateSourceTrigger=PropertyChanged}"
+                                                  FontSize="{DynamicResource FontSizeMd}"
+                                                  BorderThickness="0">
+                                            <ComboBoxItem Content="円"/>
+                                            <ComboBoxItem Content="％"/>
+                                        </ComboBox>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+
+                            <!-- 割物選択（可 or 否） -->
+                            <DataGridTemplateColumn Header="割物選択" Width="80">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding MixSelectableDisplay}"
+                                                   FontSize="{DynamicResource FontSizeMd}"
+                                                   VerticalAlignment="Center"
+                                                   HorizontalAlignment="Center"
+                                                   Padding="4,0"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <ComboBox SelectedValue="{Binding MixSelectableDisplay, UpdateSourceTrigger=PropertyChanged}"
+                                                  FontSize="{DynamicResource FontSizeMd}"
+                                                  BorderThickness="0">
+                                            <ComboBoxItem Content="可"/>
+                                            <ComboBoxItem Content="否"/>
+                                        </ComboBox>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+
+                            <!-- キャスト選択（可 or 否） -->
+                            <DataGridTemplateColumn Header="キャスト選択" Width="90">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding CastSelectableDisplay}"
+                                                   FontSize="{DynamicResource FontSizeMd}"
+                                                   VerticalAlignment="Center"
+                                                   HorizontalAlignment="Center"
+                                                   Padding="4,0"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <ComboBox SelectedValue="{Binding CastSelectableDisplay, UpdateSourceTrigger=PropertyChanged}"
+                                                  FontSize="{DynamicResource FontSizeMd}"
+                                                  BorderThickness="0">
+                                            <ComboBoxItem Content="可"/>
+                                            <ComboBoxItem Content="否"/>
+                                        </ComboBox>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+
+                            <!-- 削除（チェックボックス・デフォルトOFF） -->
+                            <DataGridTemplateColumn Header="削除" Width="56">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding IsDeleted, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                  HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center"
+                                                  IsHitTestVisible="False"
+                                                  Focusable="False"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding IsDeleted, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                  HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <!-- 下部エリア：追加・反映ボタン -->
+                    <StackPanel Grid.Row="1"
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Right"
+                                Margin="8,6,8,8">
+
+                        <!-- 追加ボタン -->
+                        <Button x:Name="AddRowButton"
+                                Content="追加"
+                                Width="100"
+                                Height="44"
+                                FontSize="{DynamicResource FontSizeLg}"
+                                FontWeight="Bold"
+                                Foreground="White"
+                                Background="{StaticResource SideButtonBrush}"
+                                BorderThickness="0"
+                                Cursor="Hand"
+                                Margin="0,0,8,0"
+                                Click="AddRowButton_Click">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="{TemplateBinding Background}" CornerRadius="10">
+                                        <Border.Effect>
+                                            <DropShadowEffect ShadowDepth="2" BlurRadius="4" Opacity="0.3"/>
+                                        </Border.Effect>
+                                        <ContentPresenter HorizontalAlignment="Center"
+                                                          VerticalAlignment="Center"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="{StaticResource SideButtonHoverBrush}"/>
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="True">
+                                            <Setter Property="Opacity" Value="0.75"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+
+                        <!-- 反映ボタン -->
+                        <Button x:Name="ApplyButton"
+                                Content="反映"
+                                Width="100"
+                                Height="44"
+                                FontSize="{DynamicResource FontSizeLg}"
+                                FontWeight="Bold"
+                                Foreground="White"
+                                Background="{StaticResource NavButtonSettingBrush}"
+                                BorderThickness="0"
+                                Cursor="Hand"
+                                Click="ApplyButton_Click">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="{TemplateBinding Background}" CornerRadius="10">
+                                        <Border.Effect>
+                                            <DropShadowEffect ShadowDepth="2" BlurRadius="4" Opacity="0.3"/>
+                                        </Border.Effect>
+                                        <ContentPresenter HorizontalAlignment="Center"
+                                                          VerticalAlignment="Center"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Opacity" Value="0.85"/>
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="True">
+                                            <Setter Property="Opacity" Value="0.70"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+
+                    </StackPanel>
+
+                </Grid>
+            </Grid>
         </Border>
 
     </Grid>
