@@ -63,7 +63,10 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <!-- DataGrid -->
+                    <!-- DataGrid
+                         ・SelectionUnit=Cell で1クリック編集の前提を作る
+                         ・PreviewMouseLeftButtonDown でシングルクリック編集を有効化
+                    -->
                     <DataGrid x:Name="ProductGrid"
                               Grid.Row="0"
                               AutoGenerateColumns="False"
@@ -77,7 +80,10 @@
                               VerticalScrollBarVisibility="Auto"
                               FontSize="{DynamicResource FontSizeMd}"
                               RowHeight="{DynamicResource RowHeight}"
-                              Margin="0">
+                              SelectionUnit="Cell"
+                              SelectionMode="Single"
+                              Margin="0"
+                              PreviewMouseLeftButtonDown="ProductGrid_PreviewMouseLeftButtonDown">
 
                         <DataGrid.ColumnHeaderStyle>
                             <Style TargetType="DataGridColumnHeader">
@@ -200,7 +206,11 @@
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
 
-                            <!-- バック単位（円 or ％ の選択） -->
+                            <!-- バック単位（円 or ％ の選択）
+                                 SelectedItem に string を直接バインドするため
+                                 ItemsSource を x:Array で定義し SelectedItem を使用する。
+                                 ComboBoxItem を使うと選択後に ComboBoxItem オブジェクトが
+                                 バインディング先に入り文字化けするため、この方式にする。 -->
                             <DataGridTemplateColumn Header="バック単位" Width="90">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
@@ -213,17 +223,22 @@
                                 </DataGridTemplateColumn.CellTemplate>
                                 <DataGridTemplateColumn.CellEditingTemplate>
                                     <DataTemplate>
-                                        <ComboBox SelectedValue="{Binding BackUnit, UpdateSourceTrigger=PropertyChanged}"
+                                        <ComboBox SelectedItem="{Binding BackUnit, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                                   FontSize="{DynamicResource FontSizeMd}"
                                                   BorderThickness="0">
-                                            <ComboBoxItem Content="円"/>
-                                            <ComboBoxItem Content="％"/>
+                                            <ComboBox.ItemsSource>
+                                                <x:Array Type="{x:Type sys:String}"
+                                                         xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                                                    <sys:String>円</sys:String>
+                                                    <sys:String>％</sys:String>
+                                                </x:Array>
+                                            </ComboBox.ItemsSource>
                                         </ComboBox>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
 
-                            <!-- 割物選択（可 or 否） -->
+                            <!-- 割物選択（可 or 否）: 同様に SelectedItem + ItemsSource 方式 -->
                             <DataGridTemplateColumn Header="割物選択" Width="80">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
@@ -236,17 +251,22 @@
                                 </DataGridTemplateColumn.CellTemplate>
                                 <DataGridTemplateColumn.CellEditingTemplate>
                                     <DataTemplate>
-                                        <ComboBox SelectedValue="{Binding MixSelectableDisplay, UpdateSourceTrigger=PropertyChanged}"
+                                        <ComboBox SelectedItem="{Binding MixSelectableDisplay, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                                   FontSize="{DynamicResource FontSizeMd}"
                                                   BorderThickness="0">
-                                            <ComboBoxItem Content="可"/>
-                                            <ComboBoxItem Content="否"/>
+                                            <ComboBox.ItemsSource>
+                                                <x:Array Type="{x:Type sys:String}"
+                                                         xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                                                    <sys:String>可</sys:String>
+                                                    <sys:String>否</sys:String>
+                                                </x:Array>
+                                            </ComboBox.ItemsSource>
                                         </ComboBox>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
 
-                            <!-- キャスト選択（可 or 否） -->
+                            <!-- キャスト選択（可 or 否）: 同様に SelectedItem + ItemsSource 方式 -->
                             <DataGridTemplateColumn Header="キャスト選択" Width="90">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
@@ -259,11 +279,16 @@
                                 </DataGridTemplateColumn.CellTemplate>
                                 <DataGridTemplateColumn.CellEditingTemplate>
                                     <DataTemplate>
-                                        <ComboBox SelectedValue="{Binding CastSelectableDisplay, UpdateSourceTrigger=PropertyChanged}"
+                                        <ComboBox SelectedItem="{Binding CastSelectableDisplay, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                                   FontSize="{DynamicResource FontSizeMd}"
                                                   BorderThickness="0">
-                                            <ComboBoxItem Content="可"/>
-                                            <ComboBoxItem Content="否"/>
+                                            <ComboBox.ItemsSource>
+                                                <x:Array Type="{x:Type sys:String}"
+                                                         xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                                                    <sys:String>可</sys:String>
+                                                    <sys:String>否</sys:String>
+                                                </x:Array>
+                                            </ComboBox.ItemsSource>
                                         </ComboBox>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>

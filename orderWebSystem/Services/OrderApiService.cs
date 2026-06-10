@@ -3,6 +3,7 @@ using System.Text;
 using System.Text.Json;
 
 using shared.Models.Requests.Orders;
+using shared.Models.Responses.Masters;
 using shared.Models.Responses.Orders;
 
 using orderWebSystem.Config;
@@ -42,6 +43,15 @@ public class OrderApiService
             response.EnsureSuccessStatusCode();
             return response;
         });
+    }
+
+    public async Task<List<ProductMasterResponse>> GetProductMastersAsync()
+    {
+        var url = $"{_endpoints.ProductMaster}&shopId={_endpoints.ShopId}";
+        return await ExecuteWithRetryAsync(async () =>
+            await _client.GetFromJsonAsync<List<ProductMasterResponse>>(url)
+            ?? new List<ProductMasterResponse>()
+        );
     }
 
     public async Task UpdateOrderStatusAsync(UpdateOrderStatusRequest request)

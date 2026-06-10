@@ -12,9 +12,13 @@ public class ApiEndpoints
 
     public ApiEndpoints(IConfiguration configuration)
     {
-        _base = configuration["ApiBaseUrl"] ?? string.Empty;
-        _code = $"code={configuration["ApiKey"] ?? string.Empty}";
+        _base  = configuration["ApiBaseUrl"] ?? string.Empty;
+        _code  = $"code={configuration["ApiKey"] ?? string.Empty}";
+        ShopId = configuration["ShopId"] ?? string.Empty;
     }
+
+    /// <summary>店舗ID（wwwroot/appsettings.json の ShopId）。</summary>
+    public string ShopId { get; }
 
     public string Orders             => $"{_base}/orders?{_code}";
     public string UpdateOrderStatus  => $"{_base}/orders/status?{_code}";

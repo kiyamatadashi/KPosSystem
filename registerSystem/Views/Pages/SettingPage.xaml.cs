@@ -3,6 +3,8 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
 
 using registerSystem.Config;
 using registerSystem.Services;
@@ -19,12 +21,12 @@ namespace registerSystem.Views.Pages;
 /// </summary>
 public class ProductMasterRow : INotifyPropertyChanged
 {
-    private string _category      = string.Empty;
-    private string _sideMenu      = string.Empty;
-    private string _productName   = string.Empty;
+    private string _category             = string.Empty;
+    private string _sideMenu             = string.Empty;
+    private string _productName          = string.Empty;
     private int    _amount;
     private int    _backAmount;
-    private string _backUnit      = "円";
+    private string _backUnit             = "円";
     private string _mixSelectableDisplay  = "否";
     private string _castSelectableDisplay = "否";
     private bool   _isDeleted;
@@ -98,30 +100,30 @@ public class ProductMasterRow : INotifyPropertyChanged
     /// <summary>レスポンス DTO からラッパーを生成する。</summary>
     public static ProductMasterRow FromResponse(ProductMasterResponse r) => new()
     {
-        Category             = r.Category,
-        SideMenu             = r.SideMenu,
-        ProductName          = r.ProductName,
-        Amount               = r.Amount,
-        BackAmount           = r.BackAmount,
-        BackUnit             = r.BackUnit,
+        Category              = r.Category,
+        SideMenu              = r.SideMenu,
+        ProductName           = r.ProductName,
+        Amount                = r.Amount,
+        BackAmount            = r.BackAmount,
+        BackUnit              = r.BackUnit,
         MixSelectableDisplay  = r.MixSelectable  ? "可" : "否",
         CastSelectableDisplay = r.CastSelectable ? "可" : "否",
-        IsDeleted            = r.Deleted == true,
+        IsDeleted             = r.Deleted == true,
     };
 
     /// <summary>リクエスト DTO に変換する。</summary>
     public UpsertProductMasterRequest ToRequest(string shopId) => new()
     {
-        ShopID        = shopId,
-        Category      = Category,
-        SideMenu      = SideMenu,
-        ProductName   = ProductName,
-        Amount        = Amount,
-        BackAmount    = BackAmount,
-        BackUnit      = BackUnit,
-        MixSelectable  = MixSelectableDisplay == "可",
+        ShopID         = shopId,
+        Category       = Category,
+        SideMenu       = SideMenu,
+        ProductName    = ProductName,
+        Amount         = Amount,
+        BackAmount     = BackAmount,
+        BackUnit       = BackUnit,
+        MixSelectable  = MixSelectableDisplay  == "可",
         CastSelectable = CastSelectableDisplay == "可",
-        Deleted       = IsDeleted,
+        Deleted        = IsDeleted,
     };
 }
 
@@ -144,25 +146,21 @@ public partial class SettingPage : UserControl
 
     private void SideButton1_Click(object sender, RoutedEventArgs e)
     {
-        // 料金：通常コンテンツエリアを表示
         ShowContentArea();
     }
 
     private void SideButton2_Click(object sender, RoutedEventArgs e)
     {
-        // テーブル：通常コンテンツエリアを表示
         ShowContentArea();
     }
 
     private void SideButton3_Click(object sender, RoutedEventArgs e)
     {
-        // 入出金：通常コンテンツエリアを表示
         ShowContentArea();
     }
 
     private async void SideButtonMenu_Click(object sender, RoutedEventArgs e)
     {
-        // メニュー：ProductMaster 画面を表示してデータ読み込み
         ShowMenuContent();
         await LoadProductMastersAsync();
     }
@@ -190,10 +188,14 @@ public partial class SettingPage : UserControl
             var items = await _apiService.GetProductMastersAsync();
             _productRows.Clear();
 
-            if (items is null) return;
+            if (items is not null)
+            {
+                foreach (var item in items)
+                    _productRows.Add(ProductMasterRow.FromResponse(item));
+            }
 
-            foreach (var item in items)
-                _productRows.Add(ProductMasterRow.FromResponse(item));
+            // データ件数にかかわらず、末尾に空入力行を1行追加する
+            AddEmptyRow();
         }
         catch (Exception ex)
         {
@@ -205,21 +207,60 @@ public partial class SettingPage : UserControl
         }
     }
 
+    // ─── シングルクリック編集 ─────────────────────────────────────────────
+
+    /// <summary>
+    /// PreviewMouseLeftButtonDown でクリックされたセルを即座に編集モードへ遷移させる。
+    /// WPF DataGrid はデフォルトで「1クリック目=行選択」「2クリック目=編集開始」の
+    /// 2段階になるため、このハンドラで1クリックで編集できるよう上書きする。
+    /// </summary>
+    private void ProductGrid_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        // クリック座標から DataGridCell を探す
+        var cell = FindVisualParent<DataGridCell>(e.OriginalSource as DependencyObject);
+        if (cell is null || cell.IsEditing || cell.IsReadOnly)
+            return;
+
+        // セルが属する行を選択状態にしてから編集開始
+        if (!cell.IsFocused)
+            cell.Focus();
+
+        // CheckBox 列はクリックイベントをそのまま通す（編集開始不要）
+        if (cell.Content is CheckBox)
+            return;
+
+        ProductGrid.BeginEdit();
+    }
+
+    /// <summary>ビジュアルツリーを上方向に辿って指定型の親を返す。</summary>
+    private static T? FindVisualParent<T>(DependencyObject? obj) where T : DependencyObject
+    {
+        while (obj is not null)
+        {
+            if (obj is T target) return target;
+            obj = VisualTreeHelper.GetParent(obj);
+        }
+        return null;
+    }
+
     // ─── 追加ボタン ───────────────────────────────────────────────────────
 
     private void AddRowButton_Click(object sender, RoutedEventArgs e)
     {
-        // 空行を末尾に追加してスクロール
+        AddEmptyRow();
+    }
+
+    /// <summary>デフォルト値で空行を末尾に追加してスクロールする。</summary>
+    private void AddEmptyRow()
+    {
         var newRow = new ProductMasterRow
         {
-            BackUnit             = "円",
+            BackUnit              = "円",
             MixSelectableDisplay  = "否",
             CastSelectableDisplay = "否",
-            IsDeleted            = false,
+            IsDeleted             = false,
         };
         _productRows.Add(newRow);
-
-        // 追加行が見えるようにスクロール
         ProductGrid.ScrollIntoView(newRow);
         ProductGrid.SelectedItem = newRow;
     }
@@ -247,10 +288,12 @@ public partial class SettingPage : UserControl
         {
             await _apiService.UpsertProductMastersAsync(requests);
 
-            // 成功後：削除チェックがついた行を除外して再描画
+            // 成功後：削除チェックがついた行を除外して再描画し、空入力行を1行追加
             var toRemove = _productRows.Where(r => r.IsDeleted).ToList();
             foreach (var r in toRemove)
                 _productRows.Remove(r);
+
+            AddEmptyRow();
 
             MessageBox.Show("反映しました。", "完了",
                 MessageBoxButton.OK, MessageBoxImage.Information);

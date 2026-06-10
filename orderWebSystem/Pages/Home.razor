@@ -25,19 +25,20 @@
             <div class="error-banner">⚠ @_errorMessage</div>
         }
 
-        <!-- ドリンクカテゴリ（青角丸ボタン） -->
-        <div class="btn-group">
-            <button class="btn-category btn-drink" @onclick='() => OnCategoryClick("シャンパン")'>シャンパン</button>
-            <button class="btn-category btn-drink" @onclick='() => OnCategoryClick("ボトル")'>ボトル</button>
-            <button class="btn-category btn-drink" @onclick='() => OnCategoryClick("飲み放題")'>飲み放題</button>
-            <button class="btn-category btn-drink" @onclick='() => OnCategoryClick("ショット")'>ショット</button>
-        </div>
-
-        <!-- キャスト系カテゴリ（オレンジ角丸ボタン） -->
-        <div class="btn-group">
-            <button class="btn-category btn-cast-item" @onclick='() => OnCategoryClick("キャスト")'>キャスト</button>
-            <button class="btn-category btn-cast-item" @onclick='() => OnCategoryClick("チェキ")'>チェキ</button>
-        </div>
+        @if (_isLoading)
+        {
+            <div>読み込み中...</div>
+        }
+        else
+        {
+            <!-- カテゴリボタン（ProductMasterのCategoryをユニーク化して動的表示） -->
+            <div class="btn-group">
+                @foreach (var category in _categories)
+                {
+                    <button class="btn-category btn-drink" @onclick="() => OnCategoryClick(category)">@category</button>
+                }
+            </div>
+        }
 
     </div>
 
@@ -46,6 +47,35 @@
 @code {
     private bool _isLoading = false;
     private string _errorMessage = string.Empty;
+    private List<string> _categories = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadCategoriesAsync();
+    }
+
+    private async Task LoadCategoriesAsync()
+    {
+        _isLoading = true;
+        _errorMessage = string.Empty;
+
+        try
+        {
+            var products = await OrderApi.GetProductMastersAsync();
+            _categories = products
+                .Select(p => p.Category)
+                .Distinct()
+                .ToList();
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = $"商品マスタの取得に失敗しました。{ex.Message}";
+        }
+        finally
+        {
+            _isLoading = false;
+        }
+    }
 
     private void OnCastClick()
     {

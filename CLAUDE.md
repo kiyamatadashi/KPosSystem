@@ -183,3 +183,26 @@ UI層
 ### 残課題
 
 未対応事項があれば記載
+
+
+## 開発フロー
+
+### ツール役割分担
+- Claude Desktop: 実装方針の確認・整理・Claude Code用プロンプトの生成
+- Claude Code: 実際のファイル操作・実装・ビルド確認
+
+### Claude Desktopでの作業手順
+1. 実装したい内容をClaude Desktopに伝える
+2. 実装方針・対象ファイルを確認する
+3. Claude DesktopがClaude Code用プロンプトを生成する
+4. プロンプトをClaude Codeに貼り付けて実装させる
+
+### Claude Code用プロンプト生成ルール
+Claude Desktopは以下を含むプロンプトを生成する。
+- 実装方針
+- 変更対象ファイル
+- 具体的な実装内容
+- ビルド確認の指示（dotnet build KPosSystem.sln）
+
+### Claude Code起動方法
+C:\azure\KPosSystem\start-claude.bat を実行する。
