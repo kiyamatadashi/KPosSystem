@@ -262,7 +262,10 @@ public partial class SettingPage : UserControl
         };
         _productRows.Add(newRow);
         ProductGrid.ScrollIntoView(newRow);
-        ProductGrid.SelectedItem = newRow;
+
+        // SelectionUnit="Cell" のため SelectedItem（行選択）は使用できない。
+        // 代わりに CurrentCell で先頭セルにフォーカスを移し、新規行へ注目させる。
+        ProductGrid.CurrentCell = new DataGridCellInfo(newRow, ProductGrid.Columns[0]);
     }
 
     // ─── 反映ボタン ───────────────────────────────────────────────────────

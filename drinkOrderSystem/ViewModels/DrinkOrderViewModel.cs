@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -101,16 +101,10 @@ public class DrinkOrderViewModel : INotifyPropertyChanged
             string.IsNullOrWhiteSpace(SelectedTableNameFilter)
             || order.SetNumber == SelectedTableNameFilter;
 
-        string statusText = order.Status switch
-        {
-            true  => "済",
-            false => "キャンセル",
-            null  => ""
-        };
-
+        // ステータス判定は OrderResponse.StatusText を使用
         bool statusMatch =
             string.IsNullOrWhiteSpace(SelectedStatusFilter)
-            || statusText == SelectedStatusFilter;
+            || order.StatusText == SelectedStatusFilter;
 
         return tableMatch && statusMatch;
     }

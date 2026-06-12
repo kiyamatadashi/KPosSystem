@@ -1,4 +1,4 @@
-﻿using System.Net;
+using System.Net;
 
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Extensions.SignalRService;
@@ -11,7 +11,7 @@ public class SignalRNegotiateFunction
     [Function("Negotiate")]
     public async Task<HttpResponseData> Run(
         [HttpTrigger(
-            AuthorizationLevel.Function,
+            AuthorizationLevel.Anonymous,
             "post",
             Route = "signalr/negotiate")]
         HttpRequestData req,

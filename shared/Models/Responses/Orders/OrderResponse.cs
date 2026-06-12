@@ -1,4 +1,4 @@
-﻿using System.Text.Json;
+using System.Text.Json;
 
 namespace shared.Models.Responses.Orders;
 
@@ -44,4 +44,15 @@ public class OrderResponse
             : string.Empty;
 
     public bool? Status { get; set; }
+
+    /// <summary>
+    /// ステータスを表示文字列に変換したプロパティ。
+    /// null=未処理（配膳待ち）、true=済、false=キャンセル
+    /// </summary>
+    public string StatusText => Status switch
+    {
+        true  => "済",
+        false => "キャンセル",
+        null  => ""
+    };
 }
