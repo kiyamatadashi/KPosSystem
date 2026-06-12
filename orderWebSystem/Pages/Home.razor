@@ -1,5 +1,6 @@
 @page "/"
 @inject OrderApiService OrderApi
+@inject ApiEndpoints Endpoints
 
 <div class="order-page">
 
@@ -25,7 +26,11 @@
             <div class="error-banner">⚠ @_errorMessage</div>
         }
 
-        @if (_isLoading)
+        @if (string.IsNullOrEmpty(Endpoints.ShopId))
+        {
+            <div class="error-banner">⚠ 店舗情報が指定されていません。お店から案内されたQRコードを読み込み直してください。</div>
+        }
+        else if (_isLoading)
         {
             <div>読み込み中...</div>
         }
@@ -51,6 +56,10 @@
 
     protected override async Task OnInitializedAsync()
     {
+        // ShopIdがURLに無い場合はAPI呼び出しを行わない（エラー表示のみ）
+        if (string.IsNullOrEmpty(Endpoints.ShopId))
+            return;
+
         await LoadCategoriesAsync();
     }
 

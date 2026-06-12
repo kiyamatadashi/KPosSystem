@@ -27,12 +27,13 @@ jobs:
       # Secret に以下を登録すること:
       #   AZURE_API_BASE_URL  : https://k-pos-system-api-func-xxxx.japanwest-01.azurewebsites.net/api
       #   AZURE_API_KEY       : <Function Key>
-      # ShopId は registerSystem/drinkOrderSystem と同じ固定値（現在 "0001"）
+      # ShopId はappsettings.jsonでは管理しない。
+      # URLクエリパラメータ "?shop=0001" で店舗ごとに指定する
+      # （registerSystem側でQRコード発行時にshopパラメータを付与する）。
       - name: Generate appsettings.json from Secrets
         run: |
           cat > orderWebSystem/wwwroot/appsettings.json << EOF
           {
-            "ShopId": "0001",
             "ApiBaseUrl": "${{ secrets.AZURE_API_BASE_URL }}",
             "ApiKey": "${{ secrets.AZURE_API_KEY }}"
           }
