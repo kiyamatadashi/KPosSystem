@@ -16,6 +16,50 @@ html {
     font-size: clamp(12px, 1.5vw, 18px);
 }
 
+/* ========================================
+   初期ローディングスピナー（#app直下のSVG）
+   読み込み完了後はBlazorが#appの内容を描画コンテンツに
+   置き換えるため、通常は自動的に消える。
+   スタイル未指定だと巨大な黒丸になるため明示的に指定する。
+======================================== */
+.loading-progress {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 6rem;
+    height: 6rem;
+    margin: -3rem 0 0 -3rem;
+}
+
+.loading-progress circle {
+    fill: none;
+    stroke: #e8884a;
+    stroke-width: 0.6rem;
+    stroke-linecap: round;
+}
+
+.loading-progress circle:last-child {
+    stroke: #4b7bbe;
+    transform-origin: 50% 50%;
+    transform: rotate(-90deg);
+}
+
+.loading-progress-text {
+    position: absolute;
+    text-align: center;
+    font-weight: bold;
+    inset: calc(50% - 5rem) 0 auto 0;
+}
+
+/* ========================================
+   Blazor標準のエラーバナーは非表示にする。
+   未処理例外が発生してもアプリ側のエラーハンドリング
+   （order-content内の error-banner）で表示する。
+======================================== */
+#blazor-error-ui {
+    display: none;
+}
+
 body {
     height: 100%;
     font-family: 'Segoe UI', 'Hiragino Sans', 'Meiryo', sans-serif;
