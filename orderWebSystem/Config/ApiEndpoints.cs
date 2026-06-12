@@ -13,7 +13,10 @@ public class ApiEndpoints
     public ApiEndpoints(IConfiguration configuration)
     {
         _base  = configuration["ApiBaseUrl"] ?? string.Empty;
-        _code  = $"code={configuration["ApiKey"] ?? string.Empty}";
+
+        // ApiKey末尾の "==" 等がクエリ文字列パースで後続パラメータと混ざるのを防ぐため、
+        // URLエンコードしてから "code=" パラメータに設定する。
+        _code  = $"code={Uri.EscapeDataString(configuration["ApiKey"] ?? string.Empty)}";
         ShopId = configuration["ShopId"] ?? string.Empty;
     }
 

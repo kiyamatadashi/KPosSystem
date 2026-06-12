@@ -199,6 +199,10 @@ public partial class SettingPage : UserControl
         }
         catch (Exception ex)
         {
+            // API取得に失敗した場合でも、入力を開始できるよう空行を1行表示する
+            _productRows.Clear();
+            AddEmptyRow();
+
             MessageBox.Show(
                 $"商品マスタの取得に失敗しました。\n{ex.Message}",
                 "エラー",
@@ -261,11 +265,18 @@ public partial class SettingPage : UserControl
             IsDeleted             = false,
         };
         _productRows.Add(newRow);
-        ProductGrid.ScrollIntoView(newRow);
 
-        // SelectionUnit="Cell" のため SelectedItem（行選択）は使用できない。
-        // 代わりに CurrentCell で先頭セルにフォーカスを移し、新規行へ注目させる。
-        ProductGrid.CurrentCell = new DataGridCellInfo(newRow, ProductGrid.Columns[0]);
+        // ScrollIntoView・CurrentCell設定はDataGridのレイアウトが未確定だと
+        // 例外になる場合があるため、行追加自体には影響しないよう保護する
+        try
+        {
+            ProductGrid.ScrollIntoView(newRow);
+            ProductGrid.CurrentCell = new DataGridCellInfo(newRow, ProductGrid.Columns[0]);
+        }
+        catch
+        {
+            // スクロール・フォーカス移動の失敗は無視（行自体は表示される）
+        }
     }
 
     // ─── 反映ボタン ───────────────────────────────────────────────────────

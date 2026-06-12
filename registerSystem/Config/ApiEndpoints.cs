@@ -5,8 +5,10 @@ public static class ApiEndpoints
     private static string Base =>
         $"{AppSettings.ApiBaseUrl}";
 
+    // ApiKey末尾の "==" 等がクエリ文字列パースで後続パラメータと混ざるのを防ぐため、
+    // URLエンコードしてから "code=" パラメータに設定する。
     private static string Code =>
-        $"code={AppSettings.ApiKey}";
+        $"code={Uri.EscapeDataString(AppSettings.ApiKey)}";
 
     public static string Orders =>
         $"{Base}/orders?{Code}";
