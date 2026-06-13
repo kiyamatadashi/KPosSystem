@@ -22,10 +22,10 @@ public partial class App : Application
         Current.Resources["FontSizeLg"]        = Math.Round(16 * scale);
         Current.Resources["FontSizeXl"]        = Math.Round(18 * scale);
         Current.Resources["FontSizeHeader"]    = Math.Round(18 * scale);
-        Current.Resources["FontSizeNav"]       = Math.Round(14 * scale);
-        Current.Resources["BtnSizeNav"]        = Math.Round(60 * scale);
-        // ボタン60px + 上下余白10pxずつ = 80px
-        Current.Resources["HeaderHeight"]      = Math.Round(80 * scale);
+        Current.Resources["FontSizeNav"]       = Math.Round(18 * scale);
+        Current.Resources["BtnSizeNav"]        = Math.Round(80 * scale);
+        // ボタン80px + 上下余白10pxずつ = 100px
+        Current.Resources["HeaderHeight"]      = Math.Round(100 * scale);
         Current.Resources["RowHeight"]         = Math.Round(34 * scale);
         // フィルタ用ComboBox高さ（RowHeightの70%程度）
         Current.Resources["FilterComboHeight"] = Math.Round(24 * scale);

@@ -40,17 +40,17 @@
         <sys:Double xmlns:sys="clr-namespace:System;assembly=mscorlib"
                     x:Key="FontSizeHeader">18</sys:Double>
         <sys:Double xmlns:sys="clr-namespace:System;assembly=mscorlib"
-                    x:Key="FontSizeNav">14</sys:Double>
+                    x:Key="FontSizeNav">18</sys:Double>
         <sys:Double xmlns:sys="clr-namespace:System;assembly=mscorlib"
-                    x:Key="FontSideBtn">15</sys:Double>
+                    x:Key="FontSideBtn">20</sys:Double>
         <sys:Double xmlns:sys="clr-namespace:System;assembly=mscorlib"
-                    x:Key="BtnSizeNav">60</sys:Double>
+                    x:Key="BtnSizeNav">80</sys:Double>
         <sys:Double xmlns:sys="clr-namespace:System;assembly=mscorlib"
-                    x:Key="BtnSizeSide">80</sys:Double>
+                    x:Key="BtnSizeSide">120</sys:Double>
         <sys:Double xmlns:sys="clr-namespace:System;assembly=mscorlib"
                     x:Key="BtnSideMargin">20</sys:Double>
         <sys:Double xmlns:sys="clr-namespace:System;assembly=mscorlib"
-                    x:Key="HeaderHeight">60</sys:Double>
+                    x:Key="HeaderHeight">100</sys:Double>
         <sys:Double xmlns:sys="clr-namespace:System;assembly=mscorlib"
                     x:Key="RowHeight">34</sys:Double>
         <!-- フィルタ用ComboBox高さ（App.xaml.csでスケール適用） -->
@@ -202,7 +202,7 @@
             <Setter Property="Background"      Value="{StaticResource SideButtonBrush}"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Cursor"          Value="Hand"/>
-            <Setter Property="Margin"          Value="0,0,0,20"/>
+            <Setter Property="Margin"          Value="0,0,0,16"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">

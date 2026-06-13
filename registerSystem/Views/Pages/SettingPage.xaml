@@ -6,8 +6,8 @@
     <Grid Background="{StaticResource ContentTextureBrush}">
 
         <Grid.ColumnDefinitions>
-            <!-- サイドメニュー：ボタン80px + 左右余白 = 110px -->
-            <ColumnDefinition Width="110"/>
+            <!-- サイドメニュー：ボタン120px + 左右余白 = 160px -->
+            <ColumnDefinition Width="160"/>
             <!-- コンテンツエリア -->
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
@@ -15,7 +15,7 @@
         <!-- ─── サイドメニュー ─── -->
         <StackPanel Grid.Column="0"
                     VerticalAlignment="Top"
-                    Margin="14,16,0,16">
+                    Margin="18,16,0,16">
 
             <Button x:Name="SideButton1"
                     Content="料金"
@@ -87,8 +87,8 @@
                               RowHeight="{DynamicResource RowHeight}"
                               SelectionUnit="Cell"
                               SelectionMode="Single"
-                              Margin="0"
-                              PreviewMouseLeftButtonDown="ProductGrid_PreviewMouseLeftButtonDown">
+                              IsReadOnly="True"
+                              Margin="0">
 
                         <DataGrid.ColumnHeaderStyle>
                             <Style TargetType="DataGridColumnHeader">
@@ -107,130 +107,90 @@
 
                         <DataGrid.Columns>
 
-                            <!-- カテゴリ（文字列入力） -->
+                            <!-- カテゴリ（文字列入力）: CellTemplate に直接 TextBox を配置し
+                                 編集モード切り替えなしで1クリック入力可能にする -->
                             <DataGridTemplateColumn Header="カテゴリ" Width="120">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Category}"
-                                                   FontSize="{DynamicResource FontSizeMd}"
-                                                   VerticalAlignment="Center"
-                                                   Padding="4,0"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                                <DataGridTemplateColumn.CellEditingTemplate>
-                                    <DataTemplate>
                                         <TextBox Text="{Binding Category, UpdateSourceTrigger=PropertyChanged}"
                                                  FontSize="{DynamicResource FontSizeMd}"
+                                                 VerticalAlignment="Center"
                                                  BorderThickness="0"
+                                                 Background="Transparent"
                                                  Padding="4,0"/>
                                     </DataTemplate>
-                                </DataGridTemplateColumn.CellEditingTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
 
                             <!-- 商品Gr（SideMenu・文字列入力） -->
                             <DataGridTemplateColumn Header="商品Gr" Width="120">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding SideMenu}"
-                                                   FontSize="{DynamicResource FontSizeMd}"
-                                                   VerticalAlignment="Center"
-                                                   Padding="4,0"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                                <DataGridTemplateColumn.CellEditingTemplate>
-                                    <DataTemplate>
                                         <TextBox Text="{Binding SideMenu, UpdateSourceTrigger=PropertyChanged}"
                                                  FontSize="{DynamicResource FontSizeMd}"
+                                                 VerticalAlignment="Center"
                                                  BorderThickness="0"
+                                                 Background="Transparent"
                                                  Padding="4,0"/>
                                     </DataTemplate>
-                                </DataGridTemplateColumn.CellEditingTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
 
                             <!-- 商品名（文字列入力） -->
                             <DataGridTemplateColumn Header="商品名" Width="160">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding ProductName}"
-                                                   FontSize="{DynamicResource FontSizeMd}"
-                                                   VerticalAlignment="Center"
-                                                   Padding="4,0"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                                <DataGridTemplateColumn.CellEditingTemplate>
-                                    <DataTemplate>
                                         <TextBox Text="{Binding ProductName, UpdateSourceTrigger=PropertyChanged}"
                                                  FontSize="{DynamicResource FontSizeMd}"
+                                                 VerticalAlignment="Center"
                                                  BorderThickness="0"
+                                                 Background="Transparent"
                                                  Padding="4,0"/>
                                     </DataTemplate>
-                                </DataGridTemplateColumn.CellEditingTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
 
                             <!-- 単価（数値入力） -->
                             <DataGridTemplateColumn Header="単価" Width="80">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Amount}"
-                                                   FontSize="{DynamicResource FontSizeMd}"
-                                                   VerticalAlignment="Center"
-                                                   TextAlignment="Right"
-                                                   Padding="4,0"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                                <DataGridTemplateColumn.CellEditingTemplate>
-                                    <DataTemplate>
                                         <TextBox Text="{Binding Amount, UpdateSourceTrigger=PropertyChanged}"
                                                  FontSize="{DynamicResource FontSizeMd}"
+                                                 VerticalAlignment="Center"
                                                  TextAlignment="Right"
                                                  BorderThickness="0"
+                                                 Background="Transparent"
                                                  Padding="4,0"/>
                                     </DataTemplate>
-                                </DataGridTemplateColumn.CellEditingTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
 
                             <!-- バック金額（数値入力） -->
                             <DataGridTemplateColumn Header="バック金額" Width="90">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding BackAmount}"
-                                                   FontSize="{DynamicResource FontSizeMd}"
-                                                   VerticalAlignment="Center"
-                                                   TextAlignment="Right"
-                                                   Padding="4,0"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                                <DataGridTemplateColumn.CellEditingTemplate>
-                                    <DataTemplate>
                                         <TextBox Text="{Binding BackAmount, UpdateSourceTrigger=PropertyChanged}"
                                                  FontSize="{DynamicResource FontSizeMd}"
+                                                 VerticalAlignment="Center"
                                                  TextAlignment="Right"
                                                  BorderThickness="0"
+                                                 Background="Transparent"
                                                  Padding="4,0"/>
                                     </DataTemplate>
-                                </DataGridTemplateColumn.CellEditingTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
 
                             <!-- バック単位（円 or ％ の選択）
                                  SelectedItem に string を直接バインドするため
-                                 ItemsSource を x:Array で定義し SelectedItem を使用する。
-                                 ComboBoxItem を使うと選択後に ComboBoxItem オブジェクトが
-                                 バインディング先に入り文字化けするため、この方式にする。 -->
+                                 ItemsSource を x:Array で定義し SelectedItem を使用する。 -->
                             <DataGridTemplateColumn Header="バック単位" Width="90">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding BackUnit}"
-                                                   FontSize="{DynamicResource FontSizeMd}"
-                                                   VerticalAlignment="Center"
-                                                   HorizontalAlignment="Center"
-                                                   Padding="4,0"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                                <DataGridTemplateColumn.CellEditingTemplate>
-                                    <DataTemplate>
                                         <ComboBox SelectedItem="{Binding BackUnit, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                                   FontSize="{DynamicResource FontSizeMd}"
-                                                  BorderThickness="0">
+                                                  VerticalAlignment="Center"
+                                                  BorderThickness="0"
+                                                  Background="Transparent">
                                             <ComboBox.ItemsSource>
                                                 <x:Array Type="{x:Type sys:String}"
                                                          xmlns:sys="clr-namespace:System;assembly=mscorlib">
@@ -240,25 +200,18 @@
                                             </ComboBox.ItemsSource>
                                         </ComboBox>
                                     </DataTemplate>
-                                </DataGridTemplateColumn.CellEditingTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
 
-                            <!-- 割物選択（可 or 否）: 同様に SelectedItem + ItemsSource 方式 -->
+                            <!-- 割物選択（可 or 否） -->
                             <DataGridTemplateColumn Header="割物選択" Width="80">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding MixSelectableDisplay}"
-                                                   FontSize="{DynamicResource FontSizeMd}"
-                                                   VerticalAlignment="Center"
-                                                   HorizontalAlignment="Center"
-                                                   Padding="4,0"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                                <DataGridTemplateColumn.CellEditingTemplate>
-                                    <DataTemplate>
                                         <ComboBox SelectedItem="{Binding MixSelectableDisplay, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                                   FontSize="{DynamicResource FontSizeMd}"
-                                                  BorderThickness="0">
+                                                  VerticalAlignment="Center"
+                                                  BorderThickness="0"
+                                                  Background="Transparent">
                                             <ComboBox.ItemsSource>
                                                 <x:Array Type="{x:Type sys:String}"
                                                          xmlns:sys="clr-namespace:System;assembly=mscorlib">
@@ -268,25 +221,18 @@
                                             </ComboBox.ItemsSource>
                                         </ComboBox>
                                     </DataTemplate>
-                                </DataGridTemplateColumn.CellEditingTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
 
-                            <!-- キャスト選択（可 or 否）: 同様に SelectedItem + ItemsSource 方式 -->
+                            <!-- キャスト選択（可 or 否） -->
                             <DataGridTemplateColumn Header="キャスト選択" Width="90">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding CastSelectableDisplay}"
-                                                   FontSize="{DynamicResource FontSizeMd}"
-                                                   VerticalAlignment="Center"
-                                                   HorizontalAlignment="Center"
-                                                   Padding="4,0"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                                <DataGridTemplateColumn.CellEditingTemplate>
-                                    <DataTemplate>
                                         <ComboBox SelectedItem="{Binding CastSelectableDisplay, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                                   FontSize="{DynamicResource FontSizeMd}"
-                                                  BorderThickness="0">
+                                                  VerticalAlignment="Center"
+                                                  BorderThickness="0"
+                                                  Background="Transparent">
                                             <ComboBox.ItemsSource>
                                                 <x:Array Type="{x:Type sys:String}"
                                                          xmlns:sys="clr-namespace:System;assembly=mscorlib">
@@ -296,7 +242,7 @@
                                             </ComboBox.ItemsSource>
                                         </ComboBox>
                                     </DataTemplate>
-                                </DataGridTemplateColumn.CellEditingTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
 
                             <!-- 削除（チェックボックス・デフォルトOFF） -->
@@ -305,18 +251,9 @@
                                     <DataTemplate>
                                         <CheckBox IsChecked="{Binding IsDeleted, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                                   HorizontalAlignment="Center"
-                                                  VerticalAlignment="Center"
-                                                  IsHitTestVisible="False"
-                                                  Focusable="False"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                                <DataGridTemplateColumn.CellEditingTemplate>
-                                    <DataTemplate>
-                                        <CheckBox IsChecked="{Binding IsDeleted, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                                  HorizontalAlignment="Center"
                                                   VerticalAlignment="Center"/>
                                     </DataTemplate>
-                                </DataGridTemplateColumn.CellEditingTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
 
                         </DataGrid.Columns>

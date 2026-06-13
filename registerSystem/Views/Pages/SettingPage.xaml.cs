@@ -4,8 +4,6 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 using QRCoder;
@@ -276,42 +274,6 @@ public partial class SettingPage : UserControl
         }
     }
 
-    // ─── シングルクリック編集 ─────────────────────────────────────────────
-
-    /// <summary>
-    /// PreviewMouseLeftButtonDown でクリックされたセルを即座に編集モードへ遷移させる。
-    /// WPF DataGrid はデフォルトで「1クリック目=行選択」「2クリック目=編集開始」の
-    /// 2段階になるため、このハンドラで1クリックで編集できるよう上書きする。
-    /// </summary>
-    private void ProductGrid_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-    {
-        // クリック座標から DataGridCell を探す
-        var cell = FindVisualParent<DataGridCell>(e.OriginalSource as DependencyObject);
-        if (cell is null || cell.IsEditing || cell.IsReadOnly)
-            return;
-
-        // セルが属する行を選択状態にしてから編集開始
-        if (!cell.IsFocused)
-            cell.Focus();
-
-        // CheckBox 列はクリックイベントをそのまま通す（編集開始不要）
-        if (cell.Content is CheckBox)
-            return;
-
-        ProductGrid.BeginEdit();
-    }
-
-    /// <summary>ビジュアルツリーを上方向に辿って指定型の親を返す。</summary>
-    private static T? FindVisualParent<T>(DependencyObject? obj) where T : DependencyObject
-    {
-        while (obj is not null)
-        {
-            if (obj is T target) return target;
-            obj = VisualTreeHelper.GetParent(obj);
-        }
-        return null;
-    }
-
     // ─── 追加ボタン ───────────────────────────────────────────────────────
 
     private void AddRowButton_Click(object sender, RoutedEventArgs e)
@@ -348,8 +310,8 @@ public partial class SettingPage : UserControl
 
     private async void ApplyButton_Click(object sender, RoutedEventArgs e)
     {
-        // 編集中セルを確定させる
-        ProductGrid.CommitEdit(DataGridEditingUnit.Row, exitEditingMode: true);
+        // CellTemplate に直接配置した TextBox/ComboBox は
+        // UpdateSourceTrigger=PropertyChanged で即時反映されるため CommitEdit は不要
 
         // 全行（削除含む）を POST する
         var requests = _productRows
