@@ -1,10 +1,14 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
+
+using QRCoder;
 
 using registerSystem.Config;
 using registerSystem.Services;
@@ -165,18 +169,79 @@ public partial class SettingPage : UserControl
         await LoadProductMastersAsync();
     }
 
+    private void SideButtonQr_Click(object sender, RoutedEventArgs e)
+    {
+        ShowQrContent();
+        GenerateOrderWebQrCode();
+    }
+
     // ─── 表示切り替え ─────────────────────────────────────────────────────
 
     private void ShowContentArea()
     {
         ContentArea.Visibility = Visibility.Visible;
         MenuContent.Visibility = Visibility.Collapsed;
+        QrContent.Visibility   = Visibility.Collapsed;
     }
 
     private void ShowMenuContent()
     {
         ContentArea.Visibility = Visibility.Collapsed;
         MenuContent.Visibility = Visibility.Visible;
+        QrContent.Visibility   = Visibility.Collapsed;
+    }
+
+    private void ShowQrContent()
+    {
+        ContentArea.Visibility = Visibility.Collapsed;
+        MenuContent.Visibility = Visibility.Collapsed;
+        QrContent.Visibility   = Visibility.Visible;
+    }
+
+    // ─── QRコード生成 ─────────────────────────────────────────────────────
+
+    /// <summary>
+    /// orderWebSystem（オーダーシステム）の店舗別URL（?shop=ShopId）のQRコードを生成して表示する。
+    /// 複数店舗対応: ShopId は appsettings.json の店舗ごとの値が使われるため、
+    /// 店舗ごとに異なるQRコードが自動生成される。
+    /// </summary>
+    private void GenerateOrderWebQrCode()
+    {
+        var baseUrl = AppSettings.OrderWebBaseUrl;
+        var shopId  = AppSettings.ShopId;
+
+        if (string.IsNullOrWhiteSpace(baseUrl))
+        {
+            QrUrlText.Text = "OrderWebBaseUrl が appsettings.json に設定されていません。";
+            QrImage.Source = null;
+            return;
+        }
+
+        // baseUrlの末尾スラッシュを正規化し、?shop=ShopId を付与する
+        var url = baseUrl.TrimEnd('/') + "/?shop=" + Uri.EscapeDataString(shopId);
+
+        try
+        {
+            using var generator = new QRCodeGenerator();
+            using var data      = generator.CreateQrCode(url, QRCodeGenerator.ECCLevel.M);
+            var pngQr            = new PngByteQRCode(data);
+            var pngBytes         = pngQr.GetGraphic(20);
+
+            var image = new BitmapImage();
+            using var stream = new MemoryStream(pngBytes);
+            image.BeginInit();
+            image.CacheOption = BitmapCacheOption.OnLoad;
+            image.StreamSource = stream;
+            image.EndInit();
+
+            QrImage.Source = image;
+            QrUrlText.Text = url;
+        }
+        catch (Exception ex)
+        {
+            QrImage.Source = null;
+            QrUrlText.Text = $"QRコード生成に失敗しました。\n{ex.Message}";
+        }
     }
 
     // ─── ProductMaster 読み込み ──────────────────────────────────────────

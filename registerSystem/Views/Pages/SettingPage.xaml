@@ -37,6 +37,11 @@
                     Style="{StaticResource SideButtonStyle}"
                     Click="SideButtonMenu_Click"/>
 
+            <Button x:Name="SideButtonQr"
+                    Content="QR"
+                    Style="{StaticResource SideButtonStyle}"
+                    Click="SideButtonQr_Click"/>
+
         </StackPanel>
 
         <!-- ─── コンテンツエリア ─── -->
@@ -393,6 +398,40 @@
                     </StackPanel>
 
                 </Grid>
+
+                <!-- ─── QRコード画面 ─── -->
+                <Grid x:Name="QrContent"
+                      Visibility="Collapsed">
+                    <StackPanel HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
+
+                        <TextBlock Text="オーダーシステム QRコード"
+                                   FontSize="{DynamicResource FontSizeLg}"
+                                   FontWeight="Bold"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,0,0,16"/>
+
+                        <Border BorderBrush="#FFCCCCCC"
+                                BorderThickness="1"
+                                Padding="16"
+                                Background="White">
+                            <Image x:Name="QrImage"
+                                   Width="280"
+                                   Height="280"
+                                   Stretch="Uniform"
+                                   RenderOptions.BitmapScalingMode="NearestNeighbor"/>
+                        </Border>
+
+                        <TextBlock x:Name="QrUrlText"
+                                   FontSize="{DynamicResource FontSizeMd}"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,16,0,0"
+                                   TextWrapping="Wrap"
+                                   TextAlignment="Center"/>
+
+                    </StackPanel>
+                </Grid>
+
             </Grid>
         </Border>
 

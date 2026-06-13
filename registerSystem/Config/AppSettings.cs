@@ -18,4 +18,11 @@ public static class AppSettings
 
     public static string ApiKey =>
         Configuration["ApiKey"] ?? string.Empty;
+
+    /// <summary>
+    /// orderWebSystem（オーダーシステム）のベースURL。
+    /// QRコード発行時に "?shop={ShopId}" を付与してエンコードする。
+    /// </summary>
+    public static string OrderWebBaseUrl =>
+        Configuration["OrderWebBaseUrl"] ?? string.Empty;
 }
